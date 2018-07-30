@@ -2,3 +2,5 @@
 ./neo4jresource/__pycache__/*
 ./graph-service-api/venv/*
 ./graph-service-api/neo4japi/__pycache__/*
+./graph-service-resource/venv/*
+
