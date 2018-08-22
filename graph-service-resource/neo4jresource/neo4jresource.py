@@ -23,11 +23,11 @@ def get_all_nodes():
 def add_single_node():
     if request.method == 'POST':
         if request.is_json:
-            data = request.get_json()
+            jsonStr = request.get_json()
+            data = json.loads(jsonStr)
             node_type = data['node_type']
             label = data['label']
             node_attributes = data['node_attributes']
-
             api.create_node(node_type=node_type, label=label, node_attributes=node_attributes)
             node = {
                 'label' : label,
@@ -41,7 +41,8 @@ def add_single_node():
 def add_relationship():
     if request.method == 'POST':
         if request.is_json:
-            data = request.get_json()
+            jsonStr = request.get_json()
+            data = json.loads(jsonStr)
             first_node_type = data['first_node_type']
             second_node_type = data['second_node_type']
             first_node = data['first_node']

@@ -34,8 +34,8 @@ class Neo4JApi(object):
 
         #TODO: check if we can add relationships to all nodes with same names and types (instead of taking first())
         matcher = NodeMatcher(self.graph)
-        node1=matcher.match(first_node_type, name=first_node)#.first()
-        node2 = matcher.match(second_node_type, name=second_node)#.first()
+        node1=matcher.match(first_node_type, name=first_node).first()
+        node2 = matcher.match(second_node_type, name=second_node).first()
 
         self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
 
