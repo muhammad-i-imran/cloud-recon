@@ -25,7 +25,17 @@ class Neo4JApi(object):
         node = Node(node_type, name=label, **node_attributes)
         self.graph.create(node)
 
-    def create_relationship(self, first_node_type, second_node_type,first_node, second_node, relationship, relationship_attributes):
+    def find_node(self,element_type, attribute_name, attribute_value):
+        matcher = NodeMatcher(self.graph)
+        node = matcher.match(element_type).where("_."+ attribute_name+"='"+ attribute_value+"'").first() #.order_by("_.name").limit(3)
+        return node
+
+    def find_node_with_regex(self,element_type, attribute_name, attribute_value_regex):
+        matcher = NodeMatcher(self.graph)
+        node = matcher.match(element_type).where("_."+ attribute_name+"=~'"+ attribute_value_regex+"'").first() #.order_by("_.name").limit(3)
+        return node
+
+    def create_relationship(self, first_node_type, second_node_type,first_node, second_node, first_node_attr, second_node_attr, is_first_regex, is_second_regex , relationship, relationship_attributes):
         if not first_node or not  second_node or not relationship:
             raise IllegalArgumentError("Please provide valid nodes and relationships.")
         dict_depth = self.__depth(relationship_attributes)
@@ -33,9 +43,11 @@ class Neo4JApi(object):
             raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
 
         #TODO: check if we can add relationships to all nodes with same names and types (instead of taking first())
-        matcher = NodeMatcher(self.graph)
-        node1=matcher.match(first_node_type, name=first_node).first()
-        node2 = matcher.match(second_node_type, name=second_node).first()
+
+
+
+        node1 = self.find_node_with_regex(first_node_type, first_node_attr, first_node) if is_first_regex else self.find_node(first_node_type, first_node_attr, first_node)
+        node2 = self.find_node_with_regex(second_node_type, second_node_attr,second_node) if is_second_regex else self.find_node(second_node_type, second_node_attr,second_node)
 
         self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
 

@@ -2,17 +2,9 @@ from flatten_json import flatten
 from openstackqueryapi.queryos import *
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
-import collections
 
-# def flatten(d, parent_key='', sep='>'):
-#     items = []
-#     for k, v in d.items():
-#         new_key = parent_key + sep + k if parent_key else k
-#         if isinstance(v, collections.MutableMapping):
-#             items.extend(flatten(v, new_key, sep=sep).items())
-#         else:
-#             items.append((new_key, v))
-#     return dict(items)
+
+#TODO: Refactor the Code
 
 NEO4J_SERVICE_URL = "http://localhost:5000/neo4j"
 
@@ -55,9 +47,9 @@ def novaNodes(list, node_type, label_key="name"):
 
     return nodes
 
-def createRelationships(first_node, second_node, first_node_type, second_node_type, relationship, relationship_attributes_dict, ):
+def createRelationships(first_node, second_node, first_node_attr, second_node_attr, first_node_type, second_node_type, relationship, relationship_attributes_dict, ):
     relationship_attributes = RelationshipAttributes(relationship_attributes_dict)
-    relationship = Relationship(first_node, second_node, first_node_type,
+    relationship = Relationship(first_node, second_node, first_node_attr, second_node_attr,first_node_type,
                                 second_node_type, relationship, relationship_attributes)
     data = relationship.toJSON()
     callServicePost(url=NEO4J_SERVICE_URL + "/relationships/create_relationship", data=data.replace("\n", ""))
@@ -88,27 +80,13 @@ routers_data=novaNodes(neutronQuerier.getRouters(), "ROUTERS", name_labels["ROUT
 
 #####################################################################################################
 ##CREATE RELATIONSHIPS
-server_relationship_attrs = {"OS-EXT-AZ:availability_zone":"AVAILABILITY_ZONES", "OS-EXT-SRV-ATTR:hypervisor_hostname":"HYPERVISORS"}
-for server in servers_data:
-    for i in server_relationship_attrs.keys():
-        createRelationships(server.label, server.node_attributes.__dict__[i], "SERVERS", server_relationship_attrs[i], "RUNS_ON", {"STATUS":"ACTIVE"})
+relationship_attrs = {"SERVERS":{"OS-EXT-AZ:availability_zone":"AVAILABILITY_ZONES", "OS-EXT-SRV-ATTR:hypervisor_hostname":"HYPERVISORS"}, "ROUTERS": {"external_gateway_info.network_id": "NETWORKS", "external_gateway_info.external_fixed_ips.0.subnet_id":"SUBNETS"}}
 
-
-# for i in neutronQuerier.getNetworks():
-#     network = i
-#     label = network.pop("name", None)
-#     node_type = "NETWORK"
-#     node_attributes = NodeAttributes(flatten(network, separator="."))
-#     node = Node(label=label, node_type=node_type, node_attributes=node_attributes)
-#     data = node.toJSON()
-#     callServicePost(url=NEO4J_SERVICE_URL + "/nodes/create_node", data=data.replace("\n", ""))
-
-# for i in glanceQuerier.getImages():
-#     image = i.__dict__['__original__']
-#     label = image.pop("name", None)
-#     node_type = "IMAGE"
-#     node_attributes = NodeAttributes(flatten(image, separator="."))
-#     node = Node(label=label, node_type=node_type, node_attributes=node_attributes)
-#     data = node.toJSON()
-#     callServicePost(url=NEO4J_SERVICE_URL + "/nodes/create_node", data=data.replace("\n", ""))
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44
+for i in relationship_attrs.keys():
+    for j in relationship_attrs[i].keys():
+        if i == "SERVERS":
+            for server in servers_data:
+                createRelationships(server.label, server.node_attributes.__dict__[j], "name", "name", i, relationship_attrs[i][j], "RUNS_ON", {"STATUS":"ACTIVE"})
+        elif i == "ROUTERS":
+            for router in routers_data:
+                createRelationships(router.label, router.node_attributes.__dict__[j], "name", "id", i, relationship_attrs[i][j], "RUNS_ON", {"STATUS":"ACTIVE"})

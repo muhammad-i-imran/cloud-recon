@@ -27,9 +27,12 @@ class RelationshipAttributes(object):
                 setattr(self, k, v)
 
 class Relationship(object):
-    def __init__(self, first_node, second_node, first_node_type, second_node_type, relationship, relationship_attributes):
+    def __init__(self, first_node, second_node, first_node_attr, second_node_attr, first_node_type, second_node_type, relationship, relationship_attributes):
         self.first_node = first_node
         self.second_node = second_node
+
+        self.first_node_attr=first_node_attr
+        self.second_node_attr=second_node_attr
 
         self.first_node_type = first_node_type
         self.second_node_type = second_node_type

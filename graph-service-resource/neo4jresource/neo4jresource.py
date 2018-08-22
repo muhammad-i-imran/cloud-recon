@@ -47,10 +47,13 @@ def add_relationship():
             second_node_type = data['second_node_type']
             first_node = data['first_node']
             second_node = data['second_node']
+            first_node_attr = data['first_node_attr']
+            second_node_attr = data['second_node_attr']
+
             relationship = data['relationship']
             relationship_attributes = data['relationship_attributes']
 
-            api.create_relationship(first_node_type=first_node_type, second_node_type=second_node_type , first_node=first_node, second_node=second_node, relationship=relationship, relationship_attributes=relationship_attributes)
+            api.create_relationship(first_node_type=first_node_type, second_node_type=second_node_type , first_node=first_node, second_node=second_node, first_node_attr=first_node_attr, second_node_attr=second_node_attr, relationship=relationship, relationship_attributes=relationship_attributes)
             node_relationship = {
                 'first_node' : first_node,
                 'second_node': second_node,
