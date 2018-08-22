@@ -12,8 +12,8 @@ class NodeAttributes(object):
             if isinstance(v, (int, str, bool, float)):
                 setattr(self, k, v)
 class Node(object):
-    def __init__(self, label, node_type, node_attributes):
-        self.label = label
+    def __init__(self, name, node_type, node_attributes):
+        self.name = name
         self.node_type = node_type
         self.node_attributes = node_attributes
 
