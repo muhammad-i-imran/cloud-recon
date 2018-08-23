@@ -2,14 +2,14 @@ from flatten_json import flatten
 from openstackqueryapi.queryos import *
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
-
+import json
 #TODO: Refactor the Code
 
 NEO4J_SERVICE_URL = "http://localhost:5000/neo4j"
 
 def getOpenstackConnection():
-    conn = OpenstackConnector(auth_url="http://130.149.249.252:5000/v2.0", username="muhammad", password="CIT123456",
-                              project_id="e326f15678674e3cbc83097659171e8f", version="2.0")
+    conn = OpenstackConnector(auth_url="***********", username="*********", password="******",
+                              project_id="****************", version="2.0")
     return conn
 
 conn = getOpenstackConnection()
@@ -50,80 +50,12 @@ def createRelationships(first_node, second_node, first_node_attr, second_node_at
     data = relationship.toJSON()
     callServicePost(url=NEO4J_SERVICE_URL + "/relationships/create_relationship", data=data.replace("\n", ""))
 
-openstack_info = {
-"SERVERS": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": [
-    {"target_attr_name": "OS-EXT-AZ:availability_zone", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
-    {"target_attr_name": "OS-EXT-SRV-ATTR:host", "target_node_type": "HYPERVISORS", "target_node_attr_name": "service___host", "target_value_data_type": "string", "relationship_name": "RUNS_ON", "relationship_attrs": {"STATUS": "ACTIVE"}}
-]
-},
-"ROUTERS": {
-"name_attr":"name",
-"data":[],
-"RELATIONSHIPS": [
-    {"target_attr_name": "external_gateway_info___network_id", "target_node_type":"NETWORKS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
-    {"target_attr_name": "external_gateway_info___external_fixed_ips___0___subnet_id", "target_node_type":"SUBNETS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}
-]
-},
-"HOST_AGGREGATES": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": [
-	{"target_attr_name": "availability_zone", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
-	#{"target_attr_name": "hosts___0", "target_node_type":"HYPERVISORS", "target_node_attr_name":"service___host" ,"target_value_data_type":"string", "relationship_name":"CONTAINS", "relationship_attrs":{"STATUS":"ACTIVE"}}
-]
-},
-"AVAILABILITY_ZONES": {
-"name_attr":"zoneName",
-"data": [],
-"RELATIONSHIPS": []
-},
-"SERVICES": {
-"name_attr":"binary",
-"data": [],
-"RELATIONSHIPS": []
-},
-"HYPERVISORS": {
-"name_attr":"hypervisor_hostname",
-"data": [],
-"RELATIONSHIPS": []
-},
-"FLAVORS": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": []
-},
-"VOLUMES": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": []
-},
-"KEY_PAIRS": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": []
-},
-"IMAGES": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": []
-},
-"NETWORKS": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": [
-{"target_attr_name": "subnets___0", "target_node_type":"SUBNETS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
-{"target_attr_name": "availability_zones___0", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}
-]
-},
-"SUBNETS": {
-"name_attr":"name",
-"data": [],
-"RELATIONSHIPS": []
-}
-}
+def getOpenstackInfo(file_name):
+    openstack_info_file = open(file_name)
+    openstack_info_str = openstack_info_file.read()
+    return json.loads(openstack_info_str)
+
+openstack_info = getOpenstackInfo("openstack_info.json")
 
 ####################################################################################################
 def create_servers(key):
@@ -191,7 +123,6 @@ for key in openstack_info.keys():
     print(key)
     for d in openstack_info[key]["data"]:
         print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
-    # create_graph_elements(key)(key)
 ####################################################################################################
 
 
