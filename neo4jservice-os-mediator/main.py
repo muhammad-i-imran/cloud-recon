@@ -38,7 +38,7 @@ def prepareNodesData(list, node_type, label_key="name"):
     for i in list:
         info = i if type(i) is dict else i.__dict__
         label = info.pop(label_key, None)
-        flatten_info_dict = flatten(info, separator=".")
+        flatten_info_dict = flatten(info, separator="___")
         node = createNode(label, node_type, flatten_info_dict)
         nodes.append(node)
     return nodes
@@ -54,20 +54,26 @@ openstack_info = {
 "SERVERS": {
 "name_attr":"name",
 "data": [],
-"RELATIONSHIPS": [{"target_attr_name": "OS-EXT-AZ:availability_zone", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}]
+"RELATIONSHIPS": [
+    {"target_attr_name": "OS-EXT-AZ:availability_zone", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
+    {"target_attr_name": "OS-EXT-SRV-ATTR:host", "target_node_type": "HYPERVISORS", "target_node_attr_name": "service___host", "target_value_data_type": "string", "relationship_name": "RUNS_ON", "relationship_attrs": {"STATUS": "ACTIVE"}}
+]
 },
 "ROUTERS": {
 "name_attr":"name",
 "data":[],
 "RELATIONSHIPS": [
-    {"target_attr_name": "external_gateway_info.network_id", "target_node_type":"NETWORKS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
-    {"target_attr_name": "external_gateway_info.external_fixed_ips.0.subnet_id", "target_node_type":"SUBNETS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}
+    {"target_attr_name": "external_gateway_info___network_id", "target_node_type":"NETWORKS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
+    {"target_attr_name": "external_gateway_info___external_fixed_ips___0___subnet_id", "target_node_type":"SUBNETS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}
 ]
 },
 "HOST_AGGREGATES": {
 "name_attr":"name",
 "data": [],
-"RELATIONSHIPS": []
+"RELATIONSHIPS": [
+	{"target_attr_name": "availability_zone", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
+	#{"target_attr_name": "hosts___0", "target_node_type":"HYPERVISORS", "target_node_attr_name":"service___host" ,"target_value_data_type":"string", "relationship_name":"CONTAINS", "relationship_attrs":{"STATUS":"ACTIVE"}}
+]
 },
 "AVAILABILITY_ZONES": {
 "name_attr":"zoneName",
@@ -107,7 +113,10 @@ openstack_info = {
 "NETWORKS": {
 "name_attr":"name",
 "data": [],
-"RELATIONSHIPS": []
+"RELATIONSHIPS": [
+{"target_attr_name": "subnets___0", "target_node_type":"SUBNETS", "target_node_attr_name":"id" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}},
+{"target_attr_name": "availability_zones___0", "target_node_type":"AVAILABILITY_ZONES", "target_node_attr_name":"name" ,"target_value_data_type":"string", "relationship_name":"DEPENDS_ON", "relationship_attrs":{"STATUS":"ACTIVE"}}
+]
 },
 "SUBNETS": {
 "name_attr":"name",
@@ -115,7 +124,6 @@ openstack_info = {
 "RELATIONSHIPS": []
 }
 }
-#name_labels = { "SERVERS":"name", "HOST_AGGREGATES":"name", "AVAILABILITY_ZONES":"zoneName", "SERVICES":"binary", "HYPERVISORS":"hypervisor_hostname", "FLAVORS":"name", "VOLUMES":"name", "KEY_PAIRS":"name", "IMAGES":"name", "NETWORKS":"name", "SUBNETS":"name", "ROUTERS":"name"}
 
 ####################################################################################################
 def create_servers(key):
@@ -176,9 +184,14 @@ def create_graph_elements(element_type):
     return func
 
 for key in openstack_info.keys():
-    print("KEY: " + key)
     create_graph_elements(key)(key)
 
+for key in openstack_info.keys():
+    print("----------------------------------------")
+    print(key)
+    for d in openstack_info[key]["data"]:
+        print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
+    # create_graph_elements(key)(key)
 ####################################################################################################
 
 
