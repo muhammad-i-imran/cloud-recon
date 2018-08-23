@@ -35,7 +35,7 @@ class Neo4JApi(object):
         node = matcher.match(element_type).where("_."+ attribute_name+"=~'"+ attribute_value_regex+"'").first() #.order_by("_.name").limit(3)
         return node
 
-    def create_relationship(self, first_node_type, second_node_type,first_node, second_node, first_node_attr, second_node_attr, is_first_regex, is_second_regex , relationship, relationship_attributes):
+    def create_relationship(self, first_node_type, second_node_type,first_node, second_node, first_node_attr, second_node_attr, relationship, relationship_attributes):
         if not first_node or not  second_node or not relationship:
             raise IllegalArgumentError("Please provide valid nodes and relationships.")
         dict_depth = self.__depth(relationship_attributes)
@@ -44,10 +44,8 @@ class Neo4JApi(object):
 
         #TODO: check if we can add relationships to all nodes with same names and types (instead of taking first())
 
-
-
-        node1 = self.find_node_with_regex(first_node_type, first_node_attr, first_node) if is_first_regex else self.find_node(first_node_type, first_node_attr, first_node)
-        node2 = self.find_node_with_regex(second_node_type, second_node_attr,second_node) if is_second_regex else self.find_node(second_node_type, second_node_attr,second_node)
+        node1 = self.find_node(first_node_type, first_node_attr, first_node)
+        node2 = self.find_node(second_node_type, second_node_attr,second_node)
 
         self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
 

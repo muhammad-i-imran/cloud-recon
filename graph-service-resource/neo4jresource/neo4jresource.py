@@ -26,7 +26,7 @@ def add_single_node():
             jsonStr = request.get_json()
             data = json.loads(jsonStr)
             node_type = data['node_type']
-            label = data['label']
+            label = data['name']
             node_attributes = data['node_attributes']
             api.create_node(node_type=node_type, label=label, node_attributes=node_attributes)
             node = {
