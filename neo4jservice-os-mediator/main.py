@@ -3,14 +3,17 @@ from openstackqueryapi.queryos import *
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
 import json
-#TODO: Refactor the Code
+
+# TODO: Refactor the Code
 
 NEO4J_SERVICE_URL = "http://localhost:5000/neo4j"
 
+
 def getOpenstackConnection():
-    conn = OpenstackConnector(auth_url="***********", username="*********", password="******",
-                              project_id="****************", version="2.0")
+    conn = OpenstackConnector(auth_url="http://130.149.249.252:5000/v2.0", username="muhammad", password="CIT123456",
+                              project_id="e326f15678674e3cbc83097659171e8f", version="2.0")
     return conn
+
 
 conn = getOpenstackConnection()
 
@@ -26,12 +29,14 @@ neutronQuerier.connect()
 cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
 
+
 def createNode(label, node_type, node_attrributtes_dict):
     node_attributes = NodeAttributes(node_attrributtes_dict)
     node = Node(name=label, node_type=node_type, node_attributes=node_attributes)
     data = node.toJSON()
     callServicePost(url=NEO4J_SERVICE_URL + "/nodes/create_node", data=data.replace("\n", ""))
     return node
+
 
 def prepareNodesData(list, node_type, label_key="name"):
     nodes = []
@@ -43,59 +48,79 @@ def prepareNodesData(list, node_type, label_key="name"):
         nodes.append(node)
     return nodes
 
-def createRelationships(first_node, second_node, first_node_attr, second_node_attr, first_node_type, second_node_type, relationship, relationship_attributes_dict):
+
+def createRelationships(first_node, second_node, first_node_attr, second_node_attr, first_node_type, second_node_type,
+                        relationship, relationship_attributes_dict):
     relationship_attributes = RelationshipAttributes(relationship_attributes_dict)
-    relationship = Relationship(first_node, second_node, first_node_attr, second_node_attr,first_node_type,
+    relationship = Relationship(first_node, second_node, first_node_attr, second_node_attr, first_node_type,
                                 second_node_type, relationship, relationship_attributes)
     data = relationship.toJSON()
     callServicePost(url=NEO4J_SERVICE_URL + "/relationships/create_relationship", data=data.replace("\n", ""))
+
 
 def getOpenstackInfo(file_name):
     openstack_info_file = open(file_name)
     openstack_info_str = openstack_info_file.read()
     return json.loads(openstack_info_str)
 
+
 openstack_info = getOpenstackInfo("openstack_info.json")
+
 
 ####################################################################################################
 def create_servers(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getServers(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getServers(), key, openstack_info[key]["name_attr"])
+
 
 def create_host_aggregates(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getHostAggregates(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getHostAggregates(), key,
+                                                   openstack_info[key]["name_attr"])
+
 
 def create_availability_zones(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getAvailabilityZones(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getAvailabilityZones(), key,
+                                                   openstack_info[key]["name_attr"])
+
 
 def create_services(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getServices(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getServices(), key, openstack_info[key]["name_attr"])
+
 
 def create_hypervisors(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getHypervisors(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getHypervisors(), key, openstack_info[key]["name_attr"])
+
 
 def create_flavors(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getFlavors(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getFlavors(), key, openstack_info[key]["name_attr"])
+
 
 def create_volumes(key):
-    openstack_info[key]["data"]=prepareNodesData(cinderQuerier.getVolumes(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(cinderQuerier.getVolumes(), key, openstack_info[key]["name_attr"])
+
 
 def create_key_pairs(key):
-    openstack_info[key]["data"]=prepareNodesData(novaQuerier.getKeyPairs(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(novaQuerier.getKeyPairs(), key, openstack_info[key]["name_attr"])
+
 
 def create_images(key):
-    openstack_info[key]["data"]=prepareNodesData(glanceQuerier.getImages(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(glanceQuerier.getImages(), key, openstack_info[key]["name_attr"])
+
 
 def create_networks(key):
-    openstack_info[key]["data"]=prepareNodesData(neutronQuerier.getNetworks(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getNetworks(), key, openstack_info[key]["name_attr"])
+
 
 def create_subnets(key):
-    openstack_info[key]["data"]=prepareNodesData(neutronQuerier.getSubNets(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getSubNets(), key, openstack_info[key]["name_attr"])
+
 
 def create_routers(key):
-    openstack_info[key]["data"]=prepareNodesData(neutronQuerier.getRouters(), key, openstack_info[key]["name_attr"])
+    openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getRouters(), key, openstack_info[key]["name_attr"])
+
 
 def not_supported():
     raise Exception("Not supported yet.")
+
 
 def create_graph_elements(element_type):
     switcher = {
@@ -115,6 +140,7 @@ def create_graph_elements(element_type):
     func = switcher.get(element_type, lambda: not_supported)
     return func
 
+
 for key in openstack_info.keys():
     create_graph_elements(key)(key)
 
@@ -123,17 +149,19 @@ for key in openstack_info.keys():
     print(key)
     for d in openstack_info[key]["data"]:
         print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
+
 ####################################################################################################
 
-
 for key in openstack_info:
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>...")
+    print("KEY: " + key)
     source_node_type = key
     info = openstack_info[key]
-    name_attr = openstack_info[key]["name_attr"]
+    name_attr = "name"  # openstack_info[key]["name_attr"]
     relationships_info = openstack_info[key]["RELATIONSHIPS"]
     data = openstack_info[key]["data"]
     for relationship in relationships_info:
-        target_attr_name = relationship["target_attr_name"]
+        target_attr_name = relationship["source_attr_name"]
         target_node_type = relationship["target_node_type"]
         target_node_attr_name = relationship["target_node_attr_name"]
         target_value_data_type = relationship["target_value_data_type"]
@@ -141,4 +169,12 @@ for key in openstack_info:
         relationship_attrs = relationship["relationship_attrs"]
 
         for d in data:
-            createRelationships(d.name, d.node_attributes.__dict__[target_attr_name], name_attr, target_node_attr_name, source_node_type, target_node_type, relationship_name, relationship_attrs)
+            createRelationships(d.name, d.node_attributes.__dict__[target_attr_name], name_attr, target_node_attr_name,
+                                source_node_type, target_node_type, relationship_name, relationship_attrs)
+
+######################################################################################################
+### GET CONTAINERS
+# server_id_col = openstack_info["SERVERS"]["id_column_name"]
+# server = novaQuerier.getServer(openstack_info["SERVERS"]["data"][0].node_attributes.__dict__[server_id_col])
+
+# novaQuerier.execCommandWithSsh("ssh ubuntu@" + server.addresses["neo4j-private"][1]["addr"] + " sudo docker ps")

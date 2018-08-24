@@ -27,13 +27,13 @@ class Neo4JApi(object):
 
     def find_node(self,element_type, attribute_name, attribute_value):
         matcher = NodeMatcher(self.graph)
-        node = matcher.match(element_type).where("_."+ attribute_name+"='"+ attribute_value+"'").first() #.order_by("_.name").limit(3)
-        return node
+        nodes = matcher.match(element_type).where("_."+ attribute_name+"='"+ attribute_value+"'")#.first() #.order_by("_.name").limit(3)
+        return nodes
 
     def find_node_with_regex(self,element_type, attribute_name, attribute_value_regex):
         matcher = NodeMatcher(self.graph)
-        node = matcher.match(element_type).where("_."+ attribute_name+"=~'"+ attribute_value_regex+"'").first() #.order_by("_.name").limit(3)
-        return node
+        nodes = matcher.match(element_type).where("_."+ attribute_name+"=~'"+ attribute_value_regex+"'")#.first() #.order_by("_.name").limit(3)
+        return nodes
 
     def create_relationship(self, first_node_type, second_node_type,first_node, second_node, first_node_attr, second_node_attr, relationship, relationship_attributes):
         if not first_node or not  second_node or not relationship:
@@ -44,10 +44,12 @@ class Neo4JApi(object):
 
         #TODO: check if we can add relationships to all nodes with same names and types (instead of taking first())
 
-        node1 = self.find_node(first_node_type, first_node_attr, first_node)
-        node2 = self.find_node(second_node_type, second_node_attr,second_node)
+        nodes_1 = self.find_node(first_node_type, first_node_attr, first_node)
+        nodes_2 = self.find_node(second_node_type, second_node_attr,second_node)
 
-        self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
+        for node1 in nodes_1:
+            for node2 in nodes_2:
+                self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
 
     def add_node_attr(self, node_type, node_name, node_attributes):
         matcher = NodeMatcher(self.graph)

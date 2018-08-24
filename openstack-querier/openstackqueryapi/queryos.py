@@ -6,17 +6,18 @@ import neutronclient
 from neutronclient.v2_0.client import Client
 
 import glanceclient
-# from glanceclient.v2.client import Client
-# from glanceclient import Client
 import cinderclient
 from cinderclient.v2 import Client
 import manilaclient
-from manilaclient.v2 import  client
+from manilaclient.v2 import client
 from manilaclient.client import Client
 import ironicclient
 from ironicclient.v1 import client
 import swiftclient
 from swiftclient.client import Connection
+
+import subprocess
+
 
 class OpenstackConnector(object):
     def __init__(self, auth_url, username, password, project_id, version):
@@ -69,6 +70,11 @@ class NovaQuerier(object):
         keypairs_list = self.nova.keypairs.list()
         return keypairs_list
 
+    def getServer(self, id):
+        return self.nova.servers.get(id)
+
+    def execCommandWithSsh(self, command):
+        subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
 
 
 class NeutronQuerier(object):
@@ -88,13 +94,16 @@ class NeutronQuerier(object):
     def getNetworks(self):
         networks = self.neutron.list_networks()["networks"]
         return networks
+
     # ...
     def getSubNets(self):
         subnets = self.neutron.list_subnets()["subnets"]
         return subnets
+
     def getRouters(self):
         routers = self.neutron.list_routers()["routers"]
         return routers
+
 
 class GlanceQuerier(object):
     def __init__(self, os_connector: OpenstackConnector):
@@ -118,6 +127,7 @@ class GlanceQuerier(object):
         image_members_list = self.glance.image_members.list(image_id)
         return image_members_list
 
+
 class CinderQuerier(object):
     def __init__(self, os_connector: OpenstackConnector):
         self.cinder = None
@@ -136,6 +146,7 @@ class CinderQuerier(object):
         volumes_list = self.cinder.volumes.list()
         return volumes_list
 
+
 class ManilaQuerier(object):
     def __init__(self, os_connector: OpenstackConnector):
         self.manila = None
@@ -148,7 +159,8 @@ class ManilaQuerier(object):
                                         password=self.os_connector.password,
                                         project_id=self.os_connector.project_id)
         sess = session.Session(auth=auth)
-        self.manila = manilaclient.v2.client.Client('2',session=sess)
+        self.manila = manilaclient.v2.client.Client('2', session=sess)
+
 
 class IronicQuerier(object):
     def __init__(self, os_connector: OpenstackConnector):
@@ -162,7 +174,8 @@ class IronicQuerier(object):
                                         password=self.os_connector.password,
                                         project_id=self.os_connector.project_id)
         sess = session.Session(auth=auth)
-        self.ironic = ironicclient.v1.client.Client('1',session=sess)
+        self.ironic = ironicclient.v1.client.Client('1', session=sess)
+
 
 class SwiftQuerier(object):
     def __init__(self, os_connector: OpenstackConnector):
@@ -177,6 +190,7 @@ class SwiftQuerier(object):
                                         project_id=self.os_connector.project_id)
         sess = session.Session(auth=auth)
         self.swift = swiftclient.client.Connection(session=sess)
+
 
 class CustomVirtualMachineQuerier(object):
     def __init__(self):
