@@ -4,7 +4,6 @@ import time
 def callServiceGet(url):
     r = requests.get(url)
     print(r.status_code)
-
     #r.status_code == requests.codes.ok
 
 def callServicePost(url, data):

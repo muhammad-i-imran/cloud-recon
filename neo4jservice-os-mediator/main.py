@@ -3,6 +3,7 @@ from openstackqueryapi.queryos import *
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
 import json
+import re
 
 # TODO: Refactor the Code
 
@@ -49,11 +50,21 @@ def prepareNodesData(list, node_type, label_key="name"):
     return nodes
 
 
-def createRelationships(first_node, second_node, first_node_attr, second_node_attr, first_node_type, second_node_type,
-                        relationship, relationship_attributes_dict):
+def createRelationships(source_node_attr_name, target_node_attr_name,
+                        source_node_attr_value, target_node_attr_value, source_node_type,
+                        target_node_type, relationship, relationship_attributes_dict, is_source_attr_name_regex,
+                        is_target_attr_name_regex):
     relationship_attributes = RelationshipAttributes(relationship_attributes_dict)
-    relationship = Relationship(first_node, second_node, first_node_attr, second_node_attr, first_node_type,
-                                second_node_type, relationship, relationship_attributes)
+
+    relationship = Relationship(source_node_attr_name=source_node_attr_name,
+                                target_node_attr_name=target_node_attr_name,
+                                source_node_attr_value=source_node_attr_value,
+                                target_node_attr_value=target_node_attr_value,
+                                source_node_type=source_node_type,
+                                target_node_type=target_node_type, relationship=relationship,
+                                relationship_attributes=relationship_attributes,
+                                is_source_attr_name_regex=is_source_attr_name_regex,
+                                is_target_attr_name_regex=is_target_attr_name_regex)
     data = relationship.toJSON()
     callServicePost(url=NEO4J_SERVICE_URL + "/relationships/create_relationship", data=data.replace("\n", ""))
 
@@ -145,7 +156,6 @@ for key in openstack_info.keys():
     create_graph_elements(key)(key)
 
 for key in openstack_info.keys():
-    print("----------------------------------------")
     print(key)
     for d in openstack_info[key]["data"]:
         print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
@@ -161,16 +171,40 @@ for key in openstack_info:
     relationships_info = openstack_info[key]["RELATIONSHIPS"]
     data = openstack_info[key]["data"]
     for relationship in relationships_info:
-        target_attr_name = relationship["source_attr_name"]
+        source_attr_name = relationship["source_attr_name"]
+        is_source_attr_name_regex = relationship["is_source_attr_name_regex"]
         target_node_type = relationship["target_node_type"]
         target_node_attr_name = relationship["target_node_attr_name"]
+        is_target_attr_name_regex = relationship["is_target_attr_name_regex"]
         target_value_data_type = relationship["target_value_data_type"]
         relationship_name = relationship["relationship_name"]
         relationship_attrs = relationship["relationship_attrs"]
 
+        """source_node_attr_name, target_node_attr_name,
+                        source_node_attr_value, target_node_attr_value, source_node_type,
+                        target_node_type, relationship, relationship_attributes_dict, is_source_attr_name_regex,
+                        is_target_attr_name_regex"""
+
         for d in data:
-            createRelationships(d.name, d.node_attributes.__dict__[target_attr_name], name_attr, target_node_attr_name,
-                                source_node_type, target_node_type, relationship_name, relationship_attrs)
+            if is_source_attr_name_regex:
+                source_keys = list(filter(re.compile(source_attr_name).match, d.node_attributes.__dict__.keys()))
+                print(source_keys)
+                for key in source_keys:
+                    createRelationships(source_node_attr_name=name_attr, target_node_attr_name=target_node_attr_name,
+                                        source_node_attr_value=d.name,
+                                        target_node_attr_value=d.node_attributes.__dict__[key],
+                                        source_node_type=source_node_type, target_node_type=target_node_type,
+                                        relationship=relationship_name, relationship_attributes_dict=relationship_attrs,
+                                        is_source_attr_name_regex=is_source_attr_name_regex,
+                                        is_target_attr_name_regex=is_target_attr_name_regex)
+            else:
+                createRelationships(source_node_attr_name=name_attr, target_node_attr_name=target_node_attr_name,
+                                    source_node_attr_value=d.name,
+                                    target_node_attr_value=d.node_attributes.__dict__[source_attr_name],
+                                    source_node_type=source_node_type, target_node_type=target_node_type,
+                                    relationship=relationship_name, relationship_attributes_dict=relationship_attrs,
+                                    is_source_attr_name_regex=is_source_attr_name_regex,
+                                    is_target_attr_name_regex=is_target_attr_name_regex)
 
 ######################################################################################################
 ### GET CONTAINERS
