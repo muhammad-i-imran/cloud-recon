@@ -1,6 +1,7 @@
 {
   "SERVERS": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -55,6 +56,7 @@
   },
   "ROUTERS": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -70,8 +72,8 @@
         }
       },
       {
-        "source_attr_name": "external_gateway_info___external_fixed_ips___0___subnet_id",
-        "is_source_attr_name_regex": false,
+        "source_attr_name": "external_gateway_info___external_fixed_ips___(\\d+)___subnet_id",
+        "is_source_attr_name_regex": true,
         "target_node_type": "SUBNETS",
         "target_node_attr_name": "id",
         "is_target_attr_name_regex": false,
@@ -82,8 +84,8 @@
         }
       },
       {
-        "source_attr_name": "availability_zones___0",
-        "is_source_attr_name_regex": false,
+        "source_attr_name": "availability_zones___(\\d+)",
+        "is_source_attr_name_regex": true,
         "target_node_type": "AVAILABILITY_ZONES",
         "target_node_attr_name": "name",
         "is_target_attr_name_regex": false,
@@ -97,6 +99,7 @@
   },
   "HOST_AGGREGATES": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -127,11 +130,13 @@
   },
   "AVAILABILITY_ZONES": {
     "name_attr": "zoneName",
+    "id_attr": "zoneName",
     "data": [],
     "RELATIONSHIPS": []
   },
   "SERVICES": {
     "name_attr": "binary",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -162,16 +167,19 @@
   },
   "HYPERVISORS": {
     "name_attr": "hypervisor_hostname",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "FLAVORS": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "VOLUMES": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -190,21 +198,24 @@
   },
   "KEY_PAIRS": {
     "name_attr": "name",
+    "id_attr": "name",
     "data": [],
     "RELATIONSHIPS": []
   },
   "IMAGES": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "NETWORKS": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
-        "source_attr_name": "subnets___0",
-        "is_source_attr_name_regex": false,
+        "source_attr_name": "subnets___(\\d+)",
+        "is_source_attr_name_regex": true,
         "target_node_type": "SUBNETS",
         "target_node_attr_name": "id",
         "is_target_attr_name_regex": false,
@@ -215,8 +226,8 @@
         }
       },
       {
-        "source_attr_name": "availability_zones___0",
-        "is_source_attr_name_regex": false,
+        "source_attr_name": "availability_zones___(\\d+)",
+        "is_source_attr_name_regex": true,
         "target_node_type": "AVAILABILITY_ZONES",
         "target_node_attr_name": "name",
         "is_target_attr_name_regex": false,
@@ -230,6 +241,7 @@
   },
   "SUBNETS": {
     "name_attr": "name",
+    "id_attr": "id",
     "data": [],
     "RELATIONSHIPS": []
   }
