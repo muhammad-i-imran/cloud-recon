@@ -13,8 +13,8 @@ NEO4J_SERVICE_URL = "http://localhost:5000/neo4j"
 
 
 def getOpenstackConnection():
-    conn = OpenstackConnector(auth_url="http://130.149.249.252:5000/v2.0", username="muhammad", password="CIT123456",
-                              project_id="e326f15678674e3cbc83097659171e8f", version="2.0")
+    conn = OpenstackConnector(auth_url="", username="", password="",
+                              project_id="", version="2.0")
     return conn
 
 
