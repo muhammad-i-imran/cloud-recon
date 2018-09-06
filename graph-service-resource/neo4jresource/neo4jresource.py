@@ -28,10 +28,11 @@ def add_single_node():
             jsonStr = request.get_json()
             data = json.loads(jsonStr)
             node_type = data['node_type']
+            id_keys = data['id_keys']
             label = data['name']
             node_attributes = data['node_attributes']
-            api.create_node(node_type=node_type, label=label, node_attributes=node_attributes)
-            return jsonify({'Message': "Node has been created"}), 201
+            status_code, message = api.create_node(node_type=node_type, id_keys=id_keys, label=label, node_attributes=node_attributes)
+            return jsonify({'Message': message}), status_code
 
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])

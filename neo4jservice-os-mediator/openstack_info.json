@@ -1,7 +1,7 @@
 {
   "SERVERS": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -56,7 +56,7 @@
   },
   "ROUTERS": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -99,7 +99,7 @@
   },
   "HOST_AGGREGATES": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -130,13 +130,13 @@
   },
   "AVAILABILITY_ZONES": {
     "name_attr": "zoneName",
-    "id_attr": "zoneName",
+    "id_keys": ["name"],
     "data": [],
     "RELATIONSHIPS": []
   },
   "SERVICES": {
     "name_attr": "binary",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -167,19 +167,19 @@
   },
   "HYPERVISORS": {
     "name_attr": "hypervisor_hostname",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": []
   },
   "FLAVORS": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": []
   },
   "VOLUMES": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -198,19 +198,19 @@
   },
   "KEY_PAIRS": {
     "name_attr": "name",
-    "id_attr": "name",
+    "id_keys": ["name"],
     "data": [],
     "RELATIONSHIPS": []
   },
   "IMAGES": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": []
   },
   "NETWORKS": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -241,7 +241,7 @@
   },
   "SUBNETS": {
     "name_attr": "name",
-    "id_attr": "id",
+    "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": []
   }

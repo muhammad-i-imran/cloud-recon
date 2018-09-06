@@ -7,13 +7,18 @@ import graphserviceschema.serviceschema
 class Neo4JApi(object):
     def __init__(self, uri, user, password):
         self.graph = Graph(uri=uri, user=user, password=password)
+        # self.graph.schema.create_uniqueness_constraint('type', 'id')
+
 
     def get_nodes(self, node_type):
         matcher = NodeMatcher(self.graph)
         nodes = matcher.match(node_type)  # .match(first_node_type, name=first_node).first()
         return list(nodes)
 
-    def create_node(self, node_type, label, node_attributes={}):
+    def create_node(self, node_type, id_keys, label, node_attributes={}):
+        # TODO: create only unique nodes. move ti somewhere else later to avoid repetition of execution of this line
+        self.graph.schema.create_uniqueness_constraint(node_type, *id_keys)
+
         if not label:
             raise IllegalArgumentError('You must have to provide a label.')
         if not node_attributes:
@@ -24,7 +29,12 @@ class Neo4JApi(object):
             raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
 
         node = Node(node_type, name=label, **node_attributes)
-        self.graph.create(node)
+        try:
+            self.graph.create(node)
+            return 201, "Node has been created."
+        except Exception as ex:
+            print("Exception occured: ", ex)
+            return 304, str(ex)
 
     def find_node(self, element_type, attribute_name, attribute_value):
         matcher = NodeMatcher(self.graph)

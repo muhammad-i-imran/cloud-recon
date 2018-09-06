@@ -10,7 +10,7 @@ def callServicePost(url, data):
     r = requests.post(url, json=data)
     print(r.status_code, r.reason)
 
-def callNeo4JSchedule(url, data, method):
+def callNeo4JSchedule(url, data):
     while True:
         #match first. if node/relationship exists, then update or ignore othewise create
         callServicePost(url, data)

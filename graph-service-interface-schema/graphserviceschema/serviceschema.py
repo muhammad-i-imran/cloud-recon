@@ -16,7 +16,8 @@ class NodeAttributes(object):
 
 
 class Node(object):
-    def __init__(self, name, node_type, node_attributes):
+    def __init__(self, id_keys, name, node_type, node_attributes):
+        self.id_keys = id_keys
         self.name = name
         self.node_type = node_type
         self.node_attributes = node_attributes
