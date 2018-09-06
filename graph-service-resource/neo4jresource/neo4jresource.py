@@ -6,8 +6,8 @@ from neo4japi import Neo4JApi
 app = Flask(__name__)
 
 # TODO: later read config in some safe way
-app.config['GRAPHDB_URI'] = 'bolt://localhost:7687'
-app.config['GRAPHDB_USER'] = 'neo4j'
+app.config['GRAPHDB_URI'] = os.getenv('GRAPHDB_URI', 'bolt://localhost:7687')
+app.config['GRAPHDB_USER'] = os.getenv('GRAPHDB_USER', 'neo4j')
 app.config['GRAPHDB_PASS'] = os.getenv('GRAPHDB_PASS', '')
 
 api = Neo4JApi(app.config['GRAPHDB_URI'], app.config['GRAPHDB_USER'], app.config['GRAPHDB_PASS'])
