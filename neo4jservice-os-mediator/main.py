@@ -33,8 +33,6 @@ neutronQuerier.connect()
 cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
 
-# vmSshQuerier = CustomVirtualMachineQuerier()
-# vmSshQuerier.connect()
 
 
 def createNode(id_keys, label, node_type, node_attrributtes_dict):
@@ -92,6 +90,7 @@ openstack_info = readJsonFile("openstack_info.json")
 def create_servers(key):
     openstack_info[key]["data"] = prepareNodesData(novaQuerier.getServers(), key, openstack_info[key]["name_attr"],
                                                    openstack_info[key]["id_keys"])
+    # create_containers()
 
 
 def create_host_aggregates(key):
@@ -149,21 +148,28 @@ def create_routers(key):
                                                    openstack_info[key]["id_keys"])
 
 def create_containers(key):
-    command="sudo docker ps -q"
+    command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
     server = novaQuerier.getServer(openstack_info["SERVERS"]["data"][0].node_attributes.__dict__["id"])
 
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(server.addresses["neo4j-private"][1]["addr"], username='ubuntu', key_filename='~/cit.key')
+    vmSshQuerier = CustomVirtualMachineQuerier()
+    ip = server.addresses["neo4j-private"][1]["addr"]
+    username = 'ubuntu'
+    private_key_content = config.PRIVATE_KEY
+    vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
 
-    ssh.connect("10.0.42.42", username='ubuntu', key_filename='/home/mimran/.ssh/cit.key')
+    stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
+    containers_string_info = stdout.readlines()[1:]
+    containers_list=[]
+    for c in containers_string_info:
+        container_info_dict = {}
+        container_info = re.split(r'|', c)
+        container_info_dict["id"] = container_info[0]
+        container_info_dict["container_name"] = container_info[1]
+        container_info_dict["image_name"] = container_info[2]
+        containers_list.append(container_info_dict)
 
-    stdin, stdout, stderr = ssh.exec_command(command)
-    print (stdout.readlines()[1:])
-    ssh.close()
-
-    openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getRouters(), key, openstack_info[key]["name_attr"],
-                                                   openstack_info[key]["id_keys"])
+    prepareNodesData(containers_list, key, label_key="image_name", id_keys=["id"])
+    vmSshQuerier.closeConnection()
 
 def not_supported():
     raise Exception("Not supported yet.")
@@ -236,4 +242,5 @@ while True:
                                         is_source_attr_name_regex=is_source_attr_name_regex,
                                         is_target_attr_name_regex=is_target_attr_name_regex)
 
+    create_containers("CONTAINERS")
     time.sleep(300)

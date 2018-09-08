@@ -16,6 +16,7 @@ from ironicclient.v1 import client
 import swiftclient
 from swiftclient.client import Connection
 import paramiko
+from io import StringIO
 import subprocess
 
 
@@ -196,10 +197,19 @@ class CustomVirtualMachineQuerier(object):
     def __init__(self):
         self.ssh = None
 
-    def connect(self, ip, username, keyfile_path):
+    def getKeyFile(self, key_content):
+        pseudo_file = StringIO(key_content)
+        private_key = paramiko.RSAKey.from_private_key(pseudo_file)
+
+        pseudo_file.close()
+        return private_key
+
+    def connect(self, ip, username, private_key_content):
+        private_key = self.getKeyFile(private_key_content)
+
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        self.ssh.connect(ip, username=username, key_filename=keyfile_path)
+        self.ssh.connect(ip, username=username, pkey=private_key)
 
     def executeCommandOnVM(self, command):
         stdin, stdout, stderr = self.ssh.exec_command(command)
