@@ -6,15 +6,16 @@ import json
 import re
 import paramiko
 import time
+import config
 
 # TODO: Refactor the Code
 
-NEO4J_SERVICE_URL = "http://localhost:5000/neo4j"
+NEO4J_SERVICE_URL = config.SERVICE_URL
 
 
 def getOpenstackConnection():
-    conn = OpenstackConnector(auth_url="", username="", password="",
-                              project_id="", version="2.0")
+    conn = OpenstackConnector(auth_url=config.OS_AUTH_URL, username=config.OS_USERNAME, password=config.OS_PASSWORD,
+                              project_id=config.OS_PROJECT_ID, version=config.VERSION)
     return conn
 
 
@@ -31,6 +32,9 @@ neutronQuerier.connect()
 
 cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
+
+# vmSshQuerier = CustomVirtualMachineQuerier()
+# vmSshQuerier.connect()
 
 
 def createNode(id_keys, label, node_type, node_attrributtes_dict):
@@ -144,6 +148,22 @@ def create_routers(key):
     openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getRouters(), key, openstack_info[key]["name_attr"],
                                                    openstack_info[key]["id_keys"])
 
+def create_containers(key):
+    command="sudo docker ps -q"
+    server = novaQuerier.getServer(openstack_info["SERVERS"]["data"][0].node_attributes.__dict__["id"])
+
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(server.addresses["neo4j-private"][1]["addr"], username='ubuntu', key_filename='~/cit.key')
+
+    ssh.connect("10.0.42.42", username='ubuntu', key_filename='/home/mimran/.ssh/cit.key')
+
+    stdin, stdout, stderr = ssh.exec_command(command)
+    print (stdout.readlines()[1:])
+    ssh.close()
+
+    openstack_info[key]["data"] = prepareNodesData(neutronQuerier.getRouters(), key, openstack_info[key]["name_attr"],
+                                                   openstack_info[key]["id_keys"])
 
 def not_supported():
     raise Exception("Not supported yet.")
@@ -168,7 +188,6 @@ def create_graph_elements(element_type):
     return func
 
 while True:
-
     for key in openstack_info.keys():
         create_graph_elements(key)(key)
 
@@ -180,8 +199,6 @@ while True:
     ####################################################################################################
 
     for key in openstack_info:
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>...")
-        print("KEY: " + key)
         source_node_type = key
         info = openstack_info[key]
         name_attr = "name"
@@ -220,23 +237,3 @@ while True:
                                         is_target_attr_name_regex=is_target_attr_name_regex)
 
     time.sleep(300)
-
-    ######################################################################################################
-    ### GET CONTAINERS
-    # vms_images_info = readJsonFile("docker_images_list.json")
-    # images_list = vms_images_info["IMAGES"]
-    #
-    # #sudo docker ps -q  --filter=ancestor=neo4j
-    #
-    # command="sudo docker ps -q  --filter=ancestor=neo4j"
-    # server = novaQuerier.getServer(openstack_info["SERVERS"]["data"][0].node_attributes.__dict__["id"])
-    # # print(server)
-    # # novaQuerier.execCommandWithSsh("ssh ubuntu@" + server.addresses["neo4j-private"][1]["addr"] + " '" + command+"'")
-    #
-    # ssh = paramiko.SSHClient()
-    # ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    # ssh.connect(server.addresses["neo4j-private"][1]["addr"], username='ubuntu', key_filename='~/cit.key')
-    #
-    # stdin, stdout, stderr = ssh.exec_command(command)
-    # print (stdout.readlines()[1:])
-    # ssh.close()

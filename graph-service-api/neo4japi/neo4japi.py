@@ -1,7 +1,6 @@
 from py2neo import Graph, Node, Relationship, NodeMatcher, RelationshipMatcher
 
 from neo4japi import IllegalArgumentError
-import graphserviceschema.serviceschema
 
 
 class Neo4JApi(object):

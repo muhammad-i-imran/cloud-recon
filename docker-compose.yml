@@ -19,6 +19,7 @@ services:
       - "7473:7473" # for https
   neo4j_service:
     image: muhammadimran/neo4j_service
+
     environment:
       - GRAPHDB_URI=${GRAPHDB_URI}
       - GRAPHDB_USER=${GRAPHDB_USER}
@@ -37,6 +38,8 @@ services:
       - OS_AUTH_URL=${OS_AUTH_URL}
       - OS_IDENTITY_API_VERSION=${OS_IDENTITY_API_VERSION}
       - OS_IMAGE_API_VERSION=${OS_IMAGE_API_VERSION}
+    networks: host
+
     #env_file:
     #  - .env
 

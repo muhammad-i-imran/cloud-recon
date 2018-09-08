@@ -1,0 +1,6 @@
+SERVICE_URL="http://localhost:5000/neo4j"
+OS_AUTH_URL="http://0.0.0.0:5000/v2.0"
+OS_USERNAME="abc"
+OS_PASSWORD="def"
+OS_PROJECT_ID="123"
+VERSION="2.0"
