@@ -149,27 +149,32 @@ def create_routers(key):
 
 def create_containers(key):
     command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
-    server = novaQuerier.getServer(openstack_info["SERVERS"]["data"][0].node_attributes.__dict__["id"])
+    for s in openstack_info["SERVERS"]["data"]:
+        server_id=s.node_attributes.__dict__["id"]
+        server = novaQuerier.getServer(server_id)
 
-    vmSshQuerier = CustomVirtualMachineQuerier()
-    ip = server.addresses["neo4j-private"][1]["addr"]
-    username = 'ubuntu'
-    private_key_content = config.PRIVATE_KEY
-    vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
+        vmSshQuerier = CustomVirtualMachineQuerier()
+        ip = server.addresses["neo4j-private"][1]["addr"]
+        username = 'ubuntu'
+        private_key_content = config.PRIVATE_KEY
+        vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
 
-    stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
-    containers_string_info = stdout.readlines()[1:]
-    containers_list=[]
-    for c in containers_string_info:
-        container_info_dict = {}
-        container_info = re.split(r'|', c)
-        container_info_dict["id"] = container_info[0]
-        container_info_dict["container_name"] = container_info[1]
-        container_info_dict["image_name"] = container_info[2]
-        containers_list.append(container_info_dict)
+        stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
+        containers_string_info = stdout.readlines()[1:]
+        containers_list=[]
+        for c in containers_string_info:
+            container_info_dict = {}
+            container_info = re.split(r'|', c)
+            container_info_dict["id"] = container_info[0]
+            container_info_dict["container_name"] = container_info[1]
+            container_info_dict["image_name"] = container_info[2]
+            container_info_dict["server_name"] = s.name
+            container_info_dict["server_id"] = server_id
+            containers_list.append(container_info_dict)
 
-    prepareNodesData(containers_list, key, label_key="image_name", id_keys=["id"])
-    vmSshQuerier.closeConnection()
+        print(containers_list)
+        prepareNodesData(containers_list, key, label_key="image_name", id_keys=["id"])
+        vmSshQuerier.closeConnection()
 
 def not_supported():
     raise Exception("Not supported yet.")
@@ -188,7 +193,8 @@ def create_graph_elements(element_type):
         "IMAGES": create_images,
         "NETWORKS": create_networks,
         "SUBNETS": create_subnets,
-        "ROUTERS": create_routers
+        "ROUTERS": create_routers,
+        # "CONTAINERS": create_containers,
     }
     func = switcher.get(element_type, lambda: not_supported)
     return func

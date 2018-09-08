@@ -8,3 +8,4 @@ python-ironicclient==2.5.0
 python-swiftclient==3.6.0
 python-cinderclient==4.0.1
 python-openstackclient==3.16.1
+paramiko=2.4.1
