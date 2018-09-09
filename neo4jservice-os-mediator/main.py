@@ -4,7 +4,6 @@ from graphserviceschema.serviceschema import *
 from mediator.caller import *
 import json
 import re
-import paramiko
 import time
 import config
 
@@ -84,13 +83,11 @@ def readJsonFile(file_name):
 
 
 openstack_info = readJsonFile("openstack_info.json")
-
-
 ####################################################################################################
 def create_servers(key):
     openstack_info[key]["data"] = prepareNodesData(novaQuerier.getServers(), key, openstack_info[key]["name_attr"],
                                                    openstack_info[key]["id_keys"])
-    # create_containers()
+    create_containers("CONTAINERS")
 
 
 def create_host_aggregates(key):
@@ -193,8 +190,7 @@ def create_graph_elements(element_type):
         "IMAGES": create_images,
         "NETWORKS": create_networks,
         "SUBNETS": create_subnets,
-        "ROUTERS": create_routers,
-        # "CONTAINERS": create_containers,
+        "ROUTERS": create_routers
     }
     func = switcher.get(element_type, lambda: not_supported)
     return func
@@ -248,5 +244,5 @@ while True:
                                         is_source_attr_name_regex=is_source_attr_name_regex,
                                         is_target_attr_name_regex=is_target_attr_name_regex)
 
-    create_containers("CONTAINERS")
+
     time.sleep(300)

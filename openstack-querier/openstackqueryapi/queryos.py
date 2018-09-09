@@ -16,7 +16,10 @@ from ironicclient.v1 import client
 import swiftclient
 from swiftclient.client import Connection
 import paramiko
-from io import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import subprocess
 
 
@@ -30,7 +33,7 @@ class OpenstackConnector(object):
 
 
 class NovaQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.nova = None
         self.os_connector = os_connector
 
@@ -79,7 +82,7 @@ class NovaQuerier(object):
 
 
 class NeutronQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.neutron = None
         self.os_connector = os_connector
 
@@ -107,7 +110,7 @@ class NeutronQuerier(object):
 
 
 class GlanceQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.glance = None
         self.os_connector = os_connector
 
@@ -130,7 +133,7 @@ class GlanceQuerier(object):
 
 
 class CinderQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.cinder = None
         self.os_connector = os_connector
 
@@ -149,7 +152,7 @@ class CinderQuerier(object):
 
 
 class ManilaQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.manila = None
         self.os_connector = os_connector
 
@@ -164,7 +167,7 @@ class ManilaQuerier(object):
 
 
 class IronicQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.ironic = None
         self.os_connector = os_connector
 
@@ -179,7 +182,7 @@ class IronicQuerier(object):
 
 
 class SwiftQuerier(object):
-    def __init__(self, os_connector: OpenstackConnector):
+    def __init__(self, os_connector):
         self.swift = None
         self.os_connector = os_connector
 
