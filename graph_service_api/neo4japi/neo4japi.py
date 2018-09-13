@@ -1,7 +1,6 @@
 from py2neo import Graph, Node, Relationship, NodeMatcher, RelationshipMatcher
 
-import IllegalArgumentError
-
+from .IllegalArgumentError import IllegalArgumentError
 
 class Neo4JApi(object):
     def __init__(self, uri, user, password):

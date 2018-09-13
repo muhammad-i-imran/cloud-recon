@@ -5,18 +5,25 @@ from mediator.caller import *
 import json
 import re
 import time
-import config
+import os
 
 # TODO: Refactor the Code
 
-NEO4J_SERVICE_URL = config.SERVICE_URL
+NEO4J_SERVICE_URL = os.getenv('NEO4J_SERVICE_URL', 'http://localhost:5000/neo4j') # config.SERVICE_URL
+OS_AUTH_URL = os.getenv('OS_AUTH_URL', "http://0.0.0.0:5000/v2.0")
+OS_USERNAME = os.getenv('OS_USERNAME', "")
+OS_PASSWORD = os.getenv('OS_PASSWORD', "")
+OS_PROJECT_ID = os.getenv('OS_TENANT_ID', "")
+OS_API_VERSION = os.getenv('OS_API_VERSION', "2.0")
+PRIVATE_KEY = os.getenv('PRIVATE_KEY', """-----BEGIN RSA PRIVATE KEY-----
+-----END RSA PRIVATE KEY-----""")
+
 
 
 def getOpenstackConnection():
-    conn = OpenstackConnector(auth_url=config.OS_AUTH_URL, username=config.OS_USERNAME, password=config.OS_PASSWORD,
-                              project_id=config.OS_PROJECT_ID, version=config.VERSION)
+    conn = OpenstackConnector(auth_url=OS_AUTH_URL, username=OS_USERNAME, password=OS_PASSWORD,
+                              project_id=OS_PROJECT_ID, version=OS_API_VERSION)
     return conn
-
 
 conn = getOpenstackConnection()
 
@@ -31,7 +38,6 @@ neutronQuerier.connect()
 
 cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
-
 
 
 def createNode(id_keys, label, node_type, node_attrributtes_dict):
@@ -153,7 +159,7 @@ def create_containers(key):
         vmSshQuerier = CustomVirtualMachineQuerier()
         ip = server.addresses["neo4j-private"][1]["addr"]
         username = 'ubuntu'
-        private_key_content = config.PRIVATE_KEY
+        private_key_content = PRIVATE_KEY
         vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
 
         stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
