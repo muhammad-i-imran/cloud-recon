@@ -88,7 +88,8 @@ def readJsonFile(file_name):
     return json.loads(openstack_info_str)
 
 
-openstack_info = readJsonFile("openstack_info.json")
+config_file_path = os.getenv('CONFIG_FILE_PATH', 'openstack_info.json')
+openstack_info = readJsonFile(config_file_path)
 ####################################################################################################
 def create_servers(key):
     openstack_info[key]["data"] = prepareNodesData(novaQuerier.getServers(), key, openstack_info[key]["name_attr"],

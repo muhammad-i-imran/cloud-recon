@@ -18,4 +18,9 @@ RUN pip install graphserviceschema==0.1 --no-index --find-links file:///openstac
 RUN cd /openstack_neo4j_service/openstack_querier / && python setup.py sdist
 RUN pip install openstackqueryapi==0.1 --no-index --find-links file:///openstack_neo4j_service/openstack_querier/dist/
 
-WORKDIR /openstack_neo4j_service
+WORKDIR /openstack_neo4j_service/neo4jservice_os_mediator
+
+
+ENTRYPOINT ["python"]
+CMD ["/openstack_neo4j_service/neo4jservice_os_mediator/main.py"]
+

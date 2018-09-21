@@ -18,4 +18,4 @@ WORKDIR /openstack_neo4j_service
 
 ENTRYPOINT ["python"]
 CMD ["/openstack_neo4j_service/graph_service_resource/main.py"]
-#CMD ["/bin/bash"]
+
