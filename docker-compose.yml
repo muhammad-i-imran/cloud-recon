@@ -27,18 +27,18 @@ services:
     network_mode: "host"
   openstack_querier:
     image: muhammadimran/openstack-querier
-    environment:
-      - NEO4J_PYTHON_SERVICE=${NEO4J_PYTHON_SERVICE}
-      - OS_PROJECT_DOMAIN_NAME=${OS_PROJECT_DOMAIN_NAME}
-      - OS_USER_DOMAIN_NAME=${OS_USER_DOMAIN_NAME}
-      - OS_PROJECT_NAME=${OS_PROJECT_NAME}
-      - OS_USERNAME=${OS_USERNAME}
-      - OS_PASSWORD=${OS_PASSWORD}
-      - OS_AUTH_URL=${OS_AUTH_URL}
-      - OS_IDENTITY_API_VERSION=${OS_IDENTITY_API_VERSION}
-      - OS_IMAGE_API_VERSION=${OS_IMAGE_API_VERSION}
+    #environment:
+    #  - NEO4J_PYTHON_SERVICE=${NEO4J_PYTHON_SERVICE}
+    #  - OS_PROJECT_DOMAIN_NAME=${OS_PROJECT_DOMAIN_NAME}
+    #  - OS_USER_DOMAIN_NAME=${OS_USER_DOMAIN_NAME}
+    #  - OS_PROJECT_NAME=${OS_PROJECT_NAME}
+    #  - OS_USERNAME=${OS_USERNAME}
+    #  - OS_PASSWORD=${OS_PASSWORD}
+    #  - OS_AUTH_URL=${OS_AUTH_URL}
+    #  - OS_IDENTITY_API_VERSION=${OS_IDENTITY_API_VERSION}
+    #  - OS_IMAGE_API_VERSION=${OS_IMAGE_API_VERSION}
     network_mode: "host"
+    env_file:
+      - .env
 
-    #env_file:
-    #  - .env
 
