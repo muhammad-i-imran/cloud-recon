@@ -27,7 +27,7 @@ services:
     network_mode: "host"
   openstack_querier:
     image: muhammadimran/openstack-querier
-    environment:PRIVATE_KEY=
+    environment:
       - PRIVATE_KEY=${PRIVATE_KEY}  #env file doesn't support multiline string variable so far. private key is needed by python code to ssh VMs to get containers running inside those.
     #  - NEO4J_PYTHON_SERVICE=${NEO4J_PYTHON_SERVICE}
     #  - OS_PROJECT_DOMAIN_NAME=${OS_PROJECT_DOMAIN_NAME}
