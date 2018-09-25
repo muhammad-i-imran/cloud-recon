@@ -1,44 +1,48 @@
 from oslo_config import cfg
 import oslo_messaging
 
-#TODO: IN-PROGRESS
+### TODO: Refactor the code. add more event types, figure out callback or return a value in case of event occurence.
 class NotificationEndpoint(object):
     filter_rule = oslo_messaging.NotificationFilter(
+        event_type='compute.instance.(create|delete).end',
         publisher_id='^.*')
 
     def warn(self, ctxt, publisher_id, event_type, payload, metadata):
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+        print(ctxt)
         print(payload)
-        print()
+
     def info(self, ctxt, publisher_id, event_type, payload, metadata):
-        print("--------------------------------\n")
+        print(ctxt)
+
+        print(event_type)
         print(payload)
 
 class ErrorEndpoint(object):
     filter_rule = oslo_messaging.NotificationFilter(
         event_type='^.*$',
         context={'ctxt_key': 'regexp'})
-#        event_type='^instance\..*\.start$',
 
     def error(self, ctxt, publisher_id, event_type, payload, metadata):
-        print("###########################\n")
-
         print(payload)
 
-def start_notifier(url):
-    transport_url = url
-    transport = oslo_messaging.get_notification_transport(cfg.CONF, url=transport_url)
-    targets = [
-        oslo_messaging.Target(topic='notifications')
-    ]
-    endpoints = [
-        NotificationEndpoint(),
-        ErrorEndpoint(),
-    ]
-    pool = "listener-workers"
-    server = oslo_messaging.get_notification_listener(transport, targets,
-                                                  endpoints, executor='threading')
-    print('starting...')
-    server.start()
-    print('started...')
-    server.wait()
+class NotifierStarter(object):
+    def __init__(self, transport_url):
+        self.transport_url = transport_url
+    def start(self):
+        transport = oslo_messaging.get_notification_transport(cfg.CONF, url=self.transport_url)
+        targets = [
+            oslo_messaging.Target(topic='notifications')
+        ]
+        endpoints = [
+            NotificationEndpoint(),
+            ErrorEndpoint(),
+        ]
+        server = oslo_messaging.get_notification_listener(transport, targets,
+                                                          endpoints, executor='threading')
+        print('Starting server...')
+        server.start()
+        print('Started server...')
+        server.wait()
+
+starter = NotifierStarter("rabbit://openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.186:5672,openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.187:5672,openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.188:5672")
+starter.start()
