@@ -13,6 +13,7 @@ class NotificationEndpoint(object):
 
     def info(self, ctxt, publisher_id, event_type, payload, metadata):
         print(ctxt)
+        
 
         print(event_type)
         print(payload)
@@ -43,6 +44,3 @@ class NotifierStarter(object):
         server.start()
         print('Started server...')
         server.wait()
-
-starter = NotifierStarter("rabbit://openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.186:5672,openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.187:5672,openstack:xtiskHf79tA9gaD0M5mzsfyfq55Ox0YF2mkiWjow@130.149.249.188:5672")
-starter.start()
