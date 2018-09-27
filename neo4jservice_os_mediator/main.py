@@ -1,64 +1,14 @@
 import json
-import os
 import re
 import time
 
 from nodecreator import NodeCreator
-from openstackqueryapi.notifier import *
-from openstackqueryapi.queryos import *
+from openstackqueryapi import NotifierStarter
+from osqueriers import *
 from relationshipcreator import RelationshipCreator
 
 # TODO: Refactor the Code
 
-NodeCreator.NEO4J_SERVICE_URL = RelationshipCreator.NEO4J_SERVICE_URL = os.getenv('NEO4J_SERVICE_URL',
-                                                                                  'http://localhost:15135/neo4j')  # config.SERVICE_URL
-OS_AUTH_URL = os.getenv('OS_AUTH_URL', "http://x.x.x.x:5000")
-OS_USERNAME = os.getenv('OS_USERNAME', "xxxxxxxxxxxxxxxxxxx")
-OS_PASSWORD = os.getenv('OS_PASSWORD', "xxxxxxxxxxxxxxxxxxxxx")
-OS_PROJECT_ID = os.getenv('OS_TENANT_ID', "xxxxxxxxxxxxxxxxxxxxxxx")
-OS_API_VERSION = os.getenv('OS_API_VERSION', "2.0")
-NOTIFICATION_TRANSPORT_URL = os.getenv('NOTIFICATION_TRANSPORT_URL', "rabbit://openstack:xxxxx@x.x.x.x:5672")
-NOTIFICATION_EVENT_TYPE = os.getenv('NOTIFICATION_EVENT_TYPE', "^.*?.end$")
-NOTIFICATION_PUBLISHER_ID = os.getenv('NOTIFICATION_PUBLISHER_ID', "^.*")
-PRIVATE_KEY = os.getenv('PRIVATE_KEY', """-----BEGIN RSA PRIVATE KEY-----
------END RSA PRIVATE KEY-----""")
-
-
-def getOpenstackConnection(auth_url, username, password, project_id, version):
-    return OpenstackConnector(auth_url=auth_url, username=username, password=password, project_id=project_id,
-                              version=version)
-
-conn = getOpenstackConnection(auth_url=OS_AUTH_URL, username=OS_USERNAME, password=OS_PASSWORD,
-                              project_id=OS_PROJECT_ID, version=OS_API_VERSION)
-
-###################################################################################
-
-novaQuerier = NovaQuerier(conn)
-novaQuerier.connect()
-
-glanceQuerier = GlanceQuerier(conn)
-glanceQuerier.connect()
-
-neutronQuerier = NeutronQuerier(conn)
-neutronQuerier.connect()
-
-cinderQuerier = CinderQuerier(conn)
-cinderQuerier.connect()
-
-
-###################################################################################
-
-def readJsonFile(file_name):
-    openstack_info_file = open(file_name)
-    openstack_info_str = openstack_info_file.read()
-    return json.loads(openstack_info_str)
-
-
-config_file_path = os.getenv('CONFIG_FILE_PATH', 'openstack_info.json')
-openstack_info = readJsonFile(config_file_path)
-
-
-####################################################################################################
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
                                                                      node_type=node_type,
@@ -261,17 +211,23 @@ def begin_all():
     begin_node_create()
     begin_relationship_create()
 
+
 def notifier_callback():
     print("callback...")
     begin_all()
 
 def main():
+
+
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
     notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID, callback=notifier_callback)
 
     while True:
         begin_all()
-        time.sleep(600)  # check every 10 minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+        time.sleep(
+            600)  # check every 10 minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
 
 if __name__ == '__main__':
+    NodeCreator.NEO4J_SERVICE_URL = RelationshipCreator.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
+    openstack_info = json.loads(open(CONFIG_FILE_PATH).read())
     main()
