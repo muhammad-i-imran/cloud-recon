@@ -9,7 +9,7 @@ class NotificationEndpoint(object):
         self.filter_rule = oslo_messaging.NotificationFilter(
             event_type=event_type,
             publisher_id=publisher_id)
-        self.callback = callback # function is passed here and will be called upon occurence on an event defined in filer_rule
+        self.callback = callback # function is passed here and will be called upon occurence on an event defined in filter_rule
 
     def info(self, ctxt, publisher_id, event_type, payload, metadata):
         self.callback()
@@ -18,10 +18,10 @@ class NotifierStarter(object):
     def __init__(self, transport_url):
         self.transport_url = transport_url
 
-    def start(self, event_type, publisher_id, callback):
+    def start(self, event_type, publisher_id, topic_name, callback):
         transport = oslo_messaging.get_notification_transport(cfg.CONF, url=self.transport_url)
         targets = [
-            oslo_messaging.Target(topic='notifications')
+            oslo_messaging.Target(topic=topic_name)
         ]
         endpoints = [
             NotificationEndpoint(event_type=event_type, publisher_id=publisher_id, callback=callback)
@@ -32,10 +32,3 @@ class NotifierStarter(object):
         server.start()
         print('Started server...')
         server.wait()
-
-
-##usage:
-# def callback_func():
-#     print("Inside callback...")
-# ns = NotifierStarter("rabbit://openstack:xxxxxxxxxxxxxxxxxxxxxxxxx")
-# ns.start(event_type='^.*?.end$', publisher_id='^.*', callback=callback_func)

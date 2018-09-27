@@ -1,6 +1,8 @@
 from flatten_json import flatten
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
+from openstackqueryapi.queryos import CustomVirtualMachineQuerier
+import re
 
 class NodeCreator(object):
     NEO4J_SERVICE_URL = ""
@@ -29,32 +31,33 @@ class NodeCreator(object):
             nodes.append(node)
         return nodes
 
-    # @staticmethod
-    # def create_containers(key):
-    #     command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
-    #     for s in openstack_info["SERVERS"]["data"]:
-    #         server_id = s.node_attributes.__dict__["id"]
-    #         server = novaQuerier.getServer(server_id)
-    #
-    #         vmSshQuerier = CustomVirtualMachineQuerier()
-    #         ip = server.addresses["neo4j-private"][1]["addr"]
-    #         username = 'ubuntu'
-    #         private_key_content = PRIVATE_KEY
-    #         vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
-    #
-    #         stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
-    #         containers_string_info = stdout.readlines()[1:]
-    #         containers_list = []
-    #         for c in containers_string_info:
-    #             container_info_dict = {}
-    #             container_info = re.split(r'|', c)
-    #             container_info_dict["id"] = container_info[0]
-    #             container_info_dict["container_name"] = container_info[1]
-    #             container_info_dict["image_name"] = container_info[2]
-    #             container_info_dict["server_name"] = s.name
-    #             container_info_dict["server_id"] = server_id
-    #             containers_list.append(container_info_dict)
-    #
-    #         print(containers_list)
-    #         NodeCreator.prepareNodesData(containers_list, key, label_key="image_name", id_keys=["id"])
-    #         vmSshQuerier.closeConnection()
+    @classmethod
+    def create_containers_nodes(self, node_type, openstack_info, PRIVATE_KEY, novaQuerier):
+        command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
+        for s in openstack_info["SERVERS"]["data"]:
+            server_id = s.node_attributes.__dict__["id"]
+            server = novaQuerier.getServer(server_id)
+
+            vmSshQuerier = CustomVirtualMachineQuerier()
+            ip = server.addresses["neo4j-private"][1]["addr"]
+            username = 'ubuntu'
+            private_key_content = PRIVATE_KEY
+            vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
+
+            stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
+            containers_string_info = stdout.readlines()[1:]
+            containers_list = []
+            for c in containers_string_info:
+                container_info_dict = {}
+                container_info = re.split(r'|', c)
+                container_info_dict["id"] = container_info[0]
+                container_info_dict["container_name"] = container_info[1]
+                container_info_dict["image_name"] = container_info[2]
+                container_info_dict["server_name"] = s.name
+                container_info_dict["server_id"] = server_id
+                containers_list.append(container_info_dict)
+
+            print(containers_list)
+            NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="image_name",
+                                         id_keys=["id"])
+            vmSshQuerier.closeConnection()

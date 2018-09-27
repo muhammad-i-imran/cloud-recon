@@ -14,7 +14,7 @@ def create_servers(node_type):
                                                                      node_type=node_type,
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
-    create_containers("CONTAINERS")
+    NodeCreator.create_containers_nodes("CONTAINERS")
 
 
 def create_host_aggregates(node_type):
@@ -94,37 +94,6 @@ def create_routers(node_type):
                                                                      id_keys=openstack_info[node_type]["id_keys"])
 
 
-def create_containers(node_type):
-    command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
-    for s in openstack_info["SERVERS"]["data"]:
-        server_id = s.node_attributes.__dict__["id"]
-        server = novaQuerier.getServer(server_id)
-
-        vmSshQuerier = CustomVirtualMachineQuerier()
-        ip = server.addresses["neo4j-private"][1]["addr"]
-        username = 'ubuntu'
-        private_key_content = PRIVATE_KEY
-        vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
-
-        stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
-        containers_string_info = stdout.readlines()[1:]
-        containers_list = []
-        for c in containers_string_info:
-            container_info_dict = {}
-            container_info = re.split(r'|', c)
-            container_info_dict["id"] = container_info[0]
-            container_info_dict["container_name"] = container_info[1]
-            container_info_dict["image_name"] = container_info[2]
-            container_info_dict["server_name"] = s.name
-            container_info_dict["server_id"] = server_id
-            containers_list.append(container_info_dict)
-
-        print(containers_list)
-        NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="image_name",
-                                     id_keys=["id"])
-        vmSshQuerier.closeConnection()
-
-
 def not_supported():
     raise Exception("Not supported yet.")
 
@@ -146,7 +115,6 @@ def create_graph_elements(element_type):
     }
     func = switcher.get(element_type, lambda: not_supported)
     return func
-
 
 # think of a good name for this function
 def begin_node_create():
@@ -220,7 +188,7 @@ def main():
 
 
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
-    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID, callback=notifier_callback)
+    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID, topic_name=NOTIFICATION_TOPIC_NAME, callback=notifier_callback)
 
     while True:
         begin_all()
