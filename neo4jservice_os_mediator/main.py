@@ -4,9 +4,9 @@ import re
 import time
 
 from nodecreator import NodeCreator
+from openstackqueryapi.notifier import *
 from openstackqueryapi.queryos import *
 from relationshipcreator import RelationshipCreator
-from openstackqueryapi.notifier import *
 
 # TODO: Refactor the Code
 
@@ -18,6 +18,8 @@ OS_PASSWORD = os.getenv('OS_PASSWORD', "xxxxxxxxxxxxxxxxxxxxx")
 OS_PROJECT_ID = os.getenv('OS_TENANT_ID', "xxxxxxxxxxxxxxxxxxxxxxx")
 OS_API_VERSION = os.getenv('OS_API_VERSION', "2.0")
 NOTIFICATION_TRANSPORT_URL = os.getenv('NOTIFICATION_TRANSPORT_URL', "rabbit://openstack:xxxxx@x.x.x.x:5672")
+NOTIFICATION_EVENT_TYPE = os.getenv('NOTIFICATION_EVENT_TYPE', "^.*?.end$")
+NOTIFICATION_PUBLISHER_ID = os.getenv('NOTIFICATION_PUBLISHER_ID', "^.*")
 PRIVATE_KEY = os.getenv('PRIVATE_KEY', """-----BEGIN RSA PRIVATE KEY-----
 -----END RSA PRIVATE KEY-----""")
 
@@ -25,7 +27,6 @@ PRIVATE_KEY = os.getenv('PRIVATE_KEY', """-----BEGIN RSA PRIVATE KEY-----
 def getOpenstackConnection(auth_url, username, password, project_id, version):
     return OpenstackConnector(auth_url=auth_url, username=username, password=password, project_id=project_id,
                               version=version)
-
 
 conn = getOpenstackConnection(auth_url=OS_AUTH_URL, username=OS_USERNAME, password=OS_PASSWORD,
                               project_id=OS_PROJECT_ID, version=OS_API_VERSION)
@@ -255,17 +256,18 @@ def begin_relationship_create():
                                                             is_source_attr_name_regex=is_source_attr_name_regex,
                                                             is_target_attr_name_regex=is_target_attr_name_regex)
 
+
 def begin_all():
     begin_node_create()
     begin_relationship_create()
 
-def callback_func():
+def notifier_callback():
     print("callback...")
     begin_all()
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
-    notifier.start(event_type='^.*?.end$', publisher_id='^.*', callback=callback_func)
+    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID, callback=notifier_callback)
 
     while True:
         begin_all()
