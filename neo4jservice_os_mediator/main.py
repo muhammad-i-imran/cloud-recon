@@ -6,16 +6,18 @@ import time
 from nodecreator import NodeCreator
 from openstackqueryapi.queryos import *
 from relationshipcreator import RelationshipCreator
+from openstackqueryapi.notifier import *
 
 # TODO: Refactor the Code
 
 NodeCreator.NEO4J_SERVICE_URL = RelationshipCreator.NEO4J_SERVICE_URL = os.getenv('NEO4J_SERVICE_URL',
                                                                                   'http://localhost:15135/neo4j')  # config.SERVICE_URL
-OS_AUTH_URL = os.getenv('OS_AUTH_URL', "http://130.149.249.252:5000")
-OS_USERNAME = os.getenv('OS_USERNAME', "muhammad")
-OS_PASSWORD = os.getenv('OS_PASSWORD', "CIT123456")
-OS_PROJECT_ID = os.getenv('OS_TENANT_ID', "e326f15678674e3cbc83097659171e8f")
+OS_AUTH_URL = os.getenv('OS_AUTH_URL', "http://x.x.x.x:5000")
+OS_USERNAME = os.getenv('OS_USERNAME', "xxxxxxxxxxxxxxxxxxx")
+OS_PASSWORD = os.getenv('OS_PASSWORD', "xxxxxxxxxxxxxxxxxxxxx")
+OS_PROJECT_ID = os.getenv('OS_TENANT_ID', "xxxxxxxxxxxxxxxxxxxxxxx")
 OS_API_VERSION = os.getenv('OS_API_VERSION', "2.0")
+NOTIFICATION_TRANSPORT_URL = os.getenv('NOTIFICATION_TRANSPORT_URL', "rabbit://openstack:xxxxx@x.x.x.x:5672")
 PRIVATE_KEY = os.getenv('PRIVATE_KEY', """-----BEGIN RSA PRIVATE KEY-----
 -----END RSA PRIVATE KEY-----""")
 
@@ -253,13 +255,21 @@ def begin_relationship_create():
                                                             is_source_attr_name_regex=is_source_attr_name_regex,
                                                             is_target_attr_name_regex=is_target_attr_name_regex)
 
+def begin_all():
+    begin_node_create()
+    begin_relationship_create()
+
+def callback_func():
+    print("callback...")
+    begin_all()
 
 def main():
-    while True:
-        begin_node_create()
-        begin_relationship_create
-        time.sleep(600)  # if an event doesn't occus then it will check every 10 minutes
+    notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
+    notifier.start(event_type='^.*?.end$', publisher_id='^.*', callback=callback_func)
 
+    while True:
+        begin_all()
+        time.sleep(600)  # check every 10 minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
 
 if __name__ == '__main__':
     main()
