@@ -14,7 +14,7 @@ def create_servers(node_type):
                                                                      node_type=node_type,
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
-    NodeCreator.create_containers_nodes("CONTAINERS")
+    NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier)
 
 
 def create_host_aggregates(node_type):

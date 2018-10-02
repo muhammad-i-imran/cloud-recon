@@ -32,7 +32,7 @@ class NodeCreator(object):
         return nodes
 
     @classmethod
-    def create_containers_nodes(self, node_type, openstack_info, PRIVATE_KEY, novaQuerier):
+    def create_containers_nodes(self, node_type, openstack_info, private_key_file_path, novaQuerier):
         command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
         for s in openstack_info["SERVERS"]["data"]:
             server_id = s.node_attributes.__dict__["id"]
@@ -41,8 +41,7 @@ class NodeCreator(object):
             vmSshQuerier = CustomVirtualMachineQuerier()
             ip = server.addresses["neo4j-private"][1]["addr"]
             username = 'ubuntu'
-            private_key_content = PRIVATE_KEY
-            vmSshQuerier.connect(ip=ip, username=username, private_key_content=private_key_content)
+            vmSshQuerier.connect(ip=ip, username=username, private_key_file_path=private_key_file_path)
 
             stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
             containers_string_info = stdout.readlines()[1:]

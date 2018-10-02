@@ -4,7 +4,7 @@ RUN apt-get update -y
 RUN mkdir -p  /openstack_neo4j_service
 WORKDIR /openstack_neo4j_service
 
-RUN apt-get install -y python-pip python-dev build-essential nano
+RUN apt-get install -y python-pip python-dev build-essential nano netcat
 
 COPY graph_service_interface_schema  /openstack_neo4j_service/graph_service_interface_schema
 COPY neo4jservice_os_mediator  /openstack_neo4j_service/neo4jservice_os_mediator
