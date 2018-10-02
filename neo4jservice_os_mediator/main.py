@@ -2,12 +2,15 @@ import json
 import re
 import time
 
+from multiprocessing import Pool
 from nodecreator import NodeCreator
 from openstackqueryapi import NotifierStarter
 from osqueriers import *
 from relationshipcreator import RelationshipCreator
 
+
 # TODO: Refactor the Code
+
 
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
@@ -116,6 +119,7 @@ def create_graph_elements(element_type):
     func = switcher.get(element_type, lambda: not_supported)
     return func
 
+
 # think of a good name for this function
 def begin_node_create():
     for node_type in openstack_info.keys():
@@ -180,20 +184,30 @@ def begin_all():
     begin_relationship_create()
 
 
+def dummy_callback():
+    print("dummy callback")
+
+
 def notifier_callback():
     print("callback...")
     begin_all()
 
+
 def main():
-
-
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
-    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID, topic_name=NOTIFICATION_TOPIC_NAME, callback=notifier_callback)
+    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID,
+                   topic_name=NOTIFICATION_TOPIC_NAME, callback=notifier_callback)
+
+    pool = Pool(processes=1)
+    pool.apply_async(notifier.start,
+                     [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
+                     dummy_callback)
 
     while True:
         begin_all()
         time.sleep(
             600)  # check every 10 minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+
 
 if __name__ == '__main__':
     NodeCreator.NEO4J_SERVICE_URL = RelationshipCreator.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
