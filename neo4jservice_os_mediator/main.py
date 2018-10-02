@@ -17,7 +17,7 @@ def create_servers(node_type):
                                                                      node_type=node_type,
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
-    NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier)
+    NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
 
 
 def create_host_aggregates(node_type):
@@ -195,8 +195,6 @@ def notifier_callback():
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
-    notifier.start(event_type=NOTIFICATION_EVENT_TYPE, publisher_id=NOTIFICATION_PUBLISHER_ID,
-                   topic_name=NOTIFICATION_TOPIC_NAME, callback=notifier_callback)
 
     pool = Pool(processes=1)
     pool.apply_async(notifier.start,
