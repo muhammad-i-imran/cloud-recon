@@ -8,7 +8,7 @@ python-ironicclient==2.5.0
 python-swiftclient==3.6.0
 python-cinderclient==4.0.1
 python-openstackclient==3.16.1
-paramiko==2.4.1
+paramiko==2.4.2
 flatten-json==0.1.6
 oslo.messaging==8.1.2
 oslo.config==6.5.1
