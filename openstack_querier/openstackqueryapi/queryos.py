@@ -11,7 +11,7 @@ import subprocess
 
 class OpenstackConnector(object):
     def __init__(self, auth_url, username, password, project_name, os_user_domain_name="Default",
-                 os_project_domain_id="default", api_version="2"):
+                 os_project_domain_id="default", api_version="2", loader_option="password"):
         self.auth_url = auth_url
         self.username = username
         self.password = password
@@ -19,6 +19,19 @@ class OpenstackConnector(object):
         self.project_domain_id = os_project_domain_id
         self.user_domain_name = os_user_domain_name
         self.api_version = api_version
+        self.loader_option=loader_option  #for loader_option other than password or v3password, different parameters might be needed
+
+    def getSession(self):
+        loader = loading.get_plugin_loader(self.loader_option)
+        auth = loader.load_from_options(auth_url=self.auth_url,
+                                        username=self.username,
+                                        password=self.password,
+                                        project_name=self.project_name,
+                                        user_domain_name=self.user_domain_name,
+                                        project_domain_id=self.project_domain_id
+                                        )
+        sess = session.Session(auth=auth)
+        return sess
 
 
 class NovaQuerier(object):
@@ -26,18 +39,11 @@ class NovaQuerier(object):
         self.nova = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         from novaclient.v2 import client
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
-        sess = session.Session(auth=auth)
+        sess=self.os_connector.getSession()
+
         self.nova = client.client.Client(version=self.os_connector.api_version, session=sess)
 
     def getFlavors(self):
@@ -80,18 +86,11 @@ class NeutronQuerier(object):
         self.neutron = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         from neutronclient.v2_0 import client as neutronclient
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
-        sess = session.Session(auth=auth)
+        sess = self.os_connector.getSession()
+
         self.neutron = neutronclient.Client(session=sess)
 
     def getNetworks(self):
@@ -113,19 +112,11 @@ class GlanceQuerier(object):
         self.glance = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         import glanceclient
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
+        sess = self.os_connector.getSession()
 
-        sess = session.Session(auth=auth)
         self.glance = glanceclient.Client(version='1', session=sess)
 
     def getImages(self):
@@ -142,18 +133,9 @@ class CinderQuerier(object):
         self.cinder = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         import cinderclient.v2
-
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
-        sess = session.Session(auth=auth)
+        sess = self.os_connector.getSession()
         self.cinder = cinderclient.v2.Client(session=sess)
 
     def getVolumes(self):
@@ -166,18 +148,11 @@ class ManilaQuerier(object):
         self.manila = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         import manilaclient.v2
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
-        sess = session.Session(auth=auth)
+        sess = self.os_connector.getSession()
+
         self.manila = manilaclient.v2.client.Client('2', session=sess)
 
 
@@ -186,19 +161,11 @@ class IronicQuerier(object):
         self.ironic = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         import ironicclient.v1.client
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
+        sess = self.os_connector.getSession()
 
-        sess = session.Session(auth=auth)
         self.ironic = ironicclient.v1.client.Client('1', session=sess)
 
 
@@ -207,19 +174,11 @@ class SwiftQuerier(object):
         self.swift = None
         self.os_connector = os_connector
 
-    def connect(self, loader_option="password"):
+    def connect(self):
         import swiftclient
 
-        loader = loading.get_plugin_loader(loader_option)
-        auth = loader.load_from_options(auth_url=self.os_connector.auth_url,
-                                        username=self.os_connector.username,
-                                        password=self.os_connector.password,
-                                        project_name=self.os_connector.project_name,
-                                        user_domain_name=self.os_connector.user_domain_name,
-                                        project_domain_id=self.os_connector.project_domain_id
-                                        )
+        sess = self.os_connector.getSession()
 
-        sess = session.Session(auth=auth)
         self.swift = swiftclient.client.Connection(session=sess)
 
 
