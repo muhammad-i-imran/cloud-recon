@@ -27,6 +27,8 @@ services:
       - GRAPHDB_USER=${GRAPHDB_USER}
       - GRAPHDB_PASS=${GRAPHDB_PASS}
     network_mode: "host"
+    #it may take longer for neo4j to run, so wait for it before starting this service
+    command: ["/wait-for-neo4j.sh", "x.x.x.x", "7687", "python3.6", "/openstack_neo4j_service/graph_service_resource/main.py"]
   openstack_querier:
     image: muhammadimran/openstack-querier
     depends_on:
@@ -35,5 +37,7 @@ services:
     volumes:
       - ${HOME}/.ssh/cit.key:/private_key.key
     network_mode: "host"
+    #it may take longer for the dependent component to run, so wait for it before starting this mediator
+    command: ["/wait-for-neo4j-service.sh", "x.x.x.x", "15135", "python3.6", "/openstack_neo4j_service/neo4jservice_os_mediator/main.py"]
     env_file:
       - .env
