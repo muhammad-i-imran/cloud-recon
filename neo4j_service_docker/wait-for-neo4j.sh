@@ -14,4 +14,4 @@ until $(nc -z "$host_name" "$port"); do
 done
 
 >&2 echo "Neo4J is available now. Executing the default command."
-exec $overridden_command
+eval $overridden_command
