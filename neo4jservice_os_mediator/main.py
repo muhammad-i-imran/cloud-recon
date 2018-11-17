@@ -17,8 +17,16 @@ def create_servers(node_type):
                                                                      node_type=node_type,
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
-    NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
 
+    #NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
+
+def create_containers(node_type):
+    openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
+                                                                     node_type=node_type,
+                                                                     label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_keys=openstack_info[node_type]["id_keys"])
+
+    #NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
 
 def create_host_aggregates(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getHostAggregates(),
@@ -114,7 +122,8 @@ def create_graph_elements(element_type):
         "IMAGES": create_images,
         "NETWORKS": create_networks,
         "SUBNETS": create_subnets,
-        "ROUTERS": create_routers
+        "ROUTERS": create_routers,
+        "CONTAINERS": create_containers
     }
     func = switcher.get(element_type, lambda: not_supported)
     return func
@@ -124,11 +133,10 @@ def create_graph_elements(element_type):
 def begin_node_create():
     for node_type in openstack_info.keys():
         create_graph_elements(node_type)(node_type)
-
-    for key in openstack_info.keys():
-        print(key)
-        for d in openstack_info[key]["data"]:
-            print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
+    # for key in openstack_info.keys():
+    #     print(key)
+    #     for d in openstack_info[key]["data"]:
+    #         print(d.__dict__["name"] + ":" + str(d.__dict__["node_attributes"].__dict__))
 
 
 # think of a good name for this function
@@ -140,6 +148,7 @@ def begin_relationship_create():
 
         relationships_info = openstack_info[key]["RELATIONSHIPS"]
         data = openstack_info[key]["data"]
+        print("KEY: " + key)
         for relationship in relationships_info:
             source_attr_name = relationship["source_attr_name"]
             is_source_attr_name_regex = relationship["is_source_attr_name_regex"]
@@ -189,7 +198,6 @@ def dummy_callback():
 
 
 def notifier_callback():
-    print("callback...")
     begin_all()
 
 
@@ -199,12 +207,13 @@ def main():
     pool = Pool(processes=1)
     pool.apply_async(notifier.start,
                      [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
-                     dummy_callback)
+                     None)
+
 
     while True:
         begin_all()
         time.sleep(
-            600)  # check every 10 minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+            int(TIME_TO_WAIT))  # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
 
 
 if __name__ == '__main__':

@@ -117,10 +117,12 @@ class GlanceQuerier(object):
 
         sess = self.os_connector.getSession()
 
-        self.glance = glanceclient.Client(version='1', session=sess)
+        self.glance = glanceclient.Client('2', session=sess)
 
     def getImages(self):
-        images_list = self.glance.images.list()
+        images_list=[]
+        for img in self.glance.images.list():
+            images_list.append(img.__dict__["__original__"])
         return images_list
 
     def getImageMembers(self, image_id):

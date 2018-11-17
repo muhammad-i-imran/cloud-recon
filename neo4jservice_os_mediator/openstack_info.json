@@ -31,6 +31,7 @@
       {
         "source_attr_name": "key_name",
         "is_source_attr_name_regex": false,
+        "is_sou yource_attr_name_regex": false,
         "target_node_type": "KEY_PAIRS",
         "target_node_attr_name": "_info___keypair___name",
         "is_target_attr_name_regex": false,

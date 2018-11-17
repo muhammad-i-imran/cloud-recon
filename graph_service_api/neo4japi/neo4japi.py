@@ -5,22 +5,23 @@ from .IllegalArgumentError import IllegalArgumentError
 class Neo4JApi(object):
     def __init__(self, uri, user, password):
         self.graph = Graph(uri=uri, user=user, password=password)
-        # self.graph.schema.create_uniqueness_constraint('type', 'id')
-
 
     def get_nodes(self, node_type):
         matcher = NodeMatcher(self.graph)
-        nodes = matcher.match(node_type)  # .match(first_node_type, name=first_node).first()
+        nodes = matcher.match(node_type)
         return list(nodes)
 
     def create_node(self, node_type, id_keys, label, node_attributes={}):
         # TODO: create only unique nodes. move ti somewhere else later to avoid repetition of execution of this line
-        self.graph.schema.create_uniqueness_constraint(node_type, *id_keys)
+        try:
+            self.graph.schema.create_uniqueness_constraint(node_type, *id_keys)
+        except Exception  as e:
+            print(e)
+            pass
 
-        if not label:
-            raise IllegalArgumentError('You must have to provide a label.')
-        if not node_attributes:
-            node_attributes = {}
+        label = label if label else node_type
+        node_attributes = node_attributes if node_attributes else {}
+
         # nesting is not allowed by the API
         dict_depth = self.__depth(node_attributes)
         if dict_depth > 1:
@@ -29,6 +30,7 @@ class Neo4JApi(object):
         node = Node(node_type, name=label, **node_attributes)
         try:
             self.graph.create(node)
+            print("----------------------------------------------------NODE CREATED")
             return 201, "Node has been created."
         except Exception as ex:
             print("Exception occured: ", ex)
@@ -76,27 +78,6 @@ class Neo4JApi(object):
         for node1 in source_nodes:
             for node2 in target_nodes:
                 self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
-
-    ###############################################
-
-    # def create_relationship(self, first_node_type, second_node_type, first_node, second_node, first_node_attr,
-    #                         second_node_attr, relationship, relationship_attributes):
-    #     if not first_node or not second_node or not relationship:
-    #         raise IllegalArgumentError("Please provide valid nodes and relationships.")
-    #     dict_depth = self.__depth(relationship_attributes)
-    #     if dict_depth > 1:
-    #         raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
-    #
-    #     # TODO: check if we can add relationships to all nodes with same names and types (instead of taking first())
-    #
-    #     nodes_1 = self.find_node(first_node_type, first_node_attr, first_node)
-    #     nodes_2 = self.find_node(second_node_type, second_node_attr, second_node)
-    #
-    #     for node1 in nodes_1:
-    #         for node2 in nodes_2:
-    #             self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
-    #
-    #################################################
 
     def add_node_attr(self, node_type, node_name, node_attributes):
         matcher = NodeMatcher(self.graph)
