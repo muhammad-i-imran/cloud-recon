@@ -245,5 +245,24 @@
     "id_keys": ["id"],
     "data": [],
     "RELATIONSHIPS": []
+  },
+  "CONTAINERS": {
+    "name_attr": "name",
+    "id_keys": ["id"],
+    "data": [],
+    "RELATIONSHIPS": [
+      {
+        "source_attr_name": "server_name",
+        "is_source_attr_name_regex": false,
+        "target_node_type": "SERVERS",
+        "target_node_attr_name": "name",
+        "is_target_attr_name_regex": false,
+        "target_value_data_type": "string",
+        "relationship_name": "DEPLOYED_ON",
+        "relationship_attrs": {
+          "STATUS": "ACTIVE"
+        }
+      }
+    ]
   }
 }

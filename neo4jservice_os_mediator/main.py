@@ -18,15 +18,9 @@ def create_servers(node_type):
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
 
-    #NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
-
 def create_containers(node_type):
-    openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
-                                                                     node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+    openstack_info[node_type]["data"] = NodeCreator.create_containers_nodes(node_type, openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
 
-    #NodeCreator.create_containers_nodes("CONTAINERS", openstack_info, PRIVATE_KEY_PATH, novaQuerier, VM_USERNAME)
 
 def create_host_aggregates(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getHostAggregates(),
@@ -131,8 +125,17 @@ def create_graph_elements(element_type):
 
 # think of a good name for this function
 def begin_node_create():
-    for node_type in openstack_info.keys():
+    nodes = list(openstack_info.keys())
+    nodes.remove("CONTAINERS")
+    for node_type in nodes:
         create_graph_elements(node_type)(node_type)
+
+    #for container (because it depends on SERVERS)
+    try:
+        create_graph_elements("CONTAINERS")("CONTAINERS")
+    except:
+        pass
+
     # for key in openstack_info.keys():
     #     print(key)
     #     for d in openstack_info[key]["data"]:
@@ -188,9 +191,14 @@ def begin_relationship_create():
                                                             is_target_attr_name_regex=is_target_attr_name_regex)
 
 
+
+
 def begin_all():
-    begin_node_create()
-    begin_relationship_create()
+    try:
+        begin_node_create()
+        begin_relationship_create()
+    except:
+        pass
 
 
 def dummy_callback():
@@ -209,11 +217,11 @@ def main():
                      [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
                      None)
 
-
     while True:
         begin_all()
         time.sleep(
-            int(TIME_TO_WAIT))  # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+            int(
+                TIME_TO_WAIT))  # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
 
 
 if __name__ == '__main__':

@@ -33,6 +33,13 @@ class NodeCreator(object):
 
     @classmethod
     def create_containers_nodes(self, node_type, openstack_info, private_key_file_path, novaQuerier, vm_username):
+        if not openstack_info["SERVERS"]["data"]:
+            return
+
+        nodes = []
+
+        ##TODO: ADD CONTAINER DTAA IN OPENSTACK_INFO
+
         command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
         for s in openstack_info["SERVERS"]["data"]:
             server_id = s.node_attributes.__dict__["id"]
@@ -50,12 +57,17 @@ class NodeCreator(object):
                 container_info = re.split(r'|', c)
                 container_info_dict["id"] = container_info[0]
                 container_info_dict["container_name"] = container_info[1]
-                container_info_dict["image_name"] = container_info[2]
+                container_info_dict["name"] = container_info[2]
                 container_info_dict["server_name"] = s.name
                 container_info_dict["server_id"] = server_id
                 containers_list.append(container_info_dict)
 
             print(containers_list)
-            NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="image_name",
+            nodes = NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="name",
                                          id_keys=["id"])
-            vmSshQuerier.closeConnection()
+            try:
+                vmSshQuerier.closeConnection()
+            except:
+                pass
+
+            return nodes
