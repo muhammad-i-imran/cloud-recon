@@ -63,7 +63,7 @@ class NovaQuerier(object):
         return hypervisors_list
 
     def getServers(self):
-        servers_list = self.nova.servers.list()
+        servers_list = self.nova.servers.list(search_opts={'all_tenants': 1})
         return servers_list
 
     def getAvailabilityZones(self):
