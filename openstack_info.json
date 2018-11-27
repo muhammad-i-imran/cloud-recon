@@ -52,6 +52,18 @@
         "relationship_attrs": {
           "STATUS": "ACTIVE"
         }
+      },
+      {
+        "source_attr_name": "_info___os-extended-volumes:volumes_attached___(\\d+)___id",
+        "is_source_attr_name_regex": true,
+        "target_node_type": "VOLUMES",
+        "target_node_attr_name": "id",
+        "is_target_attr_name_regex": false,
+        "target_value_data_type": "string",
+        "relationship_name": "USES",
+        "relationship_attrs": {
+          "STATUS": "ACTIVE"
+        }
       }
     ]
   },
@@ -88,7 +100,7 @@
         "source_attr_name": "availability_zones___(\\d+)",
         "is_source_attr_name_regex": true,
         "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
+        "target_node_attr_name": "id",
         "is_target_attr_name_regex": false,
         "target_value_data_type": "string",
         "relationship_name": "DEPENDS_ON",
