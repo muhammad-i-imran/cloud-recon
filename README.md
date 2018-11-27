@@ -1,3 +1,4 @@
+
 # Python-based Service to Store Openstack Cloud Infrastructure Data in a Neo4j Database
 
 The code is to be used in two docker images--`openstack-neo4j-service` and `openstack-querier`.  `openstack-neo4j-service` image should contain `graph_service_api` and `graph_service_resource` modules. `openstack-querier` image should contain `neo4jservice_os_mediator`, `openstack_querier`, and `graph_service_interface_schema` modules.
@@ -12,3 +13,6 @@ The code is to be used in two docker images--`openstack-neo4j-service` and `open
 - Provide Envrionment variables required in `docker-compose.yml` file
 - Run `docker-compose.yml` file by running the following command: 
 `sudo docker-compose up -d`
+
+
+##### Note:  The private key file used in docker-compose.yml file for openstack-querier server should have valid file permission (e.g. 400).

@@ -54,7 +54,7 @@ class NodeCreator(object):
             containers_list = []
             for c in containers_string_info:
                 container_info_dict = {}
-                container_info = re.split(r'|', c)
+                container_info = c.split('|')
                 container_info_dict["id"] = container_info[0]
                 container_info_dict["container_name"] = container_info[1]
                 container_info_dict["name"] = container_info[2]
