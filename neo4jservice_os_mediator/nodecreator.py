@@ -2,7 +2,8 @@ from flatten_json import flatten
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
 from openstackqueryapi.queryos import CustomVirtualMachineQuerier
-import re
+import json
+
 
 class NodeCreator(object):
     NEO4J_SERVICE_URL = ""
@@ -21,9 +22,6 @@ class NodeCreator(object):
         nodes = []
         for i in data_list:
             info = i if type(i) is dict else i.__dict__
-            # id = info[id_key]
-
-            # info["id"] = info[id_key]
             label = info.pop(label_key, None)
 
             flatten_info_dict = flatten(info, separator="___")
@@ -35,12 +33,8 @@ class NodeCreator(object):
     def create_containers_nodes(self, node_type, openstack_info, private_key_file_path, novaQuerier, vm_username):
         if not openstack_info["SERVERS"]["data"]:
             return
-
-        nodes = []
-
-        ##TODO: ADD CONTAINER DTAA IN OPENSTACK_INFO
-
-        command = "sudo docker ps --format \"table {{.ID}}|{{.Names}}|{{.Image}}\""
+        global nodes
+        command = "sudo docker ps --format \"{{json .}}\""
         for s in openstack_info["SERVERS"]["data"]:
             server_id = s.node_attributes.__dict__["id"]
             server = novaQuerier.getServer(server_id)
@@ -50,19 +44,21 @@ class NodeCreator(object):
             vmSshQuerier.connect(ip=ip, username=vm_username, private_key_file_path=private_key_file_path)
 
             stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
-            containers_string_info = stdout.readlines()[1:]
+            containers_string_info = stdout.readlines()
             containers_list = []
             for c in containers_string_info:
                 container_info_dict = {}
-                container_info = c.split('|')
-                container_info_dict["id"] = container_info[0]
-                container_info_dict["container_name"] = container_info[1]
-                container_info_dict["name"] = container_info[2]
+                container_info = json.load(c)
+                container_info_dict["id"] = container_info["ID"]
+                container_info_dict["container_name"] = container_info["Names"]
+                container_info_dict["name"] = container_info["Image"]
+                container_info_dict["ports"] = container_info["Ports"]
+                container_info_dict["networks"] = container_info["Networks"]
+                container_info_dict["mounts"] = container_info["Mounts"]
                 container_info_dict["server_name"] = s.name
                 container_info_dict["server_id"] = server_id
                 containers_list.append(container_info_dict)
 
-            print(containers_list)
             nodes = NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="name",
                                          id_keys=["id"])
             try:
