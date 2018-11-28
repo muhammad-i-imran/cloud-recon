@@ -100,7 +100,7 @@
         "source_attr_name": "availability_zones___(\\d+)",
         "is_source_attr_name_regex": true,
         "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "id",
+        "target_node_attr_name": "name",
         "is_target_attr_name_regex": false,
         "target_value_data_type": "string",
         "relationship_name": "DEPENDS_ON",
