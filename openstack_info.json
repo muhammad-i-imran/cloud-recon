@@ -1,4 +1,4 @@
-{
+{ 
   "SERVERS": {
     "name_attr": "name",
     "id_keys": ["id"],
@@ -63,7 +63,19 @@
         "relationship_name": "USES",
         "relationship_attrs": {
           "STATUS": "ACTIVE"
-        }
+        },
+      },
+      {
+        "source_attr_name": "user_id",
+        "is_source_attr_name_regex": false,
+        "target_node_type": "USERS",
+        "target_node_attr_name": "id",
+        "is_target_attr_name_regex": false,
+        "target_value_data_type": "string",
+        "relationship_name": "CREATED_BY",
+        "relationship_attrs": {
+          "STATUS": "ACTIVE"
+        },
       }
     ]
   },
@@ -253,6 +265,12 @@
     ]
   },
   "SUBNETS": {
+    "name_attr": "name",
+    "id_keys": ["id"],
+    "data": [],
+    "RELATIONSHIPS": []
+  },
+  "USERS": {
     "name_attr": "name",
     "id_keys": ["id"],
     "data": [],

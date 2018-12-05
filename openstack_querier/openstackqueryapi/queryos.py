@@ -41,9 +41,7 @@ class NovaQuerier(object):
 
     def connect(self):
         from novaclient.v2 import client
-
         sess=self.os_connector.getSession()
-
         self.nova = client.client.Client(version=self.os_connector.api_version, session=sess)
 
     def getFlavors(self):
@@ -88,9 +86,7 @@ class NeutronQuerier(object):
 
     def connect(self):
         from neutronclient.v2_0 import client as neutronclient
-
         sess = self.os_connector.getSession()
-
         self.neutron = neutronclient.Client(session=sess)
 
     def getNetworks(self):
@@ -114,9 +110,7 @@ class GlanceQuerier(object):
 
     def connect(self):
         import glanceclient
-
         sess = self.os_connector.getSession()
-
         self.glance = glanceclient.Client('2', session=sess)
 
     def getImages(self):
@@ -129,6 +123,29 @@ class GlanceQuerier(object):
         image_members_list = self.glance.image_members.list(image_id)
         return image_members_list
 
+class KeystoneQuerier(object):
+    def __init__(self, os_connector):
+        self.keystone = None
+        self.os_connector = os_connector
+
+    def connect(self):
+        from keystoneclient.v2_0 import client as keystoneclient
+        sess = self.os_connector.getSession()
+        self.keystone = keystoneclient.Client('2', session=sess) ############################ NOT SURE
+
+    def getUsers(self):
+        users_list = self.keystone.users.list()
+        return users_list
+
+    def getServices(self):
+        services_list = self.keystone.services.list()
+        return services_list
+    def getTenants(self):
+        tenants_list = self.keystone.tenants.list()
+        return tenants_list
+    def getRoles(self):
+        roles_list = self.keystone.roles.list()
+        return roles_list
 
 class CinderQuerier(object):
     def __init__(self, os_connector):
@@ -152,9 +169,7 @@ class ManilaQuerier(object):
 
     def connect(self):
         import manilaclient.v2
-
         sess = self.os_connector.getSession()
-
         self.manila = manilaclient.v2.client.Client('2', session=sess)
 
 
@@ -165,9 +180,7 @@ class IronicQuerier(object):
 
     def connect(self):
         import ironicclient.v1.client
-
         sess = self.os_connector.getSession()
-
         self.ironic = ironicclient.v1.client.Client('1', session=sess)
 
 
@@ -178,9 +191,7 @@ class SwiftQuerier(object):
 
     def connect(self):
         import swiftclient
-
         sess = self.os_connector.getSession()
-
         self.swift = swiftclient.client.Connection(session=sess)
 
 

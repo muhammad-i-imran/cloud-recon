@@ -25,3 +25,6 @@ neutronQuerier.connect()
 
 cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
+
+keystoneQuerier = KeystoneQuerier(conn)
+keystoneQuerier.connect()

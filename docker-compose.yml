@@ -35,8 +35,8 @@ services:
       - "neo4j"
       - "neo4j_service"
     volumes:
-      - ${HOME}/.ssh/cit.key:/private_key.key
-      - ${HOME}/neo4j/openstack_info.json:/openstack_info.json
+      - ./ssh_keys:/user_keys   #since we are getting VMs for all users, so need to get more than one key file. the keys in ssh_keys should have the same name as user_name in openstack
+      - ./openstack_info.json:/openstack_info.json
     network_mode: "host"
     #it may take longer for the dependent component to run, so wait for it before starting this mediator
     command: ["/wait-for-neo4j-service.sh", "x.x.x.x", "15135", "python3", "/openstack_neo4j_service/neo4jservice_os_mediator/main.py"]
