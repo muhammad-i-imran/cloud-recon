@@ -21,8 +21,11 @@ def create_servers(node_type):
 
 
 def create_containers(node_type):
-    openstack_info[node_type]["data"] = NodeCreator.create_containers_nodes(node_type, openstack_info, PRIVATE_KEY_PATH,
-                                                                            novaQuerier, VM_USERNAME)
+    openstack_info[node_type]["data"] = NodeCreator.create_containers_nodes(node_type=node_type,
+                                                                            openstack_info=openstack_info,
+                                                                            private_keys_folder=PRIVATE_KEYS_FOLDER,
+                                                                            nova_querier=novaQuerier,
+                                                                            vm_username=VM_USERNAME)
 
 
 def create_host_aggregates(node_type):
@@ -100,6 +103,7 @@ def create_routers(node_type):
                                                                      node_type=node_type,
                                                                      label_key=openstack_info[node_type]["name_attr"],
                                                                      id_keys=openstack_info[node_type]["id_keys"])
+
 
 def create_users(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=keystoneQuerier.getUsers(),

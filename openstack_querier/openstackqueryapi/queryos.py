@@ -129,9 +129,9 @@ class KeystoneQuerier(object):
         self.os_connector = os_connector
 
     def connect(self):
-        from keystoneclient.v2_0 import client as keystoneclient
+        from keystoneclient.v3 import client as keystoneclient
         sess = self.os_connector.getSession()
-        self.keystone = keystoneclient.Client('2', session=sess) ############################ NOT SURE
+        self.keystone = keystoneclient.Client(session=sess)
 
     def getUsers(self):
         users_list = self.keystone.users.list()
@@ -140,9 +140,11 @@ class KeystoneQuerier(object):
     def getServices(self):
         services_list = self.keystone.services.list()
         return services_list
+
     def getTenants(self):
         tenants_list = self.keystone.tenants.list()
         return tenants_list
+
     def getRoles(self):
         roles_list = self.keystone.roles.list()
         return roles_list

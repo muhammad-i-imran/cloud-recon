@@ -3,6 +3,7 @@ from graphserviceschema.serviceschema import *
 from mediator.caller import *
 from openstackqueryapi.queryos import CustomVirtualMachineQuerier
 import json
+import os
 
 
 class NodeCreator(object):
@@ -30,25 +31,28 @@ class NodeCreator(object):
         return nodes
 
     @classmethod
-    def create_containers_nodes(self, node_type, openstack_info, private_key_file_path, novaQuerier, vm_username):
+    def create_containers_nodes(self, node_type, openstack_info, private_keys_folder, nova_querier, vm_username):
         if not openstack_info["SERVERS"]["data"]:
             return
         global nodes
         command = "sudo docker ps --format \"{{json .}}\""
         for s in openstack_info["SERVERS"]["data"]:
             server_id = s.node_attributes.__dict__["id"]
-            server = novaQuerier.getServer(server_id)
+            server = nova_querier.getServer(server_id) #TODO: MOVE IT TO main.py
 
             vmSshQuerier = CustomVirtualMachineQuerier()
             ip = server.addresses[list(server.addresses.keys())[0]][1]["addr"]
-            vmSshQuerier.connect(ip=ip, username=vm_username, private_key_file_path=private_key_file_path)
+            private_key_path = os.path.join(private_keys_folder, server.user_id)
+            if not os.path.exists(private_key_path):
+                continue
+            vmSshQuerier.connect(ip=ip, username=vm_username, private_key_file_path=private_key_path)
 
             stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
             containers_string_info = stdout.readlines()
             containers_list = []
             for c in containers_string_info:
                 container_info_dict = {}
-                container_info = json.load(c)
+                container_info = json.loads(c)
                 container_info_dict["id"] = container_info["ID"]
                 container_info_dict["container_name"] = container_info["Names"]
                 container_info_dict["name"] = container_info["Image"]

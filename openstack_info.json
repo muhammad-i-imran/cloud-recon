@@ -63,7 +63,7 @@
         "relationship_name": "USES",
         "relationship_attrs": {
           "STATUS": "ACTIVE"
-        },
+        }
       },
       {
         "source_attr_name": "user_id",
@@ -75,7 +75,7 @@
         "relationship_name": "CREATED_BY",
         "relationship_attrs": {
           "STATUS": "ACTIVE"
-        },
+        }
       }
     ]
   },
