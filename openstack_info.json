@@ -1,7 +1,7 @@
 { 
   "SERVERS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -81,7 +81,7 @@
   },
   "ROUTERS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -124,7 +124,7 @@
   },
   "HOST_AGGREGATES": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -155,13 +155,13 @@
   },
   "AVAILABILITY_ZONES": {
     "name_attr": "zoneName",
-    "id_keys": ["name"],
+    "id_key": "name",
     "data": [],
     "RELATIONSHIPS": []
   },
   "SERVICES": {
     "name_attr": "binary",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -192,19 +192,19 @@
   },
   "HYPERVISORS": {
     "name_attr": "hypervisor_hostname",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "FLAVORS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "VOLUMES": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -223,19 +223,19 @@
   },
   "KEY_PAIRS": {
     "name_attr": "name",
-    "id_keys": ["name"],
+    "id_key": "name",
     "data": [],
     "RELATIONSHIPS": []
   },
   "IMAGES": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "NETWORKS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {
@@ -266,19 +266,19 @@
   },
   "SUBNETS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "USERS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": []
   },
   "CONTAINERS": {
     "name_attr": "name",
-    "id_keys": ["id"],
+    "id_key": "id",
     "data": [],
     "RELATIONSHIPS": [
       {

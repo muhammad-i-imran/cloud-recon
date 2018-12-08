@@ -10,8 +10,7 @@ app.config['GRAPHDB_URI'] = os.getenv('GRAPHDB_URI', 'bolt://localhost:7687')
 app.config['GRAPHDB_USER'] = os.getenv('GRAPHDB_USER', 'neo4j')
 app.config['GRAPHDB_PASS'] = os.getenv('GRAPHDB_PASS', '')
 
-api = Neo4JApi(app.config['GRAPHDB_URI'], app.config['GRAPHDB_USER'], app.config['GRAPHDB_PASS'])
-
+api = Neo4JApi.init_with_basic_auth(uri=app.config['GRAPHDB_URI'], user=app.config['GRAPHDB_USER'], password=app.config['GRAPHDB_PASS'])
 
 @app.route('/neo4j/nodes/get_all')
 def get_all_nodes():
@@ -20,7 +19,6 @@ def get_all_nodes():
     nodes_json = {'data': nodes}
     return jsonify(nodes_json), 200
 
-
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
 def add_single_node():
     if request.method == 'POST':
@@ -28,12 +26,11 @@ def add_single_node():
             jsonStr = request.get_json()
             data = json.loads(jsonStr)
             node_type = data['node_type']
-            id_keys = data['id_keys']
-            label = data['name']
+            id_key = data['id_key']
+            # label = data['name']
             node_attributes = data['node_attributes']
-            status_code, message = api.create_node(node_type=node_type, id_keys=id_keys, label=label, node_attributes=node_attributes)
-            return jsonify({'Message': message}), status_code
-
+            api.create_node(node_type=node_type, id_key=id_key, node_attributes=node_attributes)
+            return jsonify({'Message': "Node has been created"})
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
 def add_relationship():
@@ -61,8 +58,7 @@ def add_relationship():
                                     relationship_attributes=relationship_attributes,
                                     is_source_attr_name_regex=is_source_attr_name_regex,
                                     is_target_attr_name_regex=is_target_attr_name_regex)
-            return jsonify({'Message': "Relationship has been created"}), 201
-
+            return jsonify({'Message': "Relationship has been created"})
 
 @app.route('/neo4j/nodes/add_node_attr', methods=['POST'])
 def add_attr_to_node():
@@ -73,8 +69,7 @@ def add_attr_to_node():
             node_name = data['node_name']
             node_attributes = data['node_attributes']
             api.add_node_attr(node_type=node_type, node_name=node_name, node_attributes=node_attributes)
-            return jsonify({'Message': "Attributes have been added to the node"}), 201
-
+            return jsonify({'Message': "Attributes have been added to the node"})
 
 @app.route('/neo4j/relationships/add_relationship_attr', methods=['POST'])
 def add_attr_to_relationship():
@@ -91,14 +86,12 @@ def add_attr_to_relationship():
             api.add_relationship_attr(first_node_type=first_node_type, second_node_type=second_node_type,
                                       first_node_name=first_node_name, second_node_name=second_node_name,
                                       relationship=relationship, relationship_attributes=relationship_attributes)
-            return jsonify({'Message': "Attributes have been added to the relationship"}), 201
-
+            return jsonify({'Message': "Attributes have been added to the relationship"})
 
 @app.route('/neo4j/delete_graph', methods=['GET'])
 def delete_all():
     api.delete_all()
-    return jsonify({'Message': "The graph has been deleted"}), 200
-
+    return jsonify({'Message': "The graph has been deleted"})
 
 @app.errorhandler(404)
 def not_found(e):
