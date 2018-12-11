@@ -37,7 +37,7 @@ class RelationshipAttributes(object):
 class Relationship(object):
     def __init__(self, source_node_attr_name, target_node_attr_name, source_node_attr_value,
                  source_node_type,
-                 target_node_type, relationship, relationship_attributes, is_source_attr_name_regex):
+                 target_node_type, relationship, relationship_attributes):
         self.source_node_attr_name = source_node_attr_name
         self.target_node_attr_name = target_node_attr_name
 
@@ -50,8 +50,6 @@ class Relationship(object):
         self.relationship = relationship
         self.relationship_attributes = relationship_attributes
 
-        self.is_source_attr_name_regex = is_source_attr_name_regex
-        # self.is_target_attr_name_regex = is_target_attr_name_regex
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=False, indent=0)

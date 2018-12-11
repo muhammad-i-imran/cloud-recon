@@ -5,17 +5,19 @@ from openstackqueryapi.queryos import CustomVirtualMachineQuerier
 import json
 import os
 
-
 class NodeCreator(object):
     NEO4J_SERVICE_URL = ""
     NEO4J_SERVICE_NODE_RELATIVE_PATH = "/nodes/create_node"
+
+    vmSshQuerier = CustomVirtualMachineQuerier()
 
     @classmethod
     def createNode(self, id_key, node_type, node_attrributtes_dict):
         node_attributes = NodeAttributes(node_attrributtes_dict)
         node = Node(id_key=id_key, node_type=node_type, node_attributes=node_attributes)
         data = node.toJSON()
-        callServicePost(url=NodeCreator.NEO4J_SERVICE_URL + NodeCreator.NEO4J_SERVICE_NODE_RELATIVE_PATH, data=data.replace("\n", ""))
+        callServicePost(url=NodeCreator.NEO4J_SERVICE_URL + NodeCreator.NEO4J_SERVICE_NODE_RELATIVE_PATH,
+                        data=data.replace("\n", ""))
         return node
 
     @classmethod
@@ -24,21 +26,20 @@ class NodeCreator(object):
         for i in data_list:
             info = i if type(i) is dict else i.__dict__
             # label = info.pop(label_key, None)
-
             flatten_info_dict = flatten(info, separator="___")
             node = NodeCreator.createNode(id_key, node_type, flatten_info_dict)
             nodes.append(node)
         return nodes
 
     @classmethod
-    def create_containers_nodes(self, node_type, server_name_attr, openstack_info, private_keys_folder, nova_querier, vm_username):
+    def create_containers_nodes(self, node_type, server_name_attr, openstack_info, private_keys_folder, nova_querier,
+                                vm_username):
         if not openstack_info["SERVERS"]["data"]:
             return
-        nodes = []
         command = "sudo docker ps --format \"{{json .}}\""
         for s in openstack_info["SERVERS"]["data"]:
             server_id = s.node_attributes.__dict__["id"]
-            server = nova_querier.getServer(server_id) #TODO: MOVE IT TO main.py
+            server = nova_querier.getServer(server_id)  # TODO: MOVE IT TO main.py
 
             vmSshQuerier = CustomVirtualMachineQuerier()
             ip = server.addresses[list(server.addresses.keys())[0]][1]["addr"]

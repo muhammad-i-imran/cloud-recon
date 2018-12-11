@@ -1,5 +1,4 @@
 from neo4j.v1 import GraphDatabase, Session, ServiceUnavailable, custom_auth, TRUST_ALL_CERTIFICATES
-import json
 from .IllegalArgumentError import IllegalArgumentError
 
 
@@ -38,7 +37,6 @@ class Neo4JApi(object):
         return result
 
     def create_node(self, node_type, id_key, node_attributes={}):
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.")
         print(node_type + ":" + id_key + ">>>>>" + str(node_attributes))
         node_attributes_string = ", ".join(
             ["=".join(["n." + "`{0}`".format(key), "'{0}'".format(val)]) for key, val in node_attributes.items()])
@@ -75,21 +73,21 @@ class Neo4JApi(object):
         return result
 
     def replace_node_attr(self, node_type, node_name_attr, node_name, node_attributes):
-        query = "MATCH (n: {0}) WHERE n.{1}={2} SET n={3} RETURN n"
+        query = "MATCH (n: {0}) WHERE n.`{1}`={2} SET n={3} RETURN n"
         query = query.format(node_type, node_name_attr, node_name, node_attributes)
         print(query)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
     def remove_node_all_attr(self, node_type, node_name_attr, node_name):
-        query = "MATCH (n: {0}) WHERE n.{1}={2} SET n = {{}} RETURN n"
+        query = "MATCH (n: {0}) WHERE n.`{1}`={2} SET n = {{}} RETURN n"
         query = query.format(node_type, node_name_attr, node_name)
         print(query)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
     def remove_node_attr(self, node_type, query_attribute, query_attribute_value, attribute_to_remove):
-        query = "MATCH (n: {0}) WHERE n.{1}={2} SET n.{3}=null RETURN n"
+        query = "MATCH (n: {0}) WHERE n.`{1}`={2} SET n.{3}=null RETURN n"
         query = query.format(node_type, query_attribute, query_attribute_value, attribute_to_remove)
         print(query)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
@@ -141,7 +139,7 @@ class Neo4JApi(object):
 
     ###
     def find_node(self, node_type, attribute_name, attribute_value):
-        query = "MATCH (n: {0}) WHERE n.{1}={2} RETURN n"
+        query = "MATCH (n: {0}) WHERE n.`{1}`={2} RETURN n"
         query = query.format(node_type, attribute_name, attribute_value)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
@@ -153,19 +151,19 @@ class Neo4JApi(object):
         return result
 
     def find_node_limit_element(self, node_type, attribute_name, attribute_value, limit=1):
-        query = "MATCH (n:{0}) WHERE n.{1}={2} RETURN n LIMIT {3}"
+        query = "MATCH (n:{0}) WHERE n.`{1}`={2} RETURN n LIMIT {3}"
         query = query.format(node_type, attribute_name, attribute_value, limit)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
     def find_node_with_regex(self, node_type, attribute_name, attribute_value):
-        query = "MATCH (n: {0}) WHERE n.{1}=~{2} RETURN n"
+        query = "MATCH (n: {0}) WHERE n.`{1}`=~{2} RETURN n"
         query = query.format(node_type, attribute_name, attribute_value)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
     def find_node_with_regex_with_limit(self, node_type, attribute_name, attribute_value, limit=1):
-        query = "MATCH (n: {0}) WHERE n.{1}=~{2} RETURN n LIMIT {3}"
+        query = "MATCH (n: {0}) WHERE n.`{1}`=~{2} RETURN n LIMIT {3}"
         query = query.format(node_type, attribute_name, attribute_value, limit)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result

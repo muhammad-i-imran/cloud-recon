@@ -24,12 +24,9 @@ def add_single_node():
     if request.method == 'POST':
         if request.is_json:
             jsonStr = request.get_json()
-            print(jsonStr)
-
             data = json.loads(jsonStr)
             node_type = data['node_type']
             id_key = data['id_key']
-            # label = data['name']
             node_attributes = data['node_attributes']
             api.create_node(node_type=node_type, id_key=id_key, node_attributes=node_attributes)
             return jsonify({'Message': "Node has been created"})
@@ -44,9 +41,6 @@ def add_relationship():
             source_node_type = data['source_node_type']
             target_node_type = data['target_node_type']
             source_node_attr_value = data['source_node_attr_value']
-            # target_node_attr_value = data['target_node_attr_value']
-            is_source_attr_name_regex = data['is_source_attr_name_regex']
-            # is_target_attr_name_regex = data['is_target_attr_name_regex']
             source_node_attr_name = data['source_node_attr_name']
             target_node_attr_name = data['target_node_attr_name']
             relationship = data['relationship']

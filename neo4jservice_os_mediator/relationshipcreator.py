@@ -8,7 +8,7 @@ class RelationshipCreator(object):
     @classmethod
     def createRelationships(self, source_node_attr_name, target_node_attr_name,
                             source_node_attr_value, source_node_type,
-                            target_node_type, relationship, relationship_attributes_dict, is_source_attr_name_regex):
+                            target_node_type, relationship, relationship_attributes_dict):
         relationship_attributes = RelationshipAttributes(relationship_attributes_dict)
 
         relationship = Relationship(source_node_attr_name=source_node_attr_name,
@@ -18,7 +18,6 @@ class RelationshipCreator(object):
                                     source_node_type=source_node_type,
                                     target_node_type=target_node_type, relationship=relationship,
                                     relationship_attributes=relationship_attributes,
-                                    is_source_attr_name_regex=is_source_attr_name_regex,
                                     )
         data = relationship.toJSON()
         callServicePost(url=RelationshipCreator.NEO4J_SERVICE_URL + RelationshipCreator.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH, data=data.replace("\n", ""))

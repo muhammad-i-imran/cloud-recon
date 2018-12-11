@@ -10,9 +10,6 @@ from relationshipcreator import RelationshipCreator
 from collections import namedtuple
 
 
-# TODO: Refactor the Code
-
-
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
                                                                      node_type=node_type,
@@ -163,9 +160,8 @@ def begin_relationship_create():
         data = openstack_info[key]["data"]
         for relationship in relationships_info:
             NodeRelationshipAttrsMappingInfo = namedtuple("NodeRelationshipAttrsMappingInfo",
-                                                          "name_attr source_attr_name is_source_attr_name_regex target_node_type target_node_attr_name is_target_attr_name_regex target_value_data_type relationship_name relationship_attrs")
+                                                          "source_attr_name is_source_attr_name_regex target_node_type target_node_attr_name is_target_attr_name_regex target_value_data_type relationship_name relationship_attrs")
             NodeRelationshipAttrsMappingInfo = NodeRelationshipAttrsMappingInfo(
-                name_attr="name",
                 source_attr_name=relationship["source_attr_name"],
                 is_source_attr_name_regex=relationship["is_source_attr_name_regex"],
                 target_node_type=relationship["target_node_type"],
@@ -184,25 +180,20 @@ def begin_relationship_create():
                             source_node_attr_name=k,
                             target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
                             source_node_attr_value=d.node_attributes.__dict__[k],
-                            # target_node_attr_value=d.node_attributes.__dict__[key],
                             source_node_type=source_node_type,
                             target_node_type=NodeRelationshipAttrsMappingInfo.target_node_type,
                             relationship=NodeRelationshipAttrsMappingInfo.relationship_name,
-                            relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs,
-                            is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex)
+                            relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs)
                 else:
                     RelationshipCreator.createRelationships(
                         source_node_attr_name=NodeRelationshipAttrsMappingInfo.source_attr_name,
                         target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
                         source_node_attr_value=d.node_attributes.__dict__[
                             NodeRelationshipAttrsMappingInfo.source_attr_name],
-                        # target_node_attr_value=d.node_attributes.__dict__[
-                        #     NodeRelationshipAttrsMappingInfo.source_attr_name],
                         source_node_type=source_node_type,
                         target_node_type=NodeRelationshipAttrsMappingInfo.target_node_type,
                         relationship=NodeRelationshipAttrsMappingInfo.relationship_name,
-                        relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs,
-                        is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex)
+                        relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs)
 
 
 def begin_all():
@@ -215,7 +206,6 @@ def begin_all():
 
 
 def notifier_callback():
-    print("#############################################$$$$$$$$$$$$$$$$$$$$$$$")
     begin_all()
 
 
@@ -229,7 +219,6 @@ def main():
     while True:
         begin_all()
         # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
-
         print("###################################################################################")
         time.sleep(int(TIME_TO_WAIT))
 
