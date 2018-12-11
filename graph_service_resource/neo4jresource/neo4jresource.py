@@ -24,6 +24,8 @@ def add_single_node():
     if request.method == 'POST':
         if request.is_json:
             jsonStr = request.get_json()
+            print(jsonStr)
+
             data = json.loads(jsonStr)
             node_type = data['node_type']
             id_key = data['id_key']
@@ -42,9 +44,9 @@ def add_relationship():
             source_node_type = data['source_node_type']
             target_node_type = data['target_node_type']
             source_node_attr_value = data['source_node_attr_value']
-            target_node_attr_value = data['target_node_attr_value']
+            # target_node_attr_value = data['target_node_attr_value']
             is_source_attr_name_regex = data['is_source_attr_name_regex']
-            is_target_attr_name_regex = data['is_target_attr_name_regex']
+            # is_target_attr_name_regex = data['is_target_attr_name_regex']
             source_node_attr_name = data['source_node_attr_name']
             target_node_attr_name = data['target_node_attr_name']
             relationship = data['relationship']
@@ -52,12 +54,11 @@ def add_relationship():
 
             api.create_relationship(source_node_type=source_node_type, target_node_type=target_node_type,
                                     source_node_attr_value=source_node_attr_value,
-                                    target_node_attr_value=target_node_attr_value,
+                                    target_node_attr_value=source_node_attr_value,
                                     source_node_attr_name=source_node_attr_name,
                                     target_node_attr_name=target_node_attr_name, relationship=relationship,
                                     relationship_attributes=relationship_attributes,
-                                    is_source_attr_name_regex=is_source_attr_name_regex,
-                                    is_target_attr_name_regex=is_target_attr_name_regex)
+                                    )
             return jsonify({'Message': "Relationship has been created"})
 
 @app.route('/neo4j/nodes/add_node_attr', methods=['POST'])

@@ -16,12 +16,14 @@ from collections import namedtuple
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServers(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_containers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.create_containers_nodes(node_type=node_type,
+                                                                            server_name_attr=openstack_info["SERVERS"][
+                                                                                "name_attr"],
                                                                             openstack_info=openstack_info,
                                                                             private_keys_folder=PRIVATE_KEYS_FOLDER,
                                                                             nova_querier=novaQuerier,
@@ -31,85 +33,85 @@ def create_containers(node_type):
 def create_host_aggregates(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getHostAggregates(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_availability_zones(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getAvailabilityZones(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_services(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getServices(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_hypervisors(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getHypervisors(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_flavors(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getFlavors(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_volumes(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=cinderQuerier.getVolumes(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_key_pairs(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=novaQuerier.getKeyPairs(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_images(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=glanceQuerier.getImages(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_networks(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=neutronQuerier.getNetworks(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_subnets(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=neutronQuerier.getSubNets(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_routers(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=neutronQuerier.getRouters(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def create_users(node_type):
     openstack_info[node_type]["data"] = NodeCreator.prepareNodesData(data_list=keystoneQuerier.getUsers(),
                                                                      node_type=node_type,
-                                                                     label_key=openstack_info[node_type]["name_attr"],
-                                                                     id_keys=openstack_info[node_type]["id_keys"])
+                                                                     # label_key=openstack_info[node_type]["name_attr"],
+                                                                     id_key=openstack_info[node_type]["id_key"])
 
 
 def not_supported():
@@ -177,42 +179,43 @@ def begin_relationship_create():
                 if NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex:
                     source_keys = list(filter(re.compile(NodeRelationshipAttrsMappingInfo.source_attr_name).match,
                                               d.node_attributes.__dict__.keys()))
-                    for key in source_keys:
+                    for k in source_keys:
                         RelationshipCreator.createRelationships(
-                            source_node_attr_name=NodeRelationshipAttrsMappingInfo.name_attr,
+                            source_node_attr_name=k,
                             target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
-                            source_node_attr_value=d.name,
-                            target_node_attr_value=d.node_attributes.__dict__[key],
+                            source_node_attr_value=d.node_attributes.__dict__[k],
+                            # target_node_attr_value=d.node_attributes.__dict__[key],
                             source_node_type=source_node_type,
                             target_node_type=NodeRelationshipAttrsMappingInfo.target_node_type,
                             relationship=NodeRelationshipAttrsMappingInfo.relationship_name,
                             relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs,
-                            is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex,
-                            is_target_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_target_attr_name_regex)
+                            is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex)
                 else:
                     RelationshipCreator.createRelationships(
-                        source_node_attr_name=NodeRelationshipAttrsMappingInfo.name_attr,
+                        source_node_attr_name=NodeRelationshipAttrsMappingInfo.source_attr_name,
                         target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
-                        source_node_attr_value=d.name,
-                        target_node_attr_value=d.node_attributes.__dict__[
+                        source_node_attr_value=d.node_attributes.__dict__[
                             NodeRelationshipAttrsMappingInfo.source_attr_name],
+                        # target_node_attr_value=d.node_attributes.__dict__[
+                        #     NodeRelationshipAttrsMappingInfo.source_attr_name],
                         source_node_type=source_node_type,
                         target_node_type=NodeRelationshipAttrsMappingInfo.target_node_type,
                         relationship=NodeRelationshipAttrsMappingInfo.relationship_name,
                         relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs,
-                        is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex,
-                        is_target_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_target_attr_name_regex)
+                        is_source_attr_name_regex=NodeRelationshipAttrsMappingInfo.is_source_attr_name_regex)
 
 
 def begin_all():
     try:
         begin_node_create()
         begin_relationship_create()
-    except:
+    except Exception as e:
+        print("Exception occured: " + str(e))
         pass
 
 
 def notifier_callback():
+    print("#############################################$$$$$$$$$$$$$$$$$$$$$$$")
     begin_all()
 
 
@@ -222,10 +225,12 @@ def main():
     pool = Pool(processes=1)
     pool.apply_async(notifier.start,
                      [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
-                     None)  # callback is none
+                     notifier_callback)  # callback is none
     while True:
         begin_all()
         # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+
+        print("###################################################################################")
         time.sleep(int(TIME_TO_WAIT))
 
 

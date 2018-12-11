@@ -19,7 +19,7 @@ class NodeCreator(object):
         return node
 
     @classmethod
-    def prepareNodesData(self, data_list, node_type, label_key="name", id_key="id"):
+    def prepareNodesData(self, data_list, node_type, id_key="id"):
         nodes = []
         for i in data_list:
             info = i if type(i) is dict else i.__dict__
@@ -31,7 +31,7 @@ class NodeCreator(object):
         return nodes
 
     @classmethod
-    def create_containers_nodes(self, node_type, openstack_info, private_keys_folder, nova_querier, vm_username):
+    def create_containers_nodes(self, node_type, server_name_attr, openstack_info, private_keys_folder, nova_querier, vm_username):
         if not openstack_info["SERVERS"]["data"]:
             return
         nodes = []
@@ -59,12 +59,11 @@ class NodeCreator(object):
                 container_info_dict["ports"] = container_info["Ports"]
                 container_info_dict["networks"] = container_info["Networks"]
                 container_info_dict["mounts"] = container_info["Mounts"]
-                container_info_dict["server_name"] = s.name
+                container_info_dict["server_name"] = s.node_attributes.__dict__[server_name_attr]
                 container_info_dict["server_id"] = server_id
                 containers_list.append(container_info_dict)
 
-            nodes = NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, label_key="name",
-                                         id_keys=["id"])
+            nodes = NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, id_key="id")
             try:
                 vmSshQuerier.closeConnection()
             except:

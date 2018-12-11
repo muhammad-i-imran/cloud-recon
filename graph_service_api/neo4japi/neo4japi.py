@@ -38,9 +38,13 @@ class Neo4JApi(object):
         return result
 
     def create_node(self, node_type, id_key, node_attributes={}):
-        node_attributes_string = ", ".join(["=".join(["n." + "`{0}`".format(key), "'{0}'".format(val)]) for key, val in node_attributes.items()])
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.")
+        print(node_type + ":" + id_key + ">>>>>" + str(node_attributes))
+        node_attributes_string = ", ".join(
+            ["=".join(["n." + "`{0}`".format(key), "'{0}'".format(val)]) for key, val in node_attributes.items()])
         query = "MERGE (n: {0}{{ {1}: '{2}' }}) ON CREATE SET {3} ON MATCH SET {4} RETURN n"
-        query = query.format(node_type, id_key, node_attributes.get(id_key, None), node_attributes_string, node_attributes_string)
+        query = query.format(node_type, id_key, node_attributes.get(id_key, None), node_attributes_string,
+                             node_attributes_string)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
@@ -48,8 +52,7 @@ class Neo4JApi(object):
                             source_node_attr_value,
                             target_node_attr_value, source_node_attr_name,
                             target_node_attr_name, relationship,
-                            relationship_attributes, is_source_attr_name_regex=False,
-                            is_target_attr_name_regex=False):
+                            relationship_attributes):
 
         if not relationship:
             raise IllegalArgumentError("Please provide valid relationships.")
@@ -58,14 +61,15 @@ class Neo4JApi(object):
         if dict_depth > 1:
             raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
 
-        source_regex_operator = "~" if is_source_attr_name_regex else ""
-        target_regex_operator = "~" if is_target_attr_name_regex else ""
+        # source_regex_operator = "" if is_source_attr_name_regex else ""
+        # target_regex_operator = "~" if is_target_attr_name_regex else ""
 
-        query = "MATCH(m: {0}) WHERE m.{1}={2}{3} MATCH(n:{4} {5}) WHERE n.{6}={7}{8} MERGE(m)-[r:{9} {10}]->(n) RETURN r"
-        query = query.format(source_node_type, source_node_attr_name, source_regex_operator, source_node_attr_value,
+        value = "'" + source_node_attr_value + "'" if type(source_node_attr_value) is str else source_node_attr_value
+
+        query = "MATCH(m: {0}) WHERE m.`{1}`={2} MATCH(n:{3}) WHERE n.`{4}`={5} MERGE(m)-[r:{6}]->(n) RETURN r"
+        query = query.format(source_node_type, source_node_attr_name, value,
                              target_node_type,
-                             target_node_attr_name, target_regex_operator, target_node_attr_value, relationship,
-                             relationship_attributes)
+                             target_node_attr_name, value, relationship)
         print(query)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
