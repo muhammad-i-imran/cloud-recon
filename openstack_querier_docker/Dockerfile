@@ -14,6 +14,7 @@ COPY graph_service_interface_schema  /openstack_neo4j_service/graph_service_inte
 COPY neo4jservice_os_mediator  /openstack_neo4j_service/neo4jservice_os_mediator
 COPY openstack_querier  /openstack_neo4j_service/openstack_querier
 COPY requirements.txt /
+COPY openstack_info.json /
 RUN python3 -m pip install -r /requirements.txt
 
 RUN cd /openstack_neo4j_service/graph_service_interface_schema / && python setup.py sdist
