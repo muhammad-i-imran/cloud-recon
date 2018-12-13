@@ -12,7 +12,7 @@ class NotificationEndpoint(object):
         self.callback = callback # function is passed here and will be called upon occurence on an event defined in filter_rule
 
     def info(self, ctxt, publisher_id, event_type, payload, metadata):
-        self.callback()
+        self.callback(ctxt, event_type, payload)
 
 class NotifierStarter(object):
     def __init__(self, transport_url):

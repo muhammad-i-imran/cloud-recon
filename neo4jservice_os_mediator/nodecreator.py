@@ -5,29 +5,31 @@ from openstackqueryapi.queryos import CustomVirtualMachineQuerier
 import json
 import os
 
-class NodeCreator(object):
+
+class NodeManager(object):
     NEO4J_SERVICE_URL = ""
-    NEO4J_SERVICE_NODE_RELATIVE_PATH = "/nodes/create_node"
+    NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH = "/nodes/create_node"
+    NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH = "/nodes/delete_node"
 
     vmSshQuerier = CustomVirtualMachineQuerier()
 
     @classmethod
-    def createNode(self, id_key, node_type, node_attrributtes_dict):
+    def create_node(self, id_key, node_type, node_attrributtes_dict):
         node_attributes = NodeAttributes(node_attrributtes_dict)
         node = Node(id_key=id_key, node_type=node_type, node_attributes=node_attributes)
         data = node.toJSON()
-        callServicePost(url=NodeCreator.NEO4J_SERVICE_URL + NodeCreator.NEO4J_SERVICE_NODE_RELATIVE_PATH,
+        callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH,
                         data=data.replace("\n", ""))
         return node
 
     @classmethod
-    def prepareNodesData(self, data_list, node_type, id_key="id"):
+    def prepare_node_data(self, data_list, node_type, id_key="id"):
         nodes = []
         for i in data_list:
             info = i if type(i) is dict else i.__dict__
             # label = info.pop(label_key, None)
             flatten_info_dict = flatten(info, separator="___")
-            node = NodeCreator.createNode(id_key, node_type, flatten_info_dict)
+            node = NodeManager.create_node(id_key, node_type, flatten_info_dict)
             nodes.append(node)
         return nodes
 
@@ -41,14 +43,13 @@ class NodeCreator(object):
             server_id = s.node_attributes.__dict__["id"]
             server = nova_querier.getServer(server_id)  # TODO: MOVE IT TO main.py
 
-            vmSshQuerier = CustomVirtualMachineQuerier()
             ip = server.addresses[list(server.addresses.keys())[0]][1]["addr"]
             private_key_path = os.path.join(private_keys_folder, server.user_id)
             if not os.path.exists(private_key_path):
                 continue
-            vmSshQuerier.connect(ip=ip, username=vm_username, private_key_file_path=private_key_path)
+            self.vmSshQuerier.connect(ip=ip, username=vm_username, private_key_file_path=private_key_path)
 
-            stdin, stdout, stderr = vmSshQuerier.executeCommandOnVM(command)
+            stdin, stdout, stderr = self.vmSshQuerier.executeCommandOnVM(command)
             containers_string_info = stdout.readlines()
             containers_list = []
             for c in containers_string_info:
@@ -64,10 +65,17 @@ class NodeCreator(object):
                 container_info_dict["server_id"] = server_id
                 containers_list.append(container_info_dict)
 
-            nodes = NodeCreator.prepareNodesData(data_list=containers_list, node_type=node_type, id_key="id")
+            nodes = NodeManager.prepare_node_data(data_list=containers_list, node_type=node_type, id_key="id")
             try:
-                vmSshQuerier.closeConnection()
+                self.vmSshQuerier.closeConnection()
             except:
                 pass
 
             return nodes
+
+    @classmethod
+    def delete_node(cls, node_type, query_attribute, query_attribute_value):
+        data = {'node_type': node_type, 'query_attribute': query_attribute,
+                'query_attribute_value': query_attribute_value}
+        callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
+                        data=json.dumps(data))

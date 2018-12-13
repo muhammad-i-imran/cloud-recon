@@ -83,6 +83,38 @@ def add_attr_to_relationship():
                                       relationship=relationship, relationship_attributes=relationship_attributes)
             return jsonify({'Message': "Attributes have been added to the relationship"})
 
+@app.route('/neo4j/delete_node', methods=['POST'])
+def delete_node():
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+            node_type = data['node_type']
+            query_attribute = data['query_attribute']
+            query_attribute_value = data['query_attribute_value']
+            api.delete_node_only(node_type, query_attribute, query_attribute_value)
+            return jsonify({'Message': "The node has been deleted"})
+
+
+@app.route('/neo4j/delete_relationship', methods=['GET'])
+def delete_relationship_between_nodes():
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+            first_node_type = data['first_node_type']
+            first_node_query_attr = data['first_node_query_attr']
+            first_node_query_value = data['first_node_query_value']
+
+            second_node_type = data['second_node_type']
+            second_node_query_attr = data['second_node_query_attr']
+            second_node_query_value = data['second_node_query_value']
+
+            relationship = data['relationship']
+
+            api.delete_relationship_between_nodes(first_node_type, first_node_query_attr, first_node_query_value,
+                                          second_node_type, second_node_query_attr, second_node_query_value,
+                                          relationship)
+            return jsonify({'Message': "The relationship between nodes has been deleted"})
+
 @app.route('/neo4j/delete_graph', methods=['GET'])
 def delete_all():
     api.delete_all()
