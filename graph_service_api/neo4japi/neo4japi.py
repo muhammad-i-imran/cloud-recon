@@ -72,9 +72,9 @@ class Neo4JApi(object):
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result
 
-    def replace_node_attr(self, node_type, node_name_attr, node_name, node_attributes):
+    def update_node_attrs(self, node_type, node_query_attr, node_query_attr_value, node_attributes):
         query = "MATCH (n: {0}) WHERE n.`{1}`={2} SET n={3} RETURN n"
-        query = query.format(node_type, node_name_attr, node_name, node_attributes)
+        query = query.format(node_type, node_query_attr, node_query_attr_value, node_attributes)
         print(query)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result

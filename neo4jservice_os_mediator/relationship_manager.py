@@ -1,7 +1,7 @@
 from graphserviceschema.serviceschema import *
 from mediator.caller import *
 
-class RelationshipCreator(object):
+class RelationshipManager(object):
     NEO4J_SERVICE_URL = ""
     NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH = "/relationships/create_relationship"
 
@@ -20,4 +20,4 @@ class RelationshipCreator(object):
                                     relationship_attributes=relationship_attributes,
                                     )
         data = relationship.toJSON()
-        callServicePost(url=RelationshipCreator.NEO4J_SERVICE_URL + RelationshipCreator.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH, data=data.replace("\n", ""))
+        callServicePost(url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH, data=data.replace("\n", ""))

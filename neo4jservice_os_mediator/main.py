@@ -3,12 +3,11 @@ import re
 import time
 
 from multiprocessing import Pool
-from nodecreator import NodeManager
+from node_manager import NodeManager
 from openstackqueryapi import NotifierStarter
 from osqueriers import *
-from relationshipcreator import RelationshipCreator
+from relationship_manager import RelationshipManager
 from collections import namedtuple
-
 
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeManager.prepare_node_data(data_list=novaQuerier.getServers(),
@@ -110,23 +109,6 @@ def create_users(node_type):
                                                                      # label_key=openstack_info[node_type]["name_attr"],
                                                                      id_key=openstack_info[node_type]["id_key"])
 
-
-##......................................................................................................................
-
-def delete_server(node_type, payload):
-    attribute_name=openstack_info[node_type]['id_key']
-    attribute_value=payload['instance_id']
-    NodeManager.delete_node(node_type, attribute_name, attribute_value)
-
-##......................................................................................................................
-
-def update_server(node_type, payload):
-    raise NotImplementedError('not implemented yet')
-
-def update_network(node_type, payload):
-    print(">>>>>>>>>>>>>>>>>>UPDATED NETWORK")
-##......................................................................................................................
-
 def not_supported():
     raise Exception("Not supported yet.")
 
@@ -151,7 +133,6 @@ def create_graph_elements(element_type):
     func = switcher.get(element_type, lambda: not_supported)
     return func
 
-# think of a good name for this function
 def begin_node_create():
     nodes = list(openstack_info.keys())
     nodes.remove("CONTAINERS")
@@ -166,7 +147,6 @@ def begin_node_create():
         print("Exception occured: " + str(e))
         pass
 
-# think of a good name for this function
 def begin_relationship_create():
     for key in openstack_info:
         source_node_type = key
@@ -190,7 +170,7 @@ def begin_relationship_create():
                     source_keys = list(filter(re.compile(NodeRelationshipAttrsMappingInfo.source_attr_name).match,
                                               d.node_attributes.__dict__.keys()))
                     for k in source_keys:
-                        RelationshipCreator.createRelationships(
+                        RelationshipManager.createRelationships(
                             source_node_attr_name=k,
                             target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
                             source_node_attr_value=d.node_attributes.__dict__[k],
@@ -199,7 +179,7 @@ def begin_relationship_create():
                             relationship=NodeRelationshipAttrsMappingInfo.relationship_name,
                             relationship_attributes_dict=NodeRelationshipAttrsMappingInfo.relationship_attrs)
                 else:
-                    RelationshipCreator.createRelationships(
+                    RelationshipManager.createRelationships(
                         source_node_attr_name=NodeRelationshipAttrsMappingInfo.source_attr_name,
                         target_node_attr_name=NodeRelationshipAttrsMappingInfo.target_node_attr_name,
                         source_node_attr_value=d.node_attributes.__dict__[
@@ -217,19 +197,13 @@ def begin_all():
         print("Exception occured: " + str(e))
         pass
 
-def get_corresponding_function(event_type):
-    switcher = {
-        "compute.instance.delete.end": delete_server,
-        "compute.instance.resize.end": update_server,
-        "compute.instance.create.end": update_server,
-        "compute.instance.volume_attach.end": update_server,
-        "network.create.end": update_network
-    }
-    func = switcher.get(event_type, lambda: not_supported)
-    return func
-
-def notifier_callback(ctxt, event_type, payload):
-    get_corresponding_function(event_type)("SERVERS", payload)
+def notifier_callback(event_type, payload):
+    import subscribed_event_types
+    try:
+        subscribed_event_types.events[event_type]["handler"](subscribed_event_types.events[event_type], payload)
+    except Exception as e:
+        print("Exception occured: " + str(e))
+        pass
     # begin_all()
 
 def main():
@@ -240,7 +214,7 @@ def main():
     # pool.apply_async(notifier.start,
     #                  [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
     #                  notifier_callback)  # callback is none
-    # # #
+    #
     while True:
         begin_all()
         # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
@@ -248,6 +222,6 @@ def main():
         time.sleep(int(TIME_TO_WAIT))
 
 if __name__ == '__main__':
-    NodeManager.NEO4J_SERVICE_URL = RelationshipCreator.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
+    NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
     openstack_info = json.loads(open(CONFIG_FILE_PATH).read())
     main()

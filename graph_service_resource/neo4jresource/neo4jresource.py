@@ -55,15 +55,16 @@ def add_relationship():
                                     )
             return jsonify({'Message': "Relationship has been created"})
 
-@app.route('/neo4j/nodes/add_node_attr', methods=['POST'])
-def add_attr_to_node():
+@app.route('/neo4j/nodes/update_node_attrs', methods=['POST'])
+def update_node_attrs():
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()
             node_type = data['node_type']
-            node_name = data['node_name']
+            node_query_attr = data['node_query_attr']
+            node_query_attr_value = data['node_query_attr_value']
             node_attributes = data['node_attributes']
-            api.add_node_attr(node_type=node_type, node_name=node_name, node_attributes=node_attributes)
+            api.update_node_attrs(node_type=node_type, node_query_attr=node_query_attr, node_query_attr_value=node_query_attr_value, node_attributes=node_attributes)
             return jsonify({'Message': "Attributes have been added to the node"})
 
 @app.route('/neo4j/relationships/add_relationship_attr', methods=['POST'])

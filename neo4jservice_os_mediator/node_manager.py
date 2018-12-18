@@ -79,3 +79,10 @@ class NodeManager(object):
                 'query_attribute_value': query_attribute_value}
         callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
                         data=json.dumps(data))
+
+    @classmethod
+    def update_node(cls, node_type, query_attribute, query_attribute_value):
+        data = {'node_type': node_type, 'query_attribute': query_attribute,
+                'query_attribute_value': query_attribute_value}
+        callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
+                        data=json.dumps(data))
