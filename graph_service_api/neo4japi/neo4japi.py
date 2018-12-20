@@ -36,6 +36,9 @@ class Neo4JApi(object):
         result = TransactionExecutor.execute_query_read_transaction_function(self._driver, query)
         return result
 
+    def get_node(self, node_type, node_query_attr, node_query_attr_val):
+        return self.find_node(node_type, node_query_attr, node_query_attr_val)
+
     def create_node(self, node_type, id_key, node_attributes={}):
         print(node_type + ":" + id_key + ">>>>>" + str(node_attributes))
         node_attributes_string = ", ".join(

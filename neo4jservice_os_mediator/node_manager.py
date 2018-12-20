@@ -8,8 +8,11 @@ import os
 
 class NodeManager(object):
     NEO4J_SERVICE_URL = ""
+    NEO4J_SERVICE_GET_ALL_RELATIVE_PATH = "/nodes/get_all"
+    NEO4J_SERVICE_GET_NODE_RELATIVE_PATH = "/nodes/get_node"
     NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH = "/nodes/create_node"
     NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH = "/nodes/delete_node"
+    NEO4J_SERVICE_DELETE_GRAPH_RELATIVE_PATH = "/delete_graph"
 
     vmSshQuerier = CustomVirtualMachineQuerier()
 
@@ -64,13 +67,11 @@ class NodeManager(object):
                 container_info_dict["server_name"] = s.node_attributes.__dict__[server_name_attr]
                 container_info_dict["server_id"] = server_id
                 containers_list.append(container_info_dict)
-
             nodes = NodeManager.prepare_node_data(data_list=containers_list, node_type=node_type, id_key="id")
             try:
                 self.vmSshQuerier.closeConnection()
             except:
                 pass
-
             return nodes
 
     @classmethod
@@ -86,3 +87,18 @@ class NodeManager(object):
                 'query_attribute_value': query_attribute_value}
         callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
                         data=json.dumps(data))
+
+    @classmethod
+    def get_node(cls, node_type, query_attribute, query_attribute_value):
+        data = {'node_type': node_type, 'node_query_attr': query_attribute,
+                'query_attribute_value': query_attribute_value}
+        callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
+                        data=json.dumps(data))
+
+    @classmethod
+    def get_all_nodes(cls):
+        callServiceGet(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_ALL_RELATIVE_PATH)
+
+    @classmethod
+    def delete_graph(cls):
+        callServiceGet(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_GRAPH_RELATIVE_PATH)

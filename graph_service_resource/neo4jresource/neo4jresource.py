@@ -19,6 +19,20 @@ def get_all_nodes():
     nodes_json = {'data': nodes}
     return jsonify(nodes_json), 200
 
+@app.route('/neo4j/nodes/get_node')
+def get_node():
+    if request.method == 'POST':
+        if request.is_json:
+            jsonStr = request.get_json()
+            data = json.loads(jsonStr)
+
+            node_type = data['node_type']
+            node_query_attr = data['node_query_attr']
+            node_query_attr_val = data['node_query_attr_val']
+
+            result = api.get_node(node_type=node_type, node_query_attr=node_query_attr, node_query_attr_val=node_query_attr_val)
+            return jsonify({'Message': "Relationship has been created"})
+
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
 def add_single_node():
     if request.method == 'POST':
