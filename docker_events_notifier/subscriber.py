@@ -1,4 +1,5 @@
 import pika
+import os
 
 class DockerNotificationSubscriber(object):
     def __init__(self, parameter):
@@ -19,11 +20,9 @@ class DockerNotificationSubscriber(object):
         return cls(url_parameter)
 
     def event_callback(self, channel, method, properties, payload):
-        print("In call back")
         if not method.exchange.startswith("docker."):
             return
         event_name = method.exchange[len("docker."):]
-        print(event_name)
         is_event_valid = True if event_name in self.events else False
         if not is_event_valid:
             return
@@ -57,7 +56,8 @@ class DockerNotificationSubscriber(object):
 
 ### for testing purpose only
 def main():
-    subscriber = DockerNotificationSubscriber.init_with_url_parameter(url='amqp://user:bitnami@localhost:32770')
+    subscriber = DockerNotificationSubscriber.init_with_url_parameter(url=rabbit_mq_url)
     subscriber.consume_events()
 if __name__ == '__main__':
+    rabbit_mq_url = os.getenv("RABBITMQ_URL_DOCKER", 'amqp://user:bitnami@localhost:32770')
     main()
