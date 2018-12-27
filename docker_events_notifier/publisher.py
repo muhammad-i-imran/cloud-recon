@@ -1,10 +1,11 @@
 import pika
 
+
 class DockerNotificationPublisher(object):
     def __init__(self, parameter):
         self.connection = pika.BlockingConnection(parameter)
         self.channel = self.connection.channel()
-        # self.prefix = 'docker.'
+        # self.exchange_name = 'docker'
         self.allowed_event_types = ["docker.container.create.end", "docker.container.delete.end"]
 
     @classmethod
@@ -19,10 +20,15 @@ class DockerNotificationPublisher(object):
         url_parameter = pika.URLParameters(url)
         return cls(url_parameter)
 
+    def create_exchange(self, exchange_name):
+        self.channel.exchange_declare(exchange=exchange_name,
+                                      passive=True)
+
     def publish_events(self, event_type, payload):
         if not event_type in self.allowed_event_types:  # only allow listed event types
             return
-        exchange_name =  event_type
+        exchange_name = event_type
+        self.create_exchange(exchange_name)
         routing_key = ''
         print("exchange_name: " + exchange_name)
         self.channel.basic_publish(exchange=exchange_name,
@@ -30,7 +36,9 @@ class DockerNotificationPublisher(object):
                                    body=payload)
 
     def close_channel(self):
-        self.channel.close()
+        if self.channel is not None:
+            self.channel.close()
 
     def close_connection(self):
-        self.connection.close()
+        if self.connection is not None:
+            self.connection.close()
