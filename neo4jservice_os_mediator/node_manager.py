@@ -89,7 +89,14 @@ class NodeManager(object):
                         data=json.dumps(data))
 
     @classmethod
-    def get_node(cls, node_type, query_attribute, query_attribute_value):
+    def get_node_by_attribute(cls,query_attribute, query_attribute_value):
+        data = {'node_query_attr': query_attribute,
+                'query_attribute_value': query_attribute_value}
+        callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
+                        data=json.dumps(data))
+
+    @classmethod
+    def get_node_by_type(cls, node_type, query_attribute, query_attribute_value):
         data = {'node_type': node_type, 'node_query_attr': query_attribute,
                 'query_attribute_value': query_attribute_value}
         callServicePost(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,

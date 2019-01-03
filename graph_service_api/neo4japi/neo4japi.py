@@ -39,6 +39,7 @@ class Neo4JApi(object):
     def get_node(self, node_type, node_query_attr, node_query_attr_val):
         return self.find_node(node_type, node_query_attr, node_query_attr_val)
 
+
     def create_node(self, node_type, id_key, node_attributes={}):
         print(node_type + ":" + id_key + ">>>>>" + str(node_attributes))
         node_attributes_string = ", ".join(
@@ -142,7 +143,10 @@ class Neo4JApi(object):
 
     ###
     def find_node(self, node_type, attribute_name, attribute_value):
-        query = "MATCH (n: {0}) WHERE n.`{1}`={2} RETURN n"
+        if node_type:
+            query = "MATCH (n: {0}) WHERE n.`{1}`={2} RETURN n"
+        else:
+            query = "MATCH (n) WHERE n.`{1}`={2} RETURN n"
         query = query.format(node_type, attribute_name, attribute_value)
         result = TransactionExecutor.execute_query_auto_commit(self._driver, query)
         return result

@@ -1,30 +1,33 @@
-from openstackqueryapi.queryos import *
 from envvars import *
+from cloud_connections_manager import CloudConnectionProviderFactory
 
+"""
+It is OpenStack-specific implementation... so far
+"""
 
-def getOpenstackConnection(auth_url, username, password, project_name, os_user_domain_name, os_project_domain_id,
-                           api_version):
-    return OpenstackConnector(auth_url=auth_url, username=username, password=password, project_name=project_name,
-                              os_user_domain_name=os_user_domain_name, os_project_domain_id=os_project_domain_id,
-                              api_version=api_version)
+try:
+    from openstackqueryapi.queryos import *
+except ImportError as e:
+    pass
 
+cloud_type = "openstack" # todo: read from env
+cloud_connection_provider_factory_instance = CloudConnectionProviderFactory()
+cloud_connection_provider = cloud_connection_provider_factory_instance.get_cloud_connection(cloud_type=cloud_type, auth_url=OS_AUTH_URL, username=OS_USERNAME,
+                                               password=OS_PASSWORD,
+                                               project_name=OS_PROJECT_NAME,
+                                               os_user_domain_name=OS_USER_DOMAIN_NAME,
+                                               os_project_domain_id=OS_PROJECT_DOMAIN_ID,
+                                               api_version=OS_API_VERSION)
+#TODO: refactor the following
+connection = cloud_connection_provider.get_connection()
+novaQuerier = NovaQuerier(connection)
+neutronQuerier = NeutronQuerier(connection).connect()
+cinderQuerier = CinderQuerier(connection).connect()
+keystoneQuerier = KeystoneQuerier(connection).connect()
+glanceQuerier = GlanceQuerier(connection).connect()
 
-conn = getOpenstackConnection(auth_url=OS_AUTH_URL, username=OS_USERNAME, password=OS_PASSWORD,
-                              project_name=OS_PROJECT_NAME,
-                              os_user_domain_name=OS_USER_DOMAIN_NAME, os_project_domain_id=OS_PROJECT_DOMAIN_ID,
-                              api_version=OS_API_VERSION)
-
-novaQuerier = NovaQuerier(conn)
 novaQuerier.connect()
-
-glanceQuerier = GlanceQuerier(conn)
-glanceQuerier.connect()
-
-neutronQuerier = NeutronQuerier(conn)
 neutronQuerier.connect()
-
-cinderQuerier = CinderQuerier(conn)
 cinderQuerier.connect()
-
-keystoneQuerier = KeystoneQuerier(conn)
 keystoneQuerier.connect()
+glanceQuerier.connect()

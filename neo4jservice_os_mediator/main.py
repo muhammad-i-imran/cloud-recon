@@ -8,7 +8,10 @@ from openstackqueryapi import NotifierStarter
 from osqueriers import *
 from relationship_manager import RelationshipManager
 from collections import namedtuple
+from flatten_json import flatten
+from utils import *
 
+#todo: move provider-dependent functionality in seperate file, so it can be generalized later
 def create_servers(node_type):
     openstack_info[node_type]["data"] = NodeManager.prepare_node_data(data_list=novaQuerier.getServers(),
                                                                      node_type=node_type,
@@ -197,40 +200,20 @@ def begin_all():
         print("Exception occured: " + str(e))
         pass
 
-
-def diff_dictionaries(neoj_data, openstack_data): # receives flatten dicts
-    for  k in neoj_data:
-        if k in openstack_data:
-            if neoj_data[k] != openstack_data[k]:
-                return False
-        else:
-            return False
-    return True
-
 def notifier_callback(event_type, payload):
-    # import subscribed_event_types
-    # try:
-    #     subscribed_event_types.events[event_type]["handler"](subscribed_event_types.events[event_type], payload)
-    # except Exception as e:
-    #     print("Exception occured: " + str(e))
-    #     pass
-
-
-    NodeManager.delete_graph() #TODO remove this later
-
-    ##TODO: Compare graph data with openstack data and update node if different
-    # NodeManager.get_node()
-    # get openstack node data
-    # flatten openstack data
-    # if not diff_dictionaries(neoj_data, openstack_data):
-    #   update
-
-    begin_all()
+    # TODO: Compare graph data with openstack data and update node if different
+    openstack_component = NodeManager.get_node_by_attribute('id', payload['id']) # get openstack node data using apis
+    openstack_component_flattened_dict = flatten(openstack_component, separator="___")
+    openstack_component_neo4j = NodeManager.get_node_by_attribute('id', payload['id']) # will receive data that is already flattened when inserted
+    if not diff_dictionaries(openstack_component_neo4j, openstack_component_flattened_dict): # if dictionaries are different then update, otherwise ignore
+      NodeManager.update_node()
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
     notifier.start(NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback)
     begin_all()
+
+    ## the following code is commenting only for dev env
     # pool = Pool(processes=2)
     # pool.apply_async(notifier.start,
     #                  [NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID, NOTIFICATION_TOPIC_NAME, notifier_callback],
