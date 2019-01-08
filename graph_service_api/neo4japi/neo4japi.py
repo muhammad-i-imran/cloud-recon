@@ -101,9 +101,9 @@ class Neo4JApi(object):
         node = Node(node_type, **node_attributes)
         try:
             self.graph.create(node)
-            return str(node), 200
+            return 200
         except Exception as ex:
-            return str(ex), 304
+            return 304
 
     def create_node_with_merge(self, node_type, primary_keys, node_attributes):
         """
@@ -117,55 +117,13 @@ class Neo4JApi(object):
         node = Node(node_type, **node_attributes)
         try:
             self.graph.merge(node, node_type, *primary_keys)
-            return str(node), 200
+            return 200
         except Exception as ex:
-            return str(ex), 304
+            return 304
 
-    ###############################################
-    # def create_relationship(self, source_node_type, target_node_type,
-    #                         source_node_attr_value,
-    #                         target_node_attr_value, source_node_attr_name,
-    #                         target_node_attr_name, relationship,
-    #                         relationship_attributes, is_source_attr_name_regex=False,
-    #                         is_target_attr_name_regex=False):
     def create_relationship(self, source_node_type, source_node_attributes, target_node_type,
                             target_node_attributes, relationship,
                             relationship_attributes):
-        pass
-
-        # if not relationship:
-        #     raise IllegalArgumentError("Please provide valid relationships.")
-        #
-        # dict_depth = self.__depth(relationship_attributes)
-        # if dict_depth > 1:
-        #     raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
-        #
-        #
-        # if is_source_attr_name_regex:
-        #     source_nodes = self.find_node_with_regex(source_node_type, source_node_attr_name, source_node_attr_value)
-        # else:
-        #     source_nodes = self.find_node(source_node_type, source_node_attr_name, source_node_attr_value)
-        #
-        # if is_target_attr_name_regex:
-        #     target_nodes = self.find_node_with_regex(target_node_type, target_node_attr_name, target_node_attr_value)
-        # else:
-        #     target_nodes = self.find_node(target_node_type, target_node_attr_name, target_node_attr_value)
-        #
-        # for node1 in source_nodes:
-        #     for node2 in target_nodes:
-        #         self.graph.create(Relationship(node1, relationship, node2, **relationship_attributes))
-
-    def add_node_attr(self, node_type, node_name, node_attributes):
-        matcher = NodeMatcher(self.graph)
-        # TODO: try not to use first() here
-        node = matcher.match(node_type, name=node_name).first()
-        # node = Node(node_type, name=node_name, )
-        # self.graph.merge(node)
-        node.update(**node_attributes)
-        self.graph.push(node)
-
-    def add_relationship_attr(self, source_node_type, source_node_attributes, target_node_type, target_node_attributes,
-                              relationship, new_relationship_attributes):
         """
 
         :param source_node_type:
@@ -173,23 +131,69 @@ class Neo4JApi(object):
         :param target_node_type:
         :param target_node_attributes:
         :param relationship:
-        :param new_relationship_attributes:
+        :param relationship_attributes:
         :return:
         """
 
-    # if not relationship:
-    #     raise IllegalArgumentError("Relationship is not specified.")
-    # dict_depth = self.__depth(relationship_attributes)
-    # if dict_depth > 1:
-    #     raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
-    # matcher = NodeMatcher(self.graph)
-    # node1 = matcher.match(first_node_type, name=first_node_name).first()
-    # node2 = matcher.match(second_node_type, name=second_node_name).first()
-    # for rel in self.graph.match((node1, node2), relationship):
-    #     rel.update(**relationship_attributes)
-    #     self.graph.push(rel)
+        dict_depth = self.__depth(relationship_attributes)
+        if dict_depth > 1:
+            raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
 
-    # TODO: check whether relationships are still there after deleting nodes or relationships are also deleted
+        # todo: check if attributes names/values are regexes
+
+        source_nodes = self.find_nodes(source_node_type, source_node_attributes)
+        target_nodes = self.find_nodes(target_node_type, target_node_attributes)
+
+        if source_nodes and target_nodes:
+            for source_node in source_nodes:
+                for target_node in target_nodes:
+                    self.graph.create(Relationship(source_node, relationship, target_node, **relationship_attributes))
+        return 200
+
+    def create_relationship_with_merge(self, source_node_type, source_node_attributes, target_node_type,
+                            target_node_attributes, relationship,
+                            relationship_attributes):
+        """
+        [this is recommended if you don't want to create duplicates.]
+
+        :param source_node_type:
+        :param source_node_attributes:
+        :param target_node_type:
+        :param target_node_attributes:
+        :param relationship:
+        :param relationship_attributes:
+        :return:
+        """
+
+        dict_depth = self.__depth(relationship_attributes)
+        if dict_depth > 1:
+            raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
+
+        # todo: check if attributes names/values are regexes
+
+        source_nodes = self.find_nodes(source_node_type, source_node_attributes)
+        target_nodes = self.find_nodes(target_node_type, target_node_attributes)
+
+        if source_nodes and target_nodes:
+            for source_node in source_nodes:
+                for target_node in target_nodes:
+                    self.graph.merge(Relationship(source_node, relationship, target_node, **relationship_attributes))
+        return 200
+
+    def add_node_attr(self, node_type, node_query_attributes, node_updated_attributes):
+        """
+
+        :param node_type:
+        :param node_query_attributes:
+        :param node_updated_attributes:
+        :return:
+        """
+        nodes = self.find_nodes(node_type, node_query_attributes)
+        for node in nodes:
+            node.update(**node_updated_attributes)
+            self.graph.push(node)
+        return 200
+
     def delete_nodes(self, node_type, properties_dict):
         """
 
@@ -202,7 +206,7 @@ class Neo4JApi(object):
             self.graph.delete(node)
         return 200
 
-    def remove_relationship(self, source_node_type, source_node_properties_dict, target_node_type,
+    def delete_relationship(self, source_node_type, source_node_properties_dict, target_node_type,
                             target_node_properties_dict, relationship_type, relationship_attributes):
         """
 
@@ -213,25 +217,13 @@ class Neo4JApi(object):
         :param relationship_type:
         :param relationship_attributes:
         :return:
-
         """
-        # matcher = NodeMatcher(self.graph)
-        # # find nodes
-        # node1 = matcher.match(first_node_type, name=first_node_name).first()
-        # node2 = matcher.match(second_node_type, name=second_node_name).first()
-        #
-        # rel_matcher = RelationshipMatcher(self.graph)
-        # # find the given relationship between the given nodes
-        # relationship_to_del = rel_matcher.match(node1, node2, r_type=relationship, properties=relationship_attributes)
-        #
-        # # remove the relationship
-        # self.graph.delete(relationship_to_del)
-
         source_nodes = self.find_nodes(source_node_type, source_node_properties_dict)
         target_nodes = self.find_nodes(target_node_type, target_node_properties_dict)
         relationships = self.find_relationships(source_nodes, target_nodes, relationship_type, relationship_attributes)
         for relationship in relationships:
-            self.graph.delete(relationship)
+            self.graph.separate(relationship)
+        return 200
 
     ####################################################################################################################
     def find_relationships(self, source_node, target_node, relationship_type, relationship_attributes):
