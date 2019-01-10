@@ -71,22 +71,33 @@ class Neo4JApi(object):
         results = self.graph.run(cypher=query).data()
         return results
 
-    def get_all_nodes_by_type(self, node_type):  ##e.g. MATCH (n: VOLUMES) RETURN n
+    # def get_all_nodes_by_type(self, node_type):  ##e.g. MATCH (n: VOLUMES) RETURN n
+    #     """
+    #
+    #     :param node_type:
+    #     :return:
+    #     """
+    #     matcher = NodeMatcher(self.graph)
+    #     nodes = matcher.match(node_type)
+    #     return list(nodes)
+
+    def get_nodes(self, node_type, node_properties):
         """
 
         :param node_type:
+        :param node_properties:
         :return:
         """
-        matcher = NodeMatcher(self.graph)
-        nodes = matcher.match(node_type)
-        return list(nodes)
+        nodes, status = self.find_nodes(node_type=node_type, properties_dict=node_properties)
+        return  nodes, status
 
-    def create_node(self, node_type, primary_keys, node_attributes):
+
+    def create_node(self, node_type, primary_keys, node_properties):
         """
 
         :param node_type:
         :param primary_keys:
-        :param node_attributes: should also contain attribute 'name'
+        :param node_properties: should also contain attribute 'name'
         :return:
         """
         if primary_keys is not None:
@@ -95,106 +106,106 @@ class Neo4JApi(object):
             except Exception as ex:
                 pass
 
-        dict_depth = self.__depth(node_attributes)
+        dict_depth = self.__depth(node_properties)
         if dict_depth > 1:
-            raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
-        node = Node(node_type, **node_attributes)
+            raise ValueError("Invalid JSON format. properties JSON should have depth 1.")
+        node = Node(node_type, **node_properties)
         try:
             self.graph.create(node)
             return 200
         except Exception as ex:
             return 304
 
-    def create_node_with_merge(self, node_type, primary_keys, node_attributes):
+    def create_node_with_merge(self, node_type, primary_keys, node_properties):
         """
         Creates node if it doesn't exist, otherwise merge it. Good for updation
 
         :param node_type:
         :param id_key:
-        :param node_attributes:
+        :param node_properties:
         :return:
         """
-        node = Node(node_type, **node_attributes)
+        node = Node(node_type, **node_properties)
         try:
             self.graph.merge(node, node_type, *primary_keys)
             return 200
         except Exception as ex:
             return 304
 
-    def create_relationship(self, source_node_type, source_node_attributes, target_node_type,
-                            target_node_attributes, relationship,
-                            relationship_attributes):
+    def create_relationship(self, source_node_type, source_node_properties, target_node_type,
+                            target_node_properties, relationship,
+                            relationship_properties):
         """
 
         :param source_node_type:
-        :param source_node_attributes:
+        :param source_node_properties:
         :param target_node_type:
-        :param target_node_attributes:
+        :param target_node_properties:
         :param relationship:
-        :param relationship_attributes:
+        :param relationship_properties:
         :return:
         """
 
-        dict_depth = self.__depth(relationship_attributes)
+        dict_depth = self.__depth(relationship_properties)
         if dict_depth > 1:
-            raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
+            raise ValueError("Invalid JSON format. properties JSON should have depth 1.")
 
-        # todo: check if attributes names/values are regexes
+        # todo: check if properties names/values are regexes
 
-        source_nodes = self.find_nodes(source_node_type, source_node_attributes)
-        target_nodes = self.find_nodes(target_node_type, target_node_attributes)
+        source_nodes = self.find_nodes(source_node_type, source_node_properties)
+        target_nodes = self.find_nodes(target_node_type, target_node_properties)
 
         if source_nodes and target_nodes:
             for source_node in source_nodes:
                 for target_node in target_nodes:
-                    self.graph.create(Relationship(source_node, relationship, target_node, **relationship_attributes))
+                    self.graph.create(Relationship(source_node, relationship, target_node, **relationship_properties))
         return 200
 
-    def create_relationship_with_merge(self, source_node_type, source_node_attributes, target_node_type,
-                            target_node_attributes, relationship,
-                            relationship_attributes):
+    def create_relationship_with_merge(self, source_node_type, source_node_properties, target_node_type,
+                            target_node_properties, relationship,
+                            relationship_properties):
         """
         [this is recommended if you don't want to create duplicates.]
 
         :param source_node_type:
-        :param source_node_attributes:
+        :param source_node_properties:
         :param target_node_type:
-        :param target_node_attributes:
+        :param target_node_properties:
         :param relationship:
-        :param relationship_attributes:
+        :param relationship_properties:
         :return:
         """
 
-        dict_depth = self.__depth(relationship_attributes)
+        dict_depth = self.__depth(relationship_properties)
         if dict_depth > 1:
-            raise ValueError("Invalid JSON format. Attributes JSON should have depth 1.")
+            raise ValueError("Invalid JSON format. properties JSON should have depth 1.")
 
-        # todo: check if attributes names/values are regexes
+        # todo: check if properties names/values are regexes
 
-        source_nodes = self.find_nodes(source_node_type, source_node_attributes)
-        target_nodes = self.find_nodes(target_node_type, target_node_attributes)
+        source_nodes = self.find_nodes(source_node_type, source_node_properties)
+        target_nodes = self.find_nodes(target_node_type, target_node_properties)
 
         if source_nodes and target_nodes:
             for source_node in source_nodes:
                 for target_node in target_nodes:
-                    self.graph.merge(Relationship(source_node, relationship, target_node, **relationship_attributes))
+                    self.graph.merge(Relationship(source_node, relationship, target_node, **relationship_properties))
         return 200
 
-    def add_node_attr(self, node_type, node_query_attributes, node_updated_attributes):
+    def update_node_properties(self, node_type, node_query_properties, node_updated_properties):
         """
 
         :param node_type:
-        :param node_query_attributes:
-        :param node_updated_attributes:
+        :param node_query_properties:
+        :param node_updated_properties:
         :return:
         """
-        nodes = self.find_nodes(node_type, node_query_attributes)
+        nodes = self.find_nodes(node_type, node_query_properties)
         for node in nodes:
-            node.update(**node_updated_attributes)
+            node.update(**node_updated_properties)
             self.graph.push(node)
         return 200
 
-    def delete_nodes(self, node_type, properties_dict):
+    def delete_node(self, node_type, properties_dict):
         """
 
         :param node_type:
@@ -207,7 +218,7 @@ class Neo4JApi(object):
         return 200
 
     def delete_relationship(self, source_node_type, source_node_properties_dict, target_node_type,
-                            target_node_properties_dict, relationship_type, relationship_attributes):
+                            target_node_properties_dict, relationship_type, relationship_properties):
         """
 
         :param source_node_type:
@@ -215,30 +226,30 @@ class Neo4JApi(object):
         :param target_node_type:
         :param target_node_properties_dict:
         :param relationship_type:
-        :param relationship_attributes:
+        :param relationship_properties:
         :return:
         """
         source_nodes = self.find_nodes(source_node_type, source_node_properties_dict)
         target_nodes = self.find_nodes(target_node_type, target_node_properties_dict)
-        relationships = self.find_relationships(source_nodes, target_nodes, relationship_type, relationship_attributes)
+        relationships = self.find_relationships(source_nodes, target_nodes, relationship_type, relationship_properties)
         for relationship in relationships:
             self.graph.separate(relationship)
         return 200
 
     ####################################################################################################################
-    def find_relationships(self, source_node, target_node, relationship_type, relationship_attributes):
+    def find_relationships(self, source_node, target_node, relationship_type, relationship_properties):
         """
 
         :param source_node:
         :param target_node:
         :param relationship_type:
-        :param relationship_attributes:
+        :param relationship_properties:
         :return:
         """
         relationship_matcher = RelationshipMatcher(self.graph)
         relationships = relationship_matcher.match(source_node, target_node, r_type=relationship_type,
-                                                   properties=relationship_attributes)
-        return relationships
+                                                   properties=relationship_properties)
+        return relationships, 200
 
     def find_nodes(self, node_type, properties_dict):
         """

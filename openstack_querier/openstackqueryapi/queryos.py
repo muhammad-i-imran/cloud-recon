@@ -21,7 +21,7 @@ class OpenstackConnector(object):
         self.api_version = api_version
         self.loader_option=loader_option  #for loader_option other than password or v3password, different parameters might be needed
 
-    def getSession(self):
+    def get_session(self):
         loader = loading.get_plugin_loader(self.loader_option)
         auth = loader.load_from_options(auth_url=self.auth_url,
                                         username=self.username,
@@ -41,43 +41,42 @@ class NovaQuerier(object):
 
     def connect(self):
         from novaclient.v2 import client
-        sess=self.os_connector.getSession()
+        sess=self.os_connector.get_session()
         self.nova = client.client.Client(version=self.os_connector.api_version, session=sess)
 
-    def getFlavors(self):
+    def get_flavors(self):
         flavors_list = self.nova.flavors.list()
         return flavors_list
 
-    def getHostAggregates(self):
+    def get_host_aggregates(self):
         host_aggregates_list = self.nova.aggregates.list()
         return host_aggregates_list
 
-    def getServices(self):
-        services_list = self.nova.services.list()
+    def get_services(self, id):
+        if id:
+            services_list = self.nova.services.get(id)
+        else:
+            services_list = self.nova.services.list()
         return services_list
 
-    def getHypervisors(self):
+    def get_hypervisors(self):
         hypervisors_list = self.nova.hypervisors.list()
         return hypervisors_list
 
-    def getServers(self):
+    def get_servers(self):
         servers_list = self.nova.servers.list(search_opts={'all_tenants': 1})
         return servers_list
 
-    def getAvailabilityZones(self):
+    def get_availability_zones(self):
         availability_zones = self.nova.availability_zones.list()
         return availability_zones
 
-    def getKeyPairs(self):
+    def get_key_pairs(self):
         keypairs_list = self.nova.keypairs.list()
         return keypairs_list
 
-    def getServer(self, id):
+    def get_server(self, id):
         return self.nova.servers.get(id)
-
-    def execCommandWithSsh(self, command):
-        subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-
 
 class NeutronQuerier(object):
     def __init__(self, os_connector):
@@ -86,22 +85,20 @@ class NeutronQuerier(object):
 
     def connect(self):
         from neutronclient.v2_0 import client as neutronclient
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.neutron = neutronclient.Client(session=sess)
 
-    def getNetworks(self):
+    def get_networks(self):
         networks = self.neutron.list_networks()["networks"]
         return networks
 
-    # ...
-    def getSubNets(self):
+    def get_subnets(self):
         subnets = self.neutron.list_subnets()["subnets"]
         return subnets
 
-    def getRouters(self):
+    def get_routers(self):
         routers = self.neutron.list_routers()["routers"]
         return routers
-
 
 class GlanceQuerier(object):
     def __init__(self, os_connector):
@@ -110,16 +107,16 @@ class GlanceQuerier(object):
 
     def connect(self):
         import glanceclient
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.glance = glanceclient.Client('2', session=sess)
 
-    def getImages(self):
+    def get_images(self):
         images_list=[]
         for img in self.glance.images.list():
             images_list.append(img.__dict__["__original__"])
         return images_list
 
-    def getImageMembers(self, image_id):
+    def get_image_members(self, image_id):
         image_members_list = self.glance.image_members.list(image_id)
         return image_members_list
 
@@ -130,22 +127,22 @@ class KeystoneQuerier(object):
 
     def connect(self):
         from keystoneclient.v3 import client as keystoneclient
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.keystone = keystoneclient.Client(session=sess)
 
-    def getUsers(self):
+    def get_users(self):
         users_list = self.keystone.users.list()
         return users_list
 
-    def getServices(self):
+    def get_services(self):
         services_list = self.keystone.services.list()
         return services_list
 
-    def getTenants(self):
+    def get_tenants(self):
         tenants_list = self.keystone.tenants.list()
         return tenants_list
 
-    def getRoles(self):
+    def get_roles(self):
         roles_list = self.keystone.roles.list()
         return roles_list
 
@@ -156,10 +153,10 @@ class CinderQuerier(object):
 
     def connect(self):
         import cinderclient.v2
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.cinder = cinderclient.v2.Client(session=sess)
 
-    def getVolumes(self):
+    def get_volumes(self):
         volumes_list = self.cinder.volumes.list()
         return volumes_list
 
@@ -171,7 +168,7 @@ class ManilaQuerier(object):
 
     def connect(self):
         import manilaclient.v2
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.manila = manilaclient.v2.client.Client('2', session=sess)
 
 
@@ -182,7 +179,7 @@ class IronicQuerier(object):
 
     def connect(self):
         import ironicclient.v1.client
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.ironic = ironicclient.v1.client.Client('1', session=sess)
 
 
@@ -193,7 +190,7 @@ class SwiftQuerier(object):
 
     def connect(self):
         import swiftclient
-        sess = self.os_connector.getSession()
+        sess = self.os_connector.get_session()
         self.swift = swiftclient.client.Connection(session=sess)
 
 
@@ -207,9 +204,9 @@ class CustomVirtualMachineQuerier(object):
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(hostname=ip, username=username, pkey=key, timeout=15)
 
-    def executeCommandOnVM(self, command):
+    def execute_command_on_vm(self, command):
         stdin, stdout, stderr = self.ssh.exec_command(command)
         return stdin, stdout, stderr
 
-    def closeConnection(self):
+    def close_connection(self):
         self.ssh.close()

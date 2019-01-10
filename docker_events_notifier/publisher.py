@@ -36,9 +36,9 @@ class DockerNotificationPublisher(object):
                                    body=payload)
 
     def close_channel(self):
-        if self.channel is not None:
+        if self.channel:
             self.channel.close()
 
     def close_connection(self):
-        if self.connection is not None:
+        if self.connection:
             self.connection.close()

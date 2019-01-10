@@ -37,8 +37,9 @@ class DockerNotificationSubscriber(object):
         for event in self.events:
             exchange_name = "docker.{0}".format(event)
             self.channel.exchange_declare(
-                exchange=exchange_name,
-                exchange_type="fanout"
+                exchange=exchange_name
+                # ,
+                # exchange_type="fanout"
             ) # exchange type 'fanout' is better for event notifcations. since it broadcasts messages to all queues
             result = self.channel.queue_declare(exclusive=True)
             queue = result.method.queue
@@ -49,10 +50,12 @@ class DockerNotificationSubscriber(object):
         self.channel.start_consuming()
 
     def close_channel(self):
-        self.channel.close()
+        if self.channel:
+            self.channel.close()
 
     def close_connection(self):
-        self.connection.close()
+        if self.connection:
+            self.connection.close()
 
 ### for testing purpose only
 def main():

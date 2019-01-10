@@ -1,5 +1,5 @@
 from envvars import *
-from cloud_connections_manager import CloudConnectionProviderFactory
+from cloudconnectionshandler.cloud_connections_manager import CloudConnectionProviderFactory
 
 """
 It is OpenStack-specific implementation... so far

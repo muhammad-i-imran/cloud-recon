@@ -43,9 +43,8 @@ def get_node():
         return jsonify({'status': 400})
     data = request.get_json()
     node_type = data['node_type']
-    node_query_attr = data['node_query_attr']
-    node_query_attr_val = data['node_query_attr_val']
-    status = api.get_node(node_type=node_type, node_query_attr=node_query_attr, node_query_attr_val=node_query_attr_val)
+    node_properties = data['node_properties']
+    nodes, status = api.get_node(node_type, node_properties)
     return jsonify(jsonify({'status': status}))
 
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
@@ -55,8 +54,8 @@ def create_node():
     data = request.get_json()
     node_type = data['node_type']
     id_key = data['id_key']
-    node_attributes = data['node_attributes']
-    status = api.create_node(node_type=node_type, id_key=id_key, node_attributes=node_attributes)
+    node_properties = data['node_properties']
+    status = api.create_node(node_type=node_type, id_key=id_key, node_properties=node_properties)
     return jsonify(jsonify({'status': status}))
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
@@ -66,33 +65,33 @@ def create_relationship():
     data = request.get_json()
     source_node_type = data['source_node_type']
     target_node_type = data['target_node_type']
-    source_node_attributes = data['source_node_attributes']
-    target_node_attributes = data['target_node_attributes']
+    source_node_properties = data['source_node_properties']
+    target_node_properties = data['target_node_properties']
     relationship = data['relationship']
-    relationship_attributes = data['relationship_attributes']
+    relationship_properties = data['relationship_properties']
 
     status = api.create_relationship_with_merge(source_node_type=source_node_type,
-                                                source_node_attributes=source_node_attributes,
+                                                source_node_properties=source_node_properties,
                                                 target_node_type=target_node_type,
-                                                target_node_attributes=target_node_attributes,
+                                                target_node_properties=target_node_properties,
                                                 relationship=relationship,
-                                                relationship_attributes=relationship_attributes)
+                                                relationship_properties=relationship_properties)
     return jsonify({'status': status})
 
-@app.route('/neo4j/nodes/update_node_attributes', methods=['PUT', 'POST'])
-def update_node_attrs():
+@app.route('/neo4j/nodes/update_node_properties', methods=['PUT', 'POST'])
+def update_node_properties():
     if request.method not in ['POST', 'PUT'] and not request.is_json:
         return jsonify({'status': 400})
     data = request.get_json()
     node_type = data['node_type']
-    node_query_attributes = data['node_query_attributes']
-    node_updated_attributes = data['node_updated_attributes']
-    status = api.update_node_attr(node_type=node_type, node_query_attributes=node_query_attributes,
-                                  node_updated_attributes=node_updated_attributes)
+    node_query_properties = data['node_query_properties']
+    node_updated_properties = data['node_updated_properties']
+    status = api.update_node_attr(node_type=node_type, node_query_properties=node_query_properties,
+                                  node_updated_properties=node_updated_properties)
     return jsonify({'status': status})
 
-@app.route('/neo4j/relationships/add_relationship_attr', methods=['POST'])
-def add_attr_to_relationship():
+@app.route('/neo4j/relationships/add_relationship_properties', methods=['POST'])
+def add_properties_to_relationship():
     if request.method == 'POST' and not request.is_json:
         return jsonify({'status': 400})
 
@@ -102,10 +101,10 @@ def add_attr_to_relationship():
     first_node_name = data['first_node_name']
     second_node_name = data['second_node_name']
     relationship = data['relationship']
-    relationship_attributes = data['relationship_attributes']
+    relationship_properties = data['relationship_properties']
     status = api.add_relationship_attr(first_node_type=first_node_type, second_node_type=second_node_type,
                                        first_node_name=first_node_name, second_node_name=second_node_name,
-                                       relationship=relationship, relationship_attributes=relationship_attributes)
+                                       relationship=relationship, relationship_properties=relationship_properties)
     return jsonify({'status': status})
 
 @app.route('/neo4j/delete_node', methods=['DELETE', 'POST', 'PUT'])
@@ -114,27 +113,27 @@ def delete_node():
         return jsonify({'status': 400})
     data = request.get_json()
     node_type = data['node_type']
-    properties_dict = data['properties_dict']
+    properties_dict = data['node_properties']
     status = api.delete_node(node_type=node_type, properties_dict=properties_dict)
     return jsonify({'status': status})
 
 @app.route('/neo4j/delete_relationship', methods=['DELETE', 'POST', 'PUT'])
-def delete_relationship_between_nodes():
+def delete_relationship():
     if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:
         return jsonify({'status': 400})
     data = request.get_json()
     source_node_type = data['source_node_type']
-    source_node_properties_dict = data['source_node_properties_dict']
+    source_node_properties_dict = data['source_node_properties']
     target_node_type = data['target_node_type']
-    target_node_properties_dict = data['target_node_properties_dict']
+    target_node_properties_dict = data['target_node_properties']
     relationship_type = data['relationship_type']
-    relationship_attributes = data['relationship_attributes']
+    relationship_properties = data['relationship_properties']
     status = api.delete_relationship(source_node_type=source_node_type,
                                      source_node_properties_dict=source_node_properties_dict,
                                      target_node_type=target_node_type,
                                      target_node_properties_dict=target_node_properties_dict,
                                      relationship_type=relationship_type,
-                                     relationship_attributes=relationship_attributes)
+                                     relationship_properties=relationship_properties)
     return jsonify({'status': status})
 
 @app.route('/neo4j/delete_graph', methods=['GET'])

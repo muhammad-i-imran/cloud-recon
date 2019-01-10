@@ -1,5 +1,5 @@
 from docker.client import Client
-from threading import Thread, RLock
+from threading import Thread
 from publisher import DockerNotificationPublisher
 import sys
 import os
@@ -8,7 +8,6 @@ class DockerEventListener(object):
     def __init__(self, unix_socket_url, publisher_instance):
         self.client = Client(base_url=unix_socket_url)
         self.publisher = publisher_instance
-        self.lock = RLock()
 
     def listen(self, filters, forwarding_type):
         events = self.client.events(filters= filters, decode=True)
