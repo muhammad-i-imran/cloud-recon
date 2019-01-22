@@ -9,16 +9,9 @@ except ImportError as e:
 class CloudConnectionProvider(metaclass=abc.ABCMeta):
     CLOUD_TYPE = None
 
-    def __init__(self, auth_url, username, password, project_name, os_user_domain_name, os_project_domain_id,
-                 api_version):  # todo: reduce number of parameters
+    def __init__(self, **parameters):
         # only the shared parameters should be here
-        self.auth_url = auth_url
-        self.username = username
-        self.password = password
-        self.project_name = project_name
-        self.os_user_domain_name = os_user_domain_name
-        self.os_project_domain_id = os_project_domain_id
-        self.api_version = api_version
+        pass
 
     @abc.abstractmethod
     def get_connection(self):
@@ -32,8 +25,15 @@ class CloudConnectionProvider(metaclass=abc.ABCMeta):
 class OpenStackCloudConnectionProvider(CloudConnectionProvider):
     CLOUD_TYPE = "openstack"
 
-    def __init__(self):
+    def __init__(self, auth_url, username, password, project_name, os_user_domain_name, os_project_domain_id, api_version):
         CloudConnectionProvider.__init__(self)
+        self.auth_url = auth_url
+        self.username = username
+        self.password = password
+        self.project_name = project_name
+        self.os_user_domain_name = os_user_domain_name
+        self.os_project_domain_id = os_project_domain_id
+        self.api_version = api_version
 
     def get_connection(self):
         self.connection = OpenstackConnector(auth_url=self.auth_url, username=self.username, password=self.password,

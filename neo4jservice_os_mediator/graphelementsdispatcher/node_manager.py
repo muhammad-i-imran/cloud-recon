@@ -1,9 +1,5 @@
 from graphserviceschema.serviceschema import *
 from httphandler.caller import *
-from openstackqueryapi.queryos import CustomVirtualMachineQuerier
-import json
-import os
-from utils import *
 
 
 class NodeManager(object):
@@ -13,8 +9,6 @@ class NodeManager(object):
     NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH = "/nodes/create_node"
     NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH = "/nodes/delete_node"
     NEO4J_SERVICE_DELETE_GRAPH_RELATIVE_PATH = "/delete_graph"
-
-    vmSshQuerier = CustomVirtualMachineQuerier()
 
     ####################################################################################################################
     """CRUD OPERATIONS"""
@@ -40,8 +34,9 @@ class NodeManager(object):
     def get_node_by_properties(cls, node_properties):
         data = {'node_properties': node_properties}
         # post method because there can be many attributes
-        return call_service_post_method(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
-                                 data=data)
+        return call_service_post_method(
+            url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
+            data=data)
 
     @classmethod
     def get_nodes(cls, node_type, node_properties):
@@ -52,8 +47,9 @@ class NodeManager(object):
         :return:
         """
         data = {'node_type': node_type, 'node_properties': node_properties}
-        return call_service_post_method(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
-                                 data=data)
+        return call_service_post_method(
+            url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
+            data=data)
 
     @classmethod
     def get_all_nodes(cls):

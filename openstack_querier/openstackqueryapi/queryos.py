@@ -6,9 +6,6 @@ try:
 except ImportError:
     from io import StringIO
 
-import subprocess
-
-
 class OpenstackConnector(object):
     def __init__(self, auth_url, username, password, project_name, os_user_domain_name="Default",
                  os_project_domain_id="default", api_version="2", loader_option="password"):
@@ -33,7 +30,6 @@ class OpenstackConnector(object):
         sess = session.Session(auth=auth)
         return sess
 
-
 class NovaQuerier(object):
     def __init__(self, os_connector):
         self.nova = None
@@ -53,10 +49,7 @@ class NovaQuerier(object):
         return host_aggregates_list
 
     def get_services(self, id):
-        if id:
-            services_list = self.nova.services.get(id)
-        else:
-            services_list = self.nova.services.list()
+        services_list = self.nova.services.list()
         return services_list
 
     def get_hypervisors(self):
@@ -160,7 +153,6 @@ class CinderQuerier(object):
         volumes_list = self.cinder.volumes.list()
         return volumes_list
 
-
 class ManilaQuerier(object):
     def __init__(self, os_connector):
         self.manila = None
@@ -170,7 +162,6 @@ class ManilaQuerier(object):
         import manilaclient.v2
         sess = self.os_connector.get_session()
         self.manila = manilaclient.v2.client.Client('2', session=sess)
-
 
 class IronicQuerier(object):
     def __init__(self, os_connector):
@@ -182,7 +173,6 @@ class IronicQuerier(object):
         sess = self.os_connector.get_session()
         self.ironic = ironicclient.v1.client.Client('1', session=sess)
 
-
 class SwiftQuerier(object):
     def __init__(self, os_connector):
         self.swift = None
@@ -193,8 +183,7 @@ class SwiftQuerier(object):
         sess = self.os_connector.get_session()
         self.swift = swiftclient.client.Connection(session=sess)
 
-
-class CustomVirtualMachineQuerier(object):
+class ShellCommandExecutor(object):
     def __init__(self):
         self.ssh = None
 
@@ -204,7 +193,7 @@ class CustomVirtualMachineQuerier(object):
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(hostname=ip, username=username, pkey=key, timeout=15)
 
-    def execute_command_on_vm(self, command):
+    def execute_command(self, command):
         stdin, stdout, stderr = self.ssh.exec_command(command)
         return stdin, stdout, stderr
 

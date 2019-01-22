@@ -1,298 +1,254 @@
-{ 
-  "SERVERS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "OS-EXT-AZ:availability_zone",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+{
+  "cloud_provider": "openstack",
+  "cloud_config_info":
+  {
+    "SERVERS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "OS-EXT-AZ:availability_zone",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "OS-EXT-SRV-ATTR:host",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "HYPERVISORS",
+          "target_property_name": "service___host",
+          "relationship_name": "RUNS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "key_name",
+          "is_source_attr_name_regex": false,
+          "is_sou yource_attr_name_regex": false,
+          "target_node_type": "KEY_PAIRS",
+          "target_property_name": "_info___keypair___name",
+          "relationship_name": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "flavor___id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "FLAVORS",
+          "target_property_name": "id",
+          "relationship_name": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "_info___os-extended-volumes:volumes_attached___(\\d+)___id",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "VOLUMES",
+          "target_property_name": "id",
+          "relationship_name": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "user_id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "USERS",
+          "target_property_name": "id",
+          "relationship_name": "CREATED_BY",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "OS-EXT-SRV-ATTR:host",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "HYPERVISORS",
-        "target_node_attr_name": "service___host",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "RUNS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "ROUTERS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "external_gateway_info___network_id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "NETWORKS",
+          "target_property_name": "id",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "external_gateway_info___external_fixed_ips___(\\d+)___subnet_id",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "SUBNETS",
+          "target_property_name": "id",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "availability_zones___(\\d+)",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "key_name",
-        "is_source_attr_name_regex": false,
-        "is_sou yource_attr_name_regex": false,
-        "target_node_type": "KEY_PAIRS",
-        "target_node_attr_name": "_info___keypair___name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "USES",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "HOST_AGGREGATES": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "availability_zone",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "hosts___(\\d+)",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "HYPERVISORS",
+          "target_property_name": "service___host",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "flavor___id",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "FLAVORS",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "USES",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "AVAILABILITY_ZONES": {
+      "name_attr": "zoneName",
+      "id_key": "name",
+      "RELATIONSHIPS": []
+    },
+    "SERVICES": {
+      "name_attr": "binary",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "zone",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "host",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "HYPERVISORS",
+          "target_property_name": "service___host",
+          "relationship_name": "RUNS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "_info___os-extended-volumes:volumes_attached___(\\d+)___id",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "VOLUMES",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "USES",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "HYPERVISORS": {
+      "name_attr": "hypervisor_hostname",
+      "id_key": "id",
+      "RELATIONSHIPS": []
+    },
+    "FLAVORS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": []
+    },
+    "VOLUMES": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "availability_zone",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "user_id",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "USERS",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "CREATED_BY",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "KEY_PAIRS": {
+      "name_attr": "name",
+      "id_key": "name",
+      "RELATIONSHIPS": []
+    },
+    "IMAGES": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": []
+    },
+    "NETWORKS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "subnets___(\\d+)",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "SUBNETS",
+          "target_property_name": "id",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "availability_zones___(\\d+)",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "AVAILABILITY_ZONES",
+          "target_property_name": "name",
+          "relationship_name": "DEPENDS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      }
-    ]
-  },
-  "ROUTERS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "external_gateway_info___network_id",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "NETWORKS",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
+      ]
+    },
+    "SUBNETS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": []
+    },
+    "USERS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": []
+    },
+    "CONTAINERS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "server_name",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "SERVERS",
+          "target_property_name": "name",
+          "relationship_name": "DEPLOYED_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
         }
-      },
-      {
-        "source_attr_name": "external_gateway_info___external_fixed_ips___(\\d+)___subnet_id",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "SUBNETS",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      },
-      {
-        "source_attr_name": "availability_zones___(\\d+)",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
-  },
-  "HOST_AGGREGATES": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "availability_zone",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      },
-      {
-        "source_attr_name": "hosts___(\\d+)",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "HYPERVISORS",
-        "target_node_attr_name": "service___host",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
-  },
-  "AVAILABILITY_ZONES": {
-    "name_attr": "zoneName",
-    "id_key": "name",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "SERVICES": {
-    "name_attr": "binary",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "zone",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      },
-      {
-        "source_attr_name": "host",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "HYPERVISORS",
-        "target_node_attr_name": "service___host",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "RUNS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
-  },
-  "HYPERVISORS": {
-    "name_attr": "hypervisor_hostname",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "FLAVORS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "VOLUMES": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "availability_zone",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
-  },
-  "KEY_PAIRS": {
-    "name_attr": "name",
-    "id_key": "name",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "IMAGES": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "NETWORKS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "subnets___(\\d+)",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "SUBNETS",
-        "target_node_attr_name": "id",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      },
-      {
-        "source_attr_name": "availability_zones___(\\d+)",
-        "is_source_attr_name_regex": true,
-        "target_node_type": "AVAILABILITY_ZONES",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPENDS_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
-  },
-  "SUBNETS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "USERS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": []
-  },
-  "CONTAINERS": {
-    "name_attr": "name",
-    "id_key": "id",
-    "data": [],
-    "RELATIONSHIPS": [
-      {
-        "source_attr_name": "server_name",
-        "is_source_attr_name_regex": false,
-        "target_node_type": "SERVERS",
-        "target_node_attr_name": "name",
-        "is_target_attr_name_regex": false,
-        "target_value_data_type": "string",
-        "relationship_name": "DEPLOYED_ON",
-        "relationship_attrs": {
-          "STATUS": "ACTIVE"
-        }
-      }
-    ]
+      ]
+    }
   }
 }
