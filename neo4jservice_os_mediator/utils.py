@@ -14,3 +14,14 @@ def diff_dictionaries(neoj_data, openstack_data):
         else:
             return False
     return True
+
+def add_prefix_to_dict_keys(dictionary, prefix_string=""):
+    if not prefix_string:
+        return dictionary
+    new_dictionary={}
+    keys = dictionary.keys()
+    for key in keys:
+        new_key = prefix_string + key
+        new_dictionary[new_key] = dictionary[key]
+        del dictionary[key]
+    return new_dictionary
