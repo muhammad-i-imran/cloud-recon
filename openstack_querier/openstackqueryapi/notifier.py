@@ -38,3 +38,42 @@ class NotifierStarter(object):
         server.start()
         print('Started server...')
         server.wait()
+
+
+
+"""
+EXAMPLE FOR DOCKER NOTIFICATIONS:
+from oslo_config import cfg
+import oslo_messaging
+
+# Available notification list is given in: https://github.com/openstack/nova/blob/master/nova/rpc.py
+class NotificationEndpoint(object):
+    def __init__(self, event_type, publisher_id):
+        self.filter_rule = oslo_messaging.NotificationFilter(
+            event_type=event_type,
+            publisher_id=publisher_id)
+    def info(self, ctxt, publisher_id, event_type, payload, metadata):
+        print("Event type: %s" % event_type)
+        print(payload)
+
+class NotifierStarter(object):
+    def __init__(self):
+        self.transport_url = "rabbit://user:bitnami@localhost:30002/"
+
+    def start(self):
+        topic_names=["docker_notifications"]
+        transport = oslo_messaging.get_notification_transport(cfg.CONF, url=self.transport_url)
+        targets = []
+        for topic_name in topic_names:
+            targets.append(oslo_messaging.Target(exchange='docker',topic=topic_name))
+        endpoints = [
+            NotificationEndpoint(event_type='docker.*', publisher_id='^.*')
+        ]
+        server = oslo_messaging.get_notification_listener(transport, targets,
+                                                          endpoints, executor='threading')
+        print('Starting server...')
+        server.start()
+        print('Started server...')
+        server.wait()
+
+"""
