@@ -7,6 +7,7 @@ class DockerNotificationPublisher(object):
         self.channel = self.connection.channel()
         self.exchange_name = 'docker'
         self.topic = 'docker_notifications'
+        self.routing_key = 'docker_notifications.info'
         self.allowed_event_types = ["docker.container.create.end", "docker.container.stop.end"]
 
         self.create_exchange()
@@ -30,14 +31,13 @@ class DockerNotificationPublisher(object):
     def publish_events(self, event_type, payload):
         if not event_type in self.allowed_event_types:  # only allow listed event types
             return
-        # self.create_exchange(exchange_name)
-        routing_key = event_type
         self.channel.basic_publish(exchange=self.exchange_name,
-                                   routing_key='docker_notifications.info',
+                                   routing_key=self.routing_key,
                                    body=payload,
                                    properties=pika.BasicProperties(
                                        content_type="application/json",
                                        content_encoding="ascii-8bit",
+                                       delivery_mode=2 # for persistence, in case the subscriber crashes, the messages will still be in the queue
                                        # headers=self.headers,
                                        # delivery_mode=self.delivery_mode,
                                        # priority=self.priority,
