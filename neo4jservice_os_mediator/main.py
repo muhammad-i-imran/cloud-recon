@@ -1,14 +1,15 @@
 from event_handlers import *
 from notifier import *
 from openstack_preprocessor import *
+import json
+from envvars import *
 
 def begin_all():
     try:
-        begin_node_create()
-        begin_relationship_create()
+        begin_node_create(cloud_config_info)
+        begin_relationship_create(cloud_config_info)
     except Exception as e:
         print("Exception occured: " + str(e))
-        pass
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
@@ -19,7 +20,6 @@ def main():
 
     ##temporary. later use pool
     notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)
-
     begin_all()
 
     ## the following code is commenting only for dev env
@@ -32,11 +32,11 @@ def main():
     #     time.sleep(int(TIME_TO_WAIT))
     #     begin_all()
 
-
 if __name__ == '__main__':
     NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
     configuratons = json.loads(open(CONFIG_FILE_PATH).read())
+
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type
     cloud_config_info = configuratons["cloud_config_info"]
-    cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)
+    #cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)
     main()
