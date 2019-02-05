@@ -1,20 +1,26 @@
-from graphserviceschema.serviceschema import *
 from httphandler.caller import *
+
 
 class RelationshipManager(object):
     NEO4J_SERVICE_URL = ""
     NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH = "/relationships/create_relationship"
 
     @classmethod
-    def create_relationship(self, source_node_type, source_node_properties, target_node_type,
-                            target_node_properties, relationship, relationship_properties):
-        relationship_properties_obj = RelationshipProperties(relationship_properties)
+    def create_relationship(self, data: dict):
+        """
+        Calls web service to create a relationship between nodes.
 
-        relationship = Relationship(source_node_type=source_node_type, source_node_properties=source_node_properties,
-                                    target_node_type=target_node_type,
-                                    target_node_properties=target_node_properties, relationship=relationship,
-                                    relationship_properties=relationship_properties_obj)
-        data = relationship.__dict__
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        source_node_type: (str) the source node
+        source_node_properties: (dict) the properties that can identify the node in the graph
+        target_node_type: (str) the target node
+        target_node_properties: (dict) the properties that can identify the node in the graph
+        relationship: (str) the useful name of the relationship
+        relationship_properties:  (dict) the properties to include in the relationship
+        :return:
+        """
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
             data=data)
@@ -24,15 +30,21 @@ class RelationshipManager(object):
         pass
 
     @classmethod
-    def delete_relationship(self, source_node_type, source_node_properties, target_node_type,
-                                      target_node_properties, relationship, relationship_properties):
-        relationship_properties_obj = RelationshipProperties(relationship_properties)
+    def delete_relationship(self, data: dict):
+        """
+        Calls web service to delete a relationship between nodes.
 
-        relationship = Relationship(source_node_type=source_node_type, source_node_properties=source_node_properties,
-                                    target_node_type=target_node_type,
-                                    target_node_properties=target_node_properties, relationship=relationship,
-                                    relationship_properties=relationship_properties_obj)
-        data = relationship.__dict__
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        source_node_type: (str) the source node
+        source_node_properties: (dict) the properties that can identify the node in the graph
+        target_node_type: (str) the target node
+        target_node_properties: (dict) the properties that can identify the node in the graph
+        relationship: (str) the useful name of the relationship
+        relationship_properties:  (dict) the properties to include in the relationship
+        :return:
+        """
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
             data=data)

@@ -1,4 +1,3 @@
-from graphserviceschema.serviceschema import *
 from httphandler.caller import *
 
 
@@ -14,62 +13,104 @@ class NodeManager(object):
     """CRUD OPERATIONS"""
 
     @classmethod
-    def create_node(self, id_key, node_type, node_properties_dict):
-        node_properties = NodeProperties(node_properties_dict)
-        node = Node(id_key=id_key, node_type=node_type, node_properties=node_properties)
-        data = node.__dict__
+    def create_node(self, data: dict):
+        """
+        Calls web service to create a node.
+
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        id_key: (str) property name that is to be use in graph as a unique attribute
+        node_type: (str) the type (for grouping) of the node
+        node_properties_dict: (dict) the properties of a node need to be added in graph
+        :return:
+        """
         call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH,
             data=data)
-        return node
 
     @classmethod
-    def update_node(cls, node_type, node_query_properties, node_updated_properties):
-        data = {'node_type': node_type, 'node_query_properties': node_query_properties,
-                'node_updated_properties': node_updated_properties}
+    def update_node(cls, data: dict):
+        """
+        Calls web service to update a node.
+
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        node_type: (str) the type of the node
+        node_query_properties: (str) the properties of a node needed to query a node to update
+        node_updated_properties: (dict) the updated node properties and values
+        :return:
+        """
         call_service_put_method(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
                                 data=data)
 
     @classmethod
-    def get_node_by_properties(cls, node_properties):
-        data = {'node_properties': node_properties}
-        # post method because there can be many attributes
+    def get_node_by_properties(cls, data: dict):
+        """
+        Calls web service to get node(s) by querying by properties.
+
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        node_properties: (str) the properties of a node needed to query a node to update
+        :return:
+        """
+
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
             data=data)
 
     @classmethod
-    def get_nodes(cls, node_type, node_properties):
+    def get_nodes(cls, data: dict):
         """
-        get all nodes by node type and (optionally node properties).
-        :param node_type:
-        :param node_properties: zero or more elements in a dictionary
+        Calls web service to get node(s) by querying by properties.
+
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        node_type: (str) the type of the node
+        node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
-        data = {'node_type': node_type, 'node_properties': node_properties}
+
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
             data=data)
 
     @classmethod
     def get_all_nodes(cls):
-        nodes = call_service_get_method(
+        """
+        Calls web service to get all nodes.
+
+        :return:
+        """
+
+        return call_service_get_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_ALL_RELATIVE_PATH)
 
     @classmethod
-    def delete_nodes(cls, node_type, node_properties):
+    def delete_nodes(cls, data: dict):
         """
-         (leave node_properties empty if you want to delete all nodes of a certain type)
-        :param node_type:
-        :param node_properties: (dictionary)
+        Calls web service to delete a node after querying using the properties.
+
+        :param data: dict
+        The data dictionary must contain the following elements:
+
+        node_type: (str) the type of the node
+        node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
-        data = {'node_type': node_type, 'node_properties': node_properties}
         call_service_delete_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
             data=data)
 
     @classmethod
-    def delete_graph(cls):  ## USE CAREFULLY...
+    def delete_graph(cls):
+        """
+        Deletes the whole graph.
+
+        :return:
+        """
         call_service_delete_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_GRAPH_RELATIVE_PATH)

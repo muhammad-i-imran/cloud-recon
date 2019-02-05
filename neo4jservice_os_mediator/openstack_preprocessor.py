@@ -1,13 +1,9 @@
-
-import os
-import json
 import re
 
-from openstackqueryapi.queryos import ShellCommandExecutor
-from utils import *
-from graphelementsdispatcher.relationship_manager import *
 from graphelementsdispatcher.node_manager import *
+from graphelementsdispatcher.relationship_manager import *
 from osquerieshandler.osqueriers import *
+from utils import *
 
 """This file contains functionality specific to OpenStack"""
 
@@ -34,7 +30,7 @@ def create_containers_nodes(node_type, server_name_attr, cloud_config_info, priv
     #     return
     command = "sudo docker ps --format \"{{json .}}\""
 
-    for s in nova_querier.get_servers(): #todo: get all servers using generator (yield)
+    for s in nova_querier.get_servers():  # todo: get all servers using generator (yield)
         server_id = s.node_attributes.__dict__["id"]
         server = nova_querier.get_server(server_id)
 
@@ -199,7 +195,10 @@ def begin_node_create(cloud_config_info, prefix_string=""):
     nodes.remove(prefix_string + "CONTAINERS")
 
     for node_type in nodes:
-        create_graph_elements(node_type, prefix_string)(node_type)
+        try:
+            create_graph_elements(node_type, prefix_string)(node_type)
+        except Exception as ex:
+            print("".join(["Exception occured: ", str(ex)]))
 
     # for container (because it depends on SERVERS)
     try:
@@ -233,18 +232,23 @@ def begin_relationship_create(cloud_config_info):
                     for property_name in source_property_names:
                         source_node_properties = {property_name: d[property_name]}
 
-                        RelationshipManager.create_relationship(source_node_type=source_node_type,
-                                                                source_node_properties=source_node_properties,
-                                                                target_node_type=target_node_type,
-                                                                target_node_properties=target_node_properties,
-                                                                relationship=relationship_name,
-                                                                relationship_properties=relationship_properties)
+                        data = {}
+                        data["source_node_type"] = source_node_type
+                        data["source_node_properties"] = source_node_properties
+                        data["target_node_type"] = target_node_type
+                        data["target_node_properties"] = target_node_properties
+                        data["relationship"] = relationship_name
+                        data["relationship_properties"] = relationship_properties
+
+                        RelationshipManager.create_relationship(data)
                 else:
                     source_node_properties = {source_property_name: d[source_property_name]}
-                    RelationshipManager.create_relationship(source_node_type=source_node_type,
-                                                            source_node_properties=source_node_properties,
-                                                            target_node_type=target_node_type,
-                                                            target_node_properties=target_node_properties,
-                                                            relationship=relationship_name,
-                                                            relationship_properties=relationship_properties)
+                    data = {}
+                    data["source_node_type"] = source_node_type
+                    data["source_node_properties"] = source_node_properties
+                    data["target_node_type"] = target_node_type
+                    data["target_node_properties"] = target_node_properties
+                    data["relationship"] = relationship_name
+                    data["relationship_properties"] = relationship_properties
 
+                    RelationshipManager.create_relationship(data)
