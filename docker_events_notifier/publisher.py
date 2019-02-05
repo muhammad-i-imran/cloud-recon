@@ -1,4 +1,6 @@
 import pika
+import uuid
+import time
 
 
 class DockerNotificationPublisher(object):
@@ -37,14 +39,13 @@ class DockerNotificationPublisher(object):
                                    properties=pika.BasicProperties(
                                        content_type="application/json",
                                        content_encoding="ascii-8bit",
-                                       delivery_mode=2 # for persistence, in case the subscriber crashes, the messages will still be in the queue
+                                       delivery_mode=2, # for persistence, in case the subscriber crashes, the messages will still be in the queue
+                                       message_id=str(uuid.uuid4()),
+                                       timestamp=int(round(time.time() * 1000)),
                                        # headers=self.headers,
-                                       # delivery_mode=self.delivery_mode,
-                                       # priority=self.priority,
                                        # correlation_id=self.correlation_id,
                                        # reply_to=self.reply_to,
                                        #
-                                       # message_id=self.message_id,
                                        # timestamp=self.timestamp,
                                        # type=self.type,
                                        # user_id=self.user_id,

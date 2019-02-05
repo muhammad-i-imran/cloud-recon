@@ -5,9 +5,9 @@ from multiprocessing import Pool
 
 from graphelementsdispatcher.node_manager import NodeManager
 from graphelementsdispatcher.relationship_manager import RelationshipManager
-from openstackqueryapi import NotifierStarter
 from osquerieshandler.osqueriers import *
 from utils import *
+from notifier import *
 from event_handlers import *
 from openstack_preprocessor import *
 

@@ -1,35 +1,36 @@
 import json
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from neo4japi import Neo4JApi
 
 app = Flask(__name__)
 
 # TODO: later read config in some safe way
-app.config['GRAPHDB_URI'] = os.getenv('GRAPHDB_URI', 'bolt://localhost:7687')
+app.config['GRAPHDB_HOST'] = os.getenv('GRAPHDB_HOST', 'localhost')
+app.config['GRAPHDB_PORT'] = os.getenv('GRAPHDB_PORT', 7687)
 app.config['GRAPHDB_USER'] = os.getenv('GRAPHDB_USER', 'neo4j')
-app.config['GRAPHDB_PASS'] = os.getenv('GRAPHDB_PASS', '')
+app.config['GRAPHDB_PASSWORD'] = os.getenv('GRAPHDB_PASSWORD', '')
+app.config['GRAPHDB_SCHEME'] = os.getenv('GRAPHDB_SCHEME', 'bolt')
+app.config['GRAPHDB_IS_SECURE'] = os.getenv('GRAPHDB_IS_SECURE', False)
 
-api = Neo4JApi.init(uri=app.config['GRAPHDB_URI'], user=app.config['GRAPHDB_USER'], password=app.config['GRAPHDB_PASS'])
+api = Neo4JApi(host=app.config['GRAPHDB_HOST'], port=app.config['GRAPHDB_PORT'], user=app.config['GRAPHDB_USER'], password=app.config['GRAPHDB_PASSWORD'], scheme=app.config['GRAPHDB_SCHEME'], secure=app.config['GRAPHDB_IS_SECURE'])
 
-# @app.route('/neo4j/nodes/test', methods=['POST'])
-# def test():
-#     """
-#     this is to only test the api
-#     :return:
-#     """
-#     if request.method == 'POST':
-#         if request.is_json:
-#             data = request.get_json()
-#
-#             node_type = data['node_type']
-#             property_key = data['property_key']
-#             property_value = data['property_value']
-#
-#             status = api.find_single_node(node_type=node_type, property_key=property_key, property_value=property_value)
-#             return jsonify({'data': result}), status
-#     # else:
-#     #     abort(400)
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+@app.route("/neo4j")
+def site_map():
+    links = []
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append((url, rule.endpoint))
+    # links is now a list of url, endpoint tuples
+    return links
 
 @app.route('/neo4j/nodes/get_all', methods=['GET'])
 def get_all_nodes():
@@ -44,7 +45,7 @@ def get_node():
     data = request.get_json()
     node_type = data['node_type']
     node_properties = data['node_properties']
-    nodes, status = api.get_node(node_type, node_properties)
+    nodes, status = api.get_nodes(node_type, node_properties)
     return jsonify(jsonify({'status': status}))
 
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
