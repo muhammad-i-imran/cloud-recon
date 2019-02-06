@@ -68,7 +68,7 @@ def create_volumes(node_type, label_key, id_key):
                       label_key=label_key,
                       id_key=id_key)
 
-def create_keypairs(node_type, label_key, id_key):
+def create_key_pairs(node_type, label_key, id_key):
     prepare_node_data(data_list=novaQuerier.getKeyPairs(),
                       node_type=node_type,
                       label_key=label_key,

@@ -24,12 +24,9 @@ def has_no_empty_params(rule):
 def site_map():
     links = []
     for rule in app.url_map.iter_rules():
-        # Filter out rules we can't navigate to in a browser
-        # and rules that require parameters
         if "GET" in rule.methods and has_no_empty_params(rule):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
             links.append((url, rule.endpoint))
-    # links is now a list of url, endpoint tuples
     return links
 
 @app.route('/neo4j/nodes/get_all', methods=['GET'])
@@ -56,7 +53,7 @@ def create_node():
     node_type = data['node_type']
     id_key = data['id_key']
     node_properties = data['node_properties']
-    status = api.create_node(node_type=node_type, id_key=id_key, node_properties=node_properties)
+    status = api.create_node_with_merge(node_type=node_type, primary_keys=id_key, node_properties=node_properties)
     return jsonify(jsonify({'status': status}))
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])

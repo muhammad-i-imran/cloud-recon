@@ -1,9 +1,8 @@
 import re
 
+from graphelementsdispatcher.node_manager import NodeManager
 from graphelementsdispatcher.relationship_manager import *
 import node_data_assembler
-
-"""This file contains functionality specific to OpenStack"""
 
 def begin_node_create(cloud_config_info, prefix_string=""):
     nodes = list(cloud_config_info.keys())
@@ -24,46 +23,34 @@ def begin_node_create(cloud_config_info, prefix_string=""):
             print("".join(["Exception occured: ", str(ex)]))
 
 def begin_relationship_create(cloud_config_info):
-    for key in cloud_config_info:
-        source_node_type = key
-        relationship_infos = cloud_config_info[key]["RELATIONSHIPS"]
-        for relationship_info in relationship_infos:
-            source_property_name = relationship_info["source_property_name"]
-            target_node_type = relationship_info["target_node_type"]
-            target_property_name = relationship_info["target_property_name"]
-            relationship_name = relationship_info["relationship_name"]
-            relationship_properties = relationship_info["relationship_properties"]
-            is_source_attr_name_regex = relationship_info["is_source_attr_name_regex"]
+    for source_node_type in cloud_config_info:
+        relationship_data = cloud_config_info[source_node_type]["RELATIONSHIPS"]
+        for relationship_data in relationship_data:
+            source_property_name = relationship_data["source_property_name"]
+            target_property_name = relationship_data["target_property_name"]
+            is_source_attr_name_regex = relationship_data["is_source_attr_name_regex"]
+            del relationship_data["is_source_attr_name_regex"]
+            relationship_data["source_node_type"] = source_node_type
+            try:
+                query_parameters = {}
+                query_parameters["node_type"] = source_node_type
+                node_data = NodeManager.get_nodes(query_parameters) #fetch data directly for this key from graph
+            except Exception as ex:
+                print("Could not fetch data for %s. Exception occured: %s" % source_node_type, str(ex))
+            else:
+                for datum in node_data:
+                    target_node_properties = {target_property_name: datum[target_property_name]}
+                    relationship_data["target_node_properties"] = target_node_properties
 
-            ##todo: fetch data directly for this key from openstack
-            data = list()
-
-            for d in data:
-                target_node_properties = {target_property_name: d[target_property_name]}
-                if is_source_attr_name_regex:
-                    source_property_names = list(filter(re.compile(source_property_name).match,
-                                                        d.node_attributes.__dict__.keys()))
-
-                    for property_name in source_property_names:
-                        source_node_properties = {property_name: d[property_name]}
-
-                        data = {}
-                        data["source_node_type"] = source_node_type
-                        data["source_node_properties"] = source_node_properties
-                        data["target_node_type"] = target_node_type
-                        data["target_node_properties"] = target_node_properties
-                        data["relationship"] = relationship_name
-                        data["relationship_properties"] = relationship_properties
-
-                        RelationshipManager.create_relationship(data)
-                else:
-                    source_node_properties = {source_property_name: d[source_property_name]}
-                    data = {}
-                    data["source_node_type"] = source_node_type
-                    data["source_node_properties"] = source_node_properties
-                    data["target_node_type"] = target_node_type
-                    data["target_node_properties"] = target_node_properties
-                    data["relationship"] = relationship_name
-                    data["relationship_properties"] = relationship_properties
-
-                    RelationshipManager.create_relationship(data)
+                    if is_source_attr_name_regex:
+                        source_property_names = list(filter(re.compile(source_property_name).match,
+                                                            datum.node_attributes.__dict__.keys()))
+                        source_node_properties = {}
+                        for property_name in source_property_names:
+                            source_node_properties[property_name] = datum[property_name]
+                            relationship_data["source_node_properties"] = source_node_properties
+                            RelationshipManager.create_relationship(relationship_data)
+                    else:
+                        source_node_properties = {source_property_name: datum[source_property_name]}
+                        relationship_data["source_node_properties"] = source_node_properties
+                        RelationshipManager.create_relationship(relationship_data)

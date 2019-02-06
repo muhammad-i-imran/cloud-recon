@@ -11,7 +11,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -21,7 +21,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "HYPERVISORS",
           "target_property_name": "service___host",
-          "relationship_name": "RUNS_ON",
+          "relationship": "RUNS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -32,7 +32,7 @@
           "is_sou yource_attr_name_regex": false,
           "target_node_type": "KEY_PAIRS",
           "target_property_name": "_info___keypair___name",
-          "relationship_name": "USES",
+          "relationship": "USES",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -42,7 +42,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "FLAVORS",
           "target_property_name": "id",
-          "relationship_name": "USES",
+          "relationship": "USES",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -52,7 +52,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "VOLUMES",
           "target_property_name": "id",
-          "relationship_name": "USES",
+          "relationship": "USES",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -62,7 +62,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "USERS",
           "target_property_name": "id",
-          "relationship_name": "CREATED_BY",
+          "relationship": "CREATED_BY",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -78,7 +78,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "NETWORKS",
           "target_property_name": "id",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -88,7 +88,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "SUBNETS",
           "target_property_name": "id",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -98,7 +98,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -114,7 +114,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -124,7 +124,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "HYPERVISORS",
           "target_property_name": "service___host",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -145,7 +145,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -155,7 +155,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "HYPERVISORS",
           "target_property_name": "service___host",
-          "relationship_name": "RUNS_ON",
+          "relationship": "RUNS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -181,7 +181,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -207,7 +207,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "SUBNETS",
           "target_property_name": "id",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -217,7 +217,7 @@
           "is_source_attr_name_regex": true,
           "target_node_type": "AVAILABILITY_ZONES",
           "target_property_name": "name",
-          "relationship_name": "DEPENDS_ON",
+          "relationship": "DEPENDS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -243,7 +243,7 @@
           "is_source_attr_name_regex": false,
           "target_node_type": "SERVERS",
           "target_property_name": "name",
-          "relationship_name": "DEPLOYED_ON",
+          "relationship": "DEPLOYED_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }

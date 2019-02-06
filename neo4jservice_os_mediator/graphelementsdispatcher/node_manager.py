@@ -53,6 +53,7 @@ class NodeManager(object):
         :param data: dict
         The data dictionary must contain the following elements:
 
+        node_type: (str) the type of the node
         node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
@@ -64,13 +65,12 @@ class NodeManager(object):
     @classmethod
     def get_nodes(cls, data: dict):
         """
-        Calls web service to get node(s) by querying by properties.
+        Calls web service to get node(s) by node type.
 
         :param data: dict
         The data dictionary must contain the following elements:
 
         node_type: (str) the type of the node
-        node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
 

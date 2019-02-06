@@ -8,15 +8,15 @@ def begin_all():
     try:
         begin_node_create(cloud_config_info)
         begin_relationship_create(cloud_config_info)
-    except Exception as e:
-        print("Exception occured: " + str(e))
+    except Exception as ex: # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
+        print("Exception occured: " + str(ex))
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
     # todo: read it using configuration file instead of env variable
     eventtype_publisherid_tuple_list = [(NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID)]
     exchange_topic_tuple_list = [(OPENSTACK_NOTIFICATION_EXCHANGE_NAME, OPENSTACK_NOTIFICATION_TOPIC_NAME),
-                                 ((DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME))]
+                                 (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
 
     ##temporary. later use pool
     notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)

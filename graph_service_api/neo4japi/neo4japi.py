@@ -1,9 +1,9 @@
 from py2neo import *
-from .IllegalArgumentError import IllegalArgumentError
+# from .IllegalArgumentError import IllegalArgumentError
 
 class Neo4JApi(object):
 
-    def __init__(self, uri=None, host='localhost', port=7687, user='neo4j', password=None, scheme='bolt', secure=False):
+    def __init__(self, host='localhost', port=7687, user='neo4j', password=None, scheme='bolt', secure=False):
         """
 
         :param uri:
@@ -14,24 +14,24 @@ class Neo4JApi(object):
         :param scheme:
         :param secure:
         """
-        self.graph = Graph(uri=uri, host=host, port=port, user=user, password=password, scheme=scheme,
+        self.graph = Graph(host=host, port=port, user=user, password=password, scheme=scheme,
                            secure=secure)
 
     """ 'OVERLOADED' CONSTRUCTORS """
 
-    @classmethod
-    def init(cls, uri, user, password):
-        """
+    # @classmethod
+    # def init(cls, uri, user, password):
+    #     """
+    #
+    #     :param uri:
+    #     :param user:
+    #     :param password:
+    #     :return:
+    #     """
+    #     return cls(uri=uri, user=user, password=password)
 
-        :param uri:
-        :param user:
-        :param password:
-        :return:
-        """
-        return cls(uri=uri, user=user, password=password)
-
     @classmethod
-    def init_with_settings(cls, uri=None, host='localhost', port=7687, user='neo4j', password=None, scheme='bolt',
+    def init_with_settings(cls, host='localhost', port=7687, user='neo4j', password=None, scheme='bolt',
                            secure=False):
         """
 
@@ -44,7 +44,7 @@ class Neo4JApi(object):
         :param secure:
         :return:
         """
-        return cls(uri=uri, host=host, port=port, user=user, password=password, scheme=scheme, secure=secure)
+        return cls(host=host, port=port, user=user, password=password, scheme=scheme, secure=secure)
 
     ####################################################################################################################
 
@@ -53,7 +53,7 @@ class Neo4JApi(object):
 
         :param  :
         """
-        return set(self.graph.schema.node_types)
+        return set(self.graph.schema.node_labels)
 
     def get_relationship_types(self):
         """ Get all relationship types available in the graph
@@ -89,7 +89,7 @@ class Neo4JApi(object):
         :return:
         """
         nodes, status = self.find_nodes(node_type=node_type, properties_dict=node_properties)
-        return  nodes, status
+        return  list(nodes), status
 
 
     def create_node(self, node_type, primary_keys, node_properties):
@@ -307,3 +307,10 @@ class Neo4JApi(object):
             # self.graph.close()
         finally:
             del self.graph
+
+
+# import json
+# g=Neo4JApi.init_with_settings(host='10.0.42.181', port=7474, user='neo4j', password=None, scheme='http', secure=False)
+# nodes,status=g.get_nodes("VOLUMES", {})
+# for node in nodes:
+#     print(json.dumps(node))
