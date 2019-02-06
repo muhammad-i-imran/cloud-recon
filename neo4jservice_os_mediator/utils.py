@@ -45,10 +45,12 @@ def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
 
         flatten_info_dict = get_flattened_dictionary(info)
 
-        data = {}
-        data["id_key"] = id_key
-        data["node_type"] = node_type
-        data["node_properties_dict"] = flatten_info_dict
+        node_data = {}
+        node_data["id_key"] = id_key
+        node_data["node_type"] = node_type
+        node_data["node_properties_dict"] = flatten_info_dict
+
+        return node_data
 
 
 ###TODO: later move it somewhere else

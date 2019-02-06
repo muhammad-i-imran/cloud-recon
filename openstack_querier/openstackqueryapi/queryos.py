@@ -40,36 +40,33 @@ class NovaQuerier(object):
         sess=self.os_connector.get_session()
         self.nova = client.client.Client(version=self.os_connector.api_version, session=sess)
 
-    def get_flavors(self):
-        flavors_list = self.nova.flavors.list()
+    def get_flavors(self, search_opts={}):
+        flavors_list = self.nova.flavors.list(search_opts=search_opts)
         return flavors_list
 
-    def get_host_aggregates(self):
-        host_aggregates_list = self.nova.aggregates.list()
+    def get_host_aggregates(self, search_opts={}):
+        host_aggregates_list = self.nova.aggregates.list(search_opts=search_opts)
         return host_aggregates_list
 
-    def get_services(self, id):
-        services_list = self.nova.services.list()
+    def get_services(self, search_opts={}):
+        services_list = self.nova.services.list(search_opts=search_opts)
         return services_list
 
-    def get_hypervisors(self):
-        hypervisors_list = self.nova.hypervisors.list()
+    def get_hypervisors(self, search_opts={}):
+        hypervisors_list = self.nova.hypervisors.list(search_opts=search_opts)
         return hypervisors_list
 
-    def get_servers(self):
-        servers_list = self.nova.servers.list(search_opts={'all_tenants': 1})
+    def get_servers(self, search_opts={}):
+        servers_list = self.nova.servers.list(search_opts=search_opts)
         return servers_list
 
-    def get_availability_zones(self):
-        availability_zones = self.nova.availability_zones.list()
+    def get_availability_zones(self, search_opts={}):
+        availability_zones = self.nova.availability_zones.list(search_opts=search_opts)
         return availability_zones
 
-    def get_key_pairs(self):
-        keypairs_list = self.nova.keypairs.list()
+    def get_key_pairs(self, search_opts={}):
+        keypairs_list = self.nova.keypairs.list(search_opts=search_opts)
         return keypairs_list
-
-    def get_server(self, id):
-        return self.nova.servers.get(id)
 
 class NeutronQuerier(object):
     def __init__(self, os_connector):
@@ -81,16 +78,16 @@ class NeutronQuerier(object):
         sess = self.os_connector.get_session()
         self.neutron = neutronclient.Client(session=sess)
 
-    def get_networks(self):
-        networks = self.neutron.list_networks()["networks"]
+    def get_networks(self, search_opts={}):
+        networks = self.neutron.list_networks(_params=search_opts)["networks"]
         return networks
 
-    def get_subnets(self):
-        subnets = self.neutron.list_subnets()["subnets"]
+    def get_subnets(self, search_opts={}):
+        subnets = self.neutron.list_subnets(_params=search_opts)["subnets"]
         return subnets
 
-    def get_routers(self):
-        routers = self.neutron.list_routers()["routers"]
+    def get_routers(self, search_opts={}):
+        routers = self.neutron.list_routers(_params=search_opts)["routers"]
         return routers
 
 class GlanceQuerier(object):
@@ -103,7 +100,7 @@ class GlanceQuerier(object):
         sess = self.os_connector.get_session()
         self.glance = glanceclient.Client('2', session=sess)
 
-    def get_images(self):
+    def get_images(self, search_opts={}):
         images_list=[]
         for img in self.glance.images.list():
             images_list.append(img.__dict__["__original__"])
@@ -123,19 +120,19 @@ class KeystoneQuerier(object):
         sess = self.os_connector.get_session()
         self.keystone = keystoneclient.Client(session=sess)
 
-    def get_users(self):
+    def get_users(self, search_opts={}):
         users_list = self.keystone.users.list()
         return users_list
 
-    def get_services(self):
+    def get_services(self, search_opts={}):
         services_list = self.keystone.services.list()
         return services_list
 
-    def get_tenants(self):
+    def get_tenants(self, search_opts={}):
         tenants_list = self.keystone.tenants.list()
         return tenants_list
 
-    def get_roles(self):
+    def get_roles(self, search_opts={}):
         roles_list = self.keystone.roles.list()
         return roles_list
 
@@ -149,7 +146,7 @@ class CinderQuerier(object):
         sess = self.os_connector.get_session()
         self.cinder = cinderclient.v2.Client(session=sess)
 
-    def get_volumes(self):
+    def get_volumes(self, search_opts={}):
         volumes_list = self.cinder.volumes.list()
         return volumes_list
 
