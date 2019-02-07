@@ -19,7 +19,7 @@ The convention is:
 """
 ########################################################################################################################
 
-queriers = QuerierProvider()
+queriers = OpenStackQueriersProvider()
 
 ########################################################################################################################
 
@@ -184,7 +184,7 @@ def create_containers(node_type, server_name_attr, vm_username, private_keys_fol
     create_containers_nodes(node_type=node_type,
                             server_name_attr=server_name_attr,
                             private_keys_folder=private_keys_folder,
-                            nova_querier=novaQuerier,
+                            nova_querier=queriers.nova_querier,
                             vm_username=vm_username)
     node_data = {}
     NodeManager.create_node(node_data)

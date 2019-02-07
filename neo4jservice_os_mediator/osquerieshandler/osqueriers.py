@@ -9,7 +9,7 @@ It is OpenStack-specific implementation... so far
 cloud_type = CLOUD_TYPE.lower()
 
 
-class QuerierProvider(object):
+class OpenStackQueriersProvider(object):
     cloud_connection_provider_factory_instance = CloudConnectionProviderFactory()
     cloud_connection_provider = cloud_connection_provider_factory_instance.get_cloud_connection(cloud_type=cloud_type,
                                                                                                 auth_url=OS_AUTH_URL,
@@ -20,14 +20,13 @@ class QuerierProvider(object):
                                                                                                 os_project_domain_id=OS_PROJECT_DOMAIN_ID,
                                                                                                 api_version=OS_API_VERSION)
 
-    connection = cloud_connection_provider.get_connection()
-
     def __init__(self):
-        self.nova_querier = NovaQuerier(QuerierProvider.connection)
-        self.neutron_querier = NeutronQuerier(QuerierProvider.connection)
-        self.cinder_querier = CinderQuerier(QuerierProvider.connection)
-        self.keystone_querier = KeystoneQuerier(QuerierProvider.connection)
-        self.glance_querier = GlanceQuerier(QuerierProvider.connection)
+        connection = OpenStackQueriersProvider.cloud_connection_provider.get_connection()
+        self.nova_querier = NovaQuerier(connection)
+        self.neutron_querier = NeutronQuerier(connection)
+        self.cinder_querier = CinderQuerier(connection)
+        self.keystone_querier = KeystoneQuerier(connection)
+        self.glance_querier = GlanceQuerier(connection)
 
         self.nova_querier.connect()
         self.neutron_querier.connect()
