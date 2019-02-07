@@ -17,7 +17,9 @@ The convention is:
  
  the corresponding function will be: create_servers()
 """
+########################################################################################################################
 
+queriers = QuerierProvider()
 
 ########################################################################################################################
 
@@ -27,12 +29,10 @@ def fetch_servers(search_opts={}):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
-
-    return novaQuerier.getServers(search_opts)
+    return queriers.nova_querier.getServers(search_opts)
 
 
 def fetch_containers(node_type, server_name_attr, vm_username, private_keys_folder):
-    # todo: refactor this function
     return ""
     # create_containers_nodes(node_type=node_type,
     #                         server_name_attr=server_name_attr,
@@ -47,7 +47,7 @@ def fetch_host_aggregates(search_opts={}):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
-    return novaQuerier.getHostAggregates(search_opts)
+    return queriers.nova_querier.getHostAggregates(search_opts)
 
 
 def fetch_availability_zones(search_opts={}):
@@ -57,7 +57,7 @@ def fetch_availability_zones(search_opts={}):
     :return:
     """
 
-    return novaQuerier.getAvailabilityZones(search_opts)
+    return queriers.nova_querier.getAvailabilityZones(search_opts)
 
 
 def fetch_services(search_opts={}):
@@ -67,7 +67,7 @@ def fetch_services(search_opts={}):
     :return:
     """
 
-    return novaQuerier.getServices(search_opts)
+    return queriers.nova_querier.getServices(search_opts)
 
 
 def fetch_hypervisors(search_opts={}):
@@ -77,7 +77,7 @@ def fetch_hypervisors(search_opts={}):
     :return:
     """
 
-    return novaQuerier.getHypervisors(search_opts)
+    return queriers.nova_querier.getHypervisors(search_opts)
 
 
 def fetch_flavors(search_opts={}):
@@ -87,7 +87,7 @@ def fetch_flavors(search_opts={}):
     :return:
     """
 
-    return novaQuerier.getFlavors(search_opts)
+    return queriers.nova_querier.getFlavors(search_opts)
 
 
 def fetch_volumes(search_opts={}):
@@ -97,7 +97,7 @@ def fetch_volumes(search_opts={}):
     :return:
     """
 
-    return cinderQuerier.getVolumes(search_opts)
+    return queriers.cinder_querier.getVolumes(search_opts)
 
 
 def fetch_key_pairs(search_opts={}):
@@ -107,7 +107,7 @@ def fetch_key_pairs(search_opts={}):
     :return:
     """
 
-    return novaQuerier.getKeyPairs(search_opts)
+    return queriers.nova_querier.getKeyPairs(search_opts)
 
 
 def fetch_images(search_opts={}):
@@ -117,7 +117,7 @@ def fetch_images(search_opts={}):
     :return:
     """
 
-    return glanceQuerier.getImages(search_opts)
+    return queriers.glance_querier.getImages(search_opts)
 
 
 def fetch_networks(search_opts={}):
@@ -127,7 +127,7 @@ def fetch_networks(search_opts={}):
     :return:
     """
 
-    return neutronQuerier.getNetworks(search_opts)
+    return queriers.neutron_querier.getNetworks(search_opts)
 
 
 def fetch_subnets(search_opts={}):
@@ -137,7 +137,7 @@ def fetch_subnets(search_opts={}):
     :return:
     """
 
-    return neutronQuerier.getSubNets(search_opts)
+    return queriers.neutron_querier.getSubNets(search_opts)
 
 
 def fetch_routers(search_opts={}):
@@ -147,7 +147,7 @@ def fetch_routers(search_opts={}):
     :return:
     """
 
-    return neutronQuerier.getRouters(search_opts)
+    return queriers.neutron_querier.getRouters(search_opts)
 
 
 def fetch_users(search_opts={}):
@@ -157,7 +157,7 @@ def fetch_users(search_opts={}):
     :return:
     """
 
-    return keystoneQuerier.getUsers(search_opts)
+    return queriers.keystone_querier.getUsers(search_opts)
 
 
 ########################################################################################################################

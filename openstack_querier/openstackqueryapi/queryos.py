@@ -147,7 +147,7 @@ class CinderQuerier(object):
         self.cinder = cinderclient.v2.Client(session=sess)
 
     def get_volumes(self, search_opts={}):
-        volumes_list = self.cinder.volumes.list()
+        volumes_list = self.cinder.volumes.list(search_opts=search_opts)
         return volumes_list
 
 class ManilaQuerier(object):
