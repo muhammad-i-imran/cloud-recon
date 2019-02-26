@@ -7,9 +7,12 @@ from envvars import *
 def begin_all():
     try:
         begin_node_create(cloud_config_info)
+    except Exception as ex:
+        print("Exception occured: %s" % str(ex))
+    try:
         begin_relationship_create(cloud_config_info)
     except Exception as ex: # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
-        print("Exception occured: " + str(ex))
+        print("Exception occured: %s" % str(ex))
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
@@ -19,7 +22,7 @@ def main():
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
 
     ##temporary. later use pool
-    notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)
+    # notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)
     begin_all()
 
     ## the following code is commenting only for dev env

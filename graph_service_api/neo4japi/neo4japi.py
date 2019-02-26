@@ -301,12 +301,12 @@ class Neo4JApi(object):
             return level
         return max(self.__depth(dictionary[k], level + 1) for k in dictionary)
 
-    def __del__(self):
-        try:
-            pass
-            # self.graph.close()
-        finally:
-            del self.graph
+    # def __del__(self):
+    #     try:
+    #         pass
+    #         # self.graph.close()
+    #     finally:
+    #         del self.graph
 
 
 # import json

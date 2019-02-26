@@ -1,20 +1,34 @@
 import json
-from openstackqueryapi.queryos import ShellCommandExecutor
 import os
-from node_data_assembler import fetch_servers
+
+import envvars
+from graphelementsdispatcher.node_manager import NodeManager
+from openstackqueryapi.queryos import ShellCommandExecutor
 
 """
 This file contains general-purpose functions to be used across the module
 """
 
 
-def get_flattened_dictionary(dict, separator='___'):
+def get_flattened_dictionary(dict: dict, separator='___'):
+    """
+
+    :param dict:
+    :param separator:
+    :return:
+    """
     from flatten_json import flatten
     return flatten(dict, separator=separator)
 
 
 def diff_dictionaries(neoj_data, openstack_data):
-    for  k in neoj_data:
+    """
+
+    :param neoj_data:
+    :param openstack_data:
+    :return:
+    """
+    for k in neoj_data:
         if k in openstack_data:
             if neoj_data[k] != openstack_data[k]:
                 return False
@@ -22,10 +36,17 @@ def diff_dictionaries(neoj_data, openstack_data):
             return False
     return True
 
+
 def add_prefix_to_dict_keys(dictionary, prefix_string=""):
+    """
+
+    :param dictionary:
+    :param prefix_string:
+    :return:
+    """
     if not prefix_string:
         return dictionary
-    new_dictionary={}
+    new_dictionary = {}
     keys = dictionary.keys()
     for key in keys:
         new_key = prefix_string + key
@@ -62,8 +83,6 @@ def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
     return nodes_data
 
 
-
-
 def server_command_initiator(server_ip, private_key_path, vm_username):
     """
 
@@ -77,41 +96,70 @@ def server_command_initiator(server_ip, private_key_path, vm_username):
 
     command = "sudo docker ps --format \"{{json .}}\""
     ssh_cmd_executor = ShellCommandExecutor()
-    ssh_cmd_executor.connect(ip=server_ip, username=vm_username, private_key_file_path=private_key_path)
-
-    stdin, stdout, stderr = ssh_cmd_executor.execute_command(command)
-    containers_string_info = stdout.readlines()
-    containers_list = []
-    for c in containers_string_info:
-        container_info_dict = {}
-        container_info = json.loads(c)
-        container_info_dict["id"] = container_info["ID"]
-        container_info_dict["container_name"] = container_info["Names"]
-        container_info_dict["name"] = container_info["Image"]
-        container_info_dict["ports"] = container_info["Ports"]
-        container_info_dict["networks"] = container_info["Networks"]
-        container_info_dict["mounts"] = container_info["Mounts"]
-        containers_list.append(container_info_dict)
     try:
-        ssh_cmd_executor.close_connection()
-    except:
-        pass
-    return containers_list
+        ssh_cmd_executor.connect(ip=server_ip, username=vm_username, private_key_file_path=private_key_path)
+    except Exception as ex:
+        print("Exception occured: %s" % str(ex))
+        return
 
-def create_containers_nodes(node_type, server_name_attr, private_keys_folder, nova_querier,
-                            vm_username):
-    search_opts = {'all_tenants': 1}
-    for s in fetch_servers(search_opts):  # todo: get servers from db instead of openstack
-        server_id = s.node_attributes.__dict__["id"]
-        server = nova_querier.get_server(server_id)
+    try:
+        stdin, stdout, stderr = ssh_cmd_executor.execute_command(command)
+    except Exception as ex:
+        print("Exception occured: %s" % str(ex))
+    else:
+        containers_string_info = stdout.readlines()
+        containers_list = []
+        for c in containers_string_info:
+            container_info_dict = {}
+            container_info = json.loads(c)
+            container_info_dict["id"] = container_info["ID"]
+            container_info_dict["container_name"] = container_info["Names"]
+            container_info_dict["name"] = container_info["Image"]
+            container_info_dict["ports"] = container_info["Ports"]
+            container_info_dict["networks"] = container_info["Networks"]
+            container_info_dict["mounts"] = container_info["Mounts"]
+            containers_list.append(container_info_dict)
+        try:
+            ssh_cmd_executor.close_connection()
+        except Exception as ex:
+            print("Exception occured: %s" % str(ex))
+        return containers_list
 
-        ip = server.addresses[list(server.addresses.keys())[0]][1]["addr"]
-        private_key_path = os.path.join(private_keys_folder, server.user_id)
 
-        containers_list = server_command_initiator(server_ip=ip, private_key_path=private_key_path, vm_username=vm_username)
-        for container in containers_list:
-            container["server_name"] = s.node_attributes.__dict__[server_name_attr]
-            container["server_id"] = server_id
+def fetch_and_prepare_container_nodes(node_type, server_name_attr, private_keys_folder, vm_username):
+    """
 
-        nodes = prepare_node_data(data_list=containers_list, node_type=node_type, id_key="id")
-        return nodes
+    :param node_type:
+    :param server_name_attr:
+    :param private_keys_folder:
+    :param vm_username:
+    :return:
+    """
+    query = {}
+    query["node_type"] = node_type
+
+    containers_list = []
+
+    try:
+        servers = NodeManager.get_nodes(query)
+    except Exception as ex:
+        print("Exception occured: %s" % str(ex))
+    else:
+        print(servers)
+        for server in servers:
+            user_name = envvars.OS_USERNAME  # not sure, whether iterate throuhg all keys or current user keys or the vm creator keys???
+            ip = server["ip"]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
+            server_id = server["id"]
+            server_name = server[server_name_attr]
+            private_key_path = os.path.join(private_keys_folder, user_name)
+
+            if not os.path.exists(private_key_path):
+                return
+            # also check if ip is of valid format... ()using regex
+
+            containers_list.append(server_command_initiator(server_ip=ip, private_key_path=private_key_path,
+                                                            vm_username=vm_username))
+            for container in containers_list:
+                container["server_name"] = server_name
+                container["server_id"] = server_id
+    return containers_list  ##TODO: yield containers's list for each server instead of all containers

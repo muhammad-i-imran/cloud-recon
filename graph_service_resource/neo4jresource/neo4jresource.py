@@ -15,19 +15,17 @@ app.config['GRAPHDB_IS_SECURE'] = os.getenv('GRAPHDB_IS_SECURE', False)
 
 api = Neo4JApi(host=app.config['GRAPHDB_HOST'], port=app.config['GRAPHDB_PORT'], user=app.config['GRAPHDB_USER'], password=app.config['GRAPHDB_PASSWORD'], scheme=app.config['GRAPHDB_SCHEME'], secure=app.config['GRAPHDB_IS_SECURE'])
 
-def has_no_empty_params(rule):
-    defaults = rule.defaults if rule.defaults is not None else ()
-    arguments = rule.arguments if rule.arguments is not None else ()
-    return len(defaults) >= len(arguments)
 
 @app.route("/neo4j")
 def site_map():
     links = []
     for rule in app.url_map.iter_rules():
-        if "GET" in rule.methods and has_no_empty_params(rule):
+        print(rule)
+        print(rule.methods)
+        if rule.rule.startswith("/neo4j"):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
             links.append((url, rule.endpoint))
-    return links
+    return jsonify(links)
 
 @app.route('/neo4j/nodes/get_all', methods=['GET'])
 def get_all_nodes():
@@ -84,7 +82,7 @@ def update_node_properties():
     node_type = data['node_type']
     node_query_properties = data['node_query_properties']
     node_updated_properties = data['node_updated_properties']
-    status = api.update_node_attr(node_type=node_type, node_query_properties=node_query_properties,
+    status = api.update_node_properties(node_type=node_type, node_query_properties=node_query_properties,
                                   node_updated_properties=node_updated_properties)
     return jsonify({'status': status})
 
@@ -100,7 +98,7 @@ def add_properties_to_relationship():
     second_node_name = data['second_node_name']
     relationship = data['relationship']
     relationship_properties = data['relationship_properties']
-    status = api.add_relationship_attr(first_node_type=first_node_type, second_node_type=second_node_type,
+    status = api.add_relationship_properties(first_node_type=first_node_type, second_node_type=second_node_type,
                                        first_node_name=first_node_name, second_node_name=second_node_name,
                                        relationship=relationship, relationship_properties=relationship_properties)
     return jsonify({'status': status})

@@ -64,4 +64,4 @@ class CloudConnectionProviderFactory(object):
     def get_cloud_connection(self, cloud_type, **parameters):
         for cloud_connection_provider in self.SUPPORTED_CLOUD_CONNECTION_PROVIDERS:
             if cloud_connection_provider.check_cloud_type(cloud_type):
-                return cloud_connection_provider(parameters)
+                return cloud_connection_provider(**parameters)
