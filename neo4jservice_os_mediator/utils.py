@@ -1,5 +1,8 @@
 import json
 import os
+import re
+
+from flatten_json import flatten
 
 import envvars
 from graphelementsdispatcher.node_manager import NodeManager
@@ -17,7 +20,7 @@ def get_flattened_dictionary(dict: dict, separator='___'):
     :param separator:
     :return:
     """
-    from flatten_json import flatten
+
     return flatten(dict, separator=separator)
 
 
@@ -72,12 +75,19 @@ def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
             label_key]  # property with name 'name' is important for displaying (as a label on node) purpose
         del info[label_key]
 
-        flatten_info_dict = get_flattened_dictionary(info)
+        # remove non-serializable elements
+        for key in list(info):
+            try:
+                json.dumps(info[key])
+            except Exception as ex:
+                del info[key]
+
+        flattened_info_dict = get_flattened_dictionary(info)
 
         node_data = {}
         node_data["id_key"] = id_key
         node_data["node_type"] = node_type
-        node_data["node_properties_dict"] = flatten_info_dict
+        node_data["node_properties"] = flattened_info_dict
         nodes_data.append(node_data)
 
     return nodes_data
@@ -126,7 +136,7 @@ def server_command_initiator(server_ip, private_key_path, vm_username):
         return containers_list
 
 
-def fetch_and_prepare_container_nodes(node_type, server_name_attr, private_keys_folder, vm_username):
+def fetch_and_prepare_container_nodes(node_type):
     """
 
     :param node_type:
@@ -147,18 +157,27 @@ def fetch_and_prepare_container_nodes(node_type, server_name_attr, private_keys_
     else:
         print(servers)
         for server in servers:
-            user_name = envvars.OS_USERNAME  # not sure, whether iterate throuhg all keys or current user keys or the vm creator keys???
-            ip = server["ip"]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
+            user_name = server[
+                'key_name']  # not sure, whether iterate throuhg all keys or current user keys or the vm creator keys???
+            ips = [value for key, value in servers.iteritems() if
+                   re.match("^addresses.*?addr$", key)]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
             server_id = server["id"]
-            server_name = server[server_name_attr]
-            private_key_path = os.path.join(private_keys_folder, user_name)
+            server_name = server["name"]
+            private_key_path = os.path.join(envvars.PRIVATE_KEYS_FOLDER, user_name)
 
             if not os.path.exists(private_key_path):
                 return
             # also check if ip is of valid format... ()using regex
 
-            containers_list.append(server_command_initiator(server_ip=ip, private_key_path=private_key_path,
-                                                            vm_username=vm_username))
+            for ip in ips:
+                try:
+                    containers_list.append(server_command_initiator(server_ip=ip, private_key_path=private_key_path,
+                                                                    vm_username=vm_username))
+                except Exception as ex:
+                    pass
+                else:
+                    break
+
             for container in containers_list:
                 container["server_name"] = server_name
                 container["server_id"] = server_id

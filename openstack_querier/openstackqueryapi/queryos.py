@@ -41,19 +41,19 @@ class NovaQuerier(object):
         self.nova = client.client.Client(version=self.os_connector.api_version, session=sess)
 
     def get_flavors(self, search_opts={}):
-        flavors_list = self.nova.flavors.list(search_opts=search_opts)
+        flavors_list = self.nova.flavors.list()
         return flavors_list
 
     def get_host_aggregates(self, search_opts={}):
-        host_aggregates_list = self.nova.aggregates.list(search_opts=search_opts)
+        host_aggregates_list = self.nova.aggregates.list()
         return host_aggregates_list
 
     def get_services(self, search_opts={}):
-        services_list = self.nova.services.list(search_opts=search_opts)
+        services_list = self.nova.services.list()
         return services_list
 
     def get_hypervisors(self, search_opts={}):
-        hypervisors_list = self.nova.hypervisors.list(search_opts=search_opts)
+        hypervisors_list = self.nova.hypervisors.list()
         return hypervisors_list
 
     def get_servers(self, search_opts={}):
@@ -61,11 +61,11 @@ class NovaQuerier(object):
         return servers_list
 
     def get_availability_zones(self, search_opts={}):
-        availability_zones = self.nova.availability_zones.list(search_opts=search_opts)
+        availability_zones = self.nova.availability_zones.list()
         return availability_zones
 
     def get_key_pairs(self, search_opts={}):
-        keypairs_list = self.nova.keypairs.list(search_opts=search_opts)
+        keypairs_list = self.nova.keypairs.list()
         return keypairs_list
 
 class NeutronQuerier(object):

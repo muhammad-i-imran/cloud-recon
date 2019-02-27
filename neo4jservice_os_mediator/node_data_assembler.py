@@ -32,7 +32,7 @@ def fetch_servers(search_opts={}):
     return queriers.nova_querier.get_servers(search_opts)
 
 
-def fetch_containers(node_type, server_name_attr, vm_username, private_keys_folder):
+def fetch_containers(node_type):
     """
 
     :param node_type:
@@ -41,7 +41,7 @@ def fetch_containers(node_type, server_name_attr, vm_username, private_keys_fold
     :param private_keys_folder:
     :return:
     """
-    return fetch_and_prepare_container_nodes(node_type, server_name_attr, private_keys_folder, vm_username)
+    return fetch_and_prepare_container_nodes(node_type)
 
 
 def fetch_host_aggregates(search_opts={}):
@@ -189,7 +189,7 @@ def create_servers(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_containers(node_type, server_name_attr, vm_username, private_keys_folder, label_key="name", id_key="id"):
+def create_containers(node_type, label_key="name", id_key="id"):
     """
 
     :param node_type:
@@ -198,7 +198,7 @@ def create_containers(node_type, server_name_attr, vm_username, private_keys_fol
     :param private_keys_folder:
     :return:
     """
-    data = fetch_containers(node_type, server_name_attr, vm_username, private_keys_folder)
+    data = fetch_containers(node_type)
     node_data = get_prepared_node(data=data, node_type=node_type, label_key=label_key, id_key=id_key)
     for d in node_data:
         NodeManager.create_node(d)

@@ -17,6 +17,7 @@ def begin_node_create(cloud_config_info, prefix_string=""):
             function_name = "".join(["create_", node_type])
             function_to_call = getattr(node_data_assembler, function_name.lower())
             try:
+                print("+++++++++++++++++++++++++++++ CALLING %s" % node_type)
                 node_type_with_prefix = prefix_string + node_type
                 # todo: pass parameters as either dict or args and kwargs, because create_container  function accepts different parameters
                 function_to_call(node_type=node_type_with_prefix, label_key=cloud_config_info[node_type]['name_attr'],

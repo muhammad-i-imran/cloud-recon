@@ -27,7 +27,7 @@ class NodeManager(object):
         """
         call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH,
-            data=data)
+            json=data)
 
     @classmethod
     def update_node(cls, data: dict):
@@ -43,7 +43,7 @@ class NodeManager(object):
         :return:
         """
         call_service_put_method(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
-                                data=data)
+                                json=data)
 
     @classmethod
     def get_node_by_properties(cls, data: dict):
@@ -60,7 +60,7 @@ class NodeManager(object):
 
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
-            data=data)
+            json=data)
 
     @classmethod
     def get_nodes(cls, data: dict):
@@ -76,7 +76,7 @@ class NodeManager(object):
 
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
-            data=data)
+            json=data)
 
     @classmethod
     def get_all_nodes(cls):
@@ -103,7 +103,7 @@ class NodeManager(object):
         """
         call_service_delete_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
-            data=data)
+            json=data)
 
     @classmethod
     def delete_graph(cls):

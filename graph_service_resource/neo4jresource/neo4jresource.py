@@ -33,15 +33,15 @@ def get_all_nodes():
     nodes_json = {'data': nodes}
     return jsonify(nodes_json), 200
 
-@app.route('/neo4j/nodes/get_node')
+@app.route('/neo4j/nodes/get_node', methods=['POST'])
 def get_node():
     if request.method == 'POST' and not request.is_json:
         return jsonify({'status': 400})
     data = request.get_json()
     node_type = data['node_type']
-    node_properties = data['node_properties']
+    node_properties = data['node_properties'] if 'node_properties' in data.keys() else {}
     nodes, status = api.get_nodes(node_type, node_properties)
-    return jsonify(jsonify({'status': status}))
+    return jsonify(nodes)
 
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
 def create_node():
@@ -52,7 +52,7 @@ def create_node():
     id_key = data['id_key']
     node_properties = data['node_properties']
     status = api.create_node_with_merge(node_type=node_type, primary_keys=id_key, node_properties=node_properties)
-    return jsonify(jsonify({'status': status}))
+    return jsonify({'status': status})
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
 def create_relationship():

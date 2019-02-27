@@ -23,7 +23,7 @@ class RelationshipManager(object):
         """
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
-            data=data)
+            json=data)
 
     @classmethod
     def update_relationship(cls):
@@ -47,4 +47,4 @@ class RelationshipManager(object):
         """
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
-            data=data)
+            json=data)

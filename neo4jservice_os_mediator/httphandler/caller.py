@@ -9,18 +9,18 @@ def call_service_get_method(url, parameters = None, **args):
     handle_response(response)
     return response
 
-def call_service_post_method(url, data, **args):
-    response = requests.post(url, data=data, **args)
+def call_service_post_method(url, json, **args):
+    response = requests.post(url, json=json, **args)
     handle_response(response)
     return response
 
-def call_service_put_method(url, data, **args):
-    response = requests.put(url, data=data, **args)
+def call_service_put_method(url, json, **args):
+    response = requests.put(url, json=json, **args)
     handle_response(response)
     return response
 
-def call_service_delete_method(url, data, **args):
-    response = requests.post(url, data=data, **args)
+def call_service_delete_method(url, json, **args):
+    response = requests.post(url, json=json, **args)
     handle_response(response)
     return response
 
