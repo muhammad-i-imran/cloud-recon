@@ -47,18 +47,29 @@ def begin_relationship_create(cloud_config_info):
                 print("Could not fetch data for %s. Exception occured: %s" % source_node_type, str(ex))
             else:
                 for datum in node_data:
-                    target_node_properties = {target_property_name: datum[target_property_name]}
-                    relationship_data["target_node_properties"] = target_node_properties
+                    try:
 
-                    if is_source_attr_name_regex:
-                        source_property_names = list(filter(re.compile(source_property_name).match,
-                                                            datum.keys()))
-                        source_node_properties = {}
-                        for property_name in source_property_names:
-                            source_node_properties[property_name] = datum[property_name]
+
+                        if is_source_attr_name_regex:
+
+
+                            source_property_names = list(filter(re.compile(source_property_name).match,
+                                                                datum.keys()))
+                            source_node_properties = {}
+                            for property_name in source_property_names:
+                                source_node_properties[property_name] = datum[property_name]
+                                relationship_data["source_node_properties"] = source_node_properties
+
+                                target_node_properties = {target_property_name: datum[property_name]}
+                                relationship_data["target_node_properties"] = target_node_properties
+
+                                RelationshipManager.create_relationship(relationship_data)
+                        else:
+                            target_node_properties = {target_property_name: datum[source_property_name]}
+                            relationship_data["target_node_properties"] = target_node_properties
+
+                            source_node_properties = {source_property_name: datum[source_property_name]}
                             relationship_data["source_node_properties"] = source_node_properties
                             RelationshipManager.create_relationship(relationship_data)
-                    else:
-                        source_node_properties = {source_property_name: datum[source_property_name]}
-                        relationship_data["source_node_properties"] = source_node_properties
-                        RelationshipManager.create_relationship(relationship_data)
+                    except Exception as ex:
+                        print("Exception occurred: %s" % str(ex))

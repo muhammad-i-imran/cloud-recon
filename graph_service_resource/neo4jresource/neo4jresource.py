@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, Response
 from neo4japi import Neo4JApi
 
 app = Flask(__name__)
@@ -40,7 +40,7 @@ def get_node():
     data = request.get_json()
     node_type = data['node_type']
     node_properties = data['node_properties'] if 'node_properties' in data.keys() else {}
-    nodes, status = api.get_nodes(node_type, node_properties)
+    nodes = api.get_nodes(node_type, node_properties)
     return jsonify(nodes)
 
 @app.route('/neo4j/nodes/create_node', methods=['POST'])

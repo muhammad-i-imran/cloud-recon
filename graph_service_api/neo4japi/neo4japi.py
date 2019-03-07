@@ -88,8 +88,8 @@ class Neo4JApi(object):
         :param node_properties:
         :return:
         """
-        nodes, status = self.find_nodes(node_type=node_type, properties_dict=node_properties)
-        return  list(nodes), status
+        nodes = self.find_nodes(node_type=node_type, properties_dict=node_properties)
+        return  list(nodes)
 
 
     def create_node(self, node_type, primary_keys, node_properties):
@@ -112,9 +112,10 @@ class Neo4JApi(object):
         node = Node(node_type, **node_properties)
         try:
             self.graph.create(node)
-            return 200
+            return True
         except Exception as ex:
-            return 304
+            print("Exception occurred: %s" % str(ex))
+            return False
 
     def create_node_with_merge(self, node_type, primary_keys, node_properties):
         """
@@ -127,10 +128,11 @@ class Neo4JApi(object):
         """
         node = Node(node_type, **node_properties)
         try:
-            self.graph.merge(node, node_type, *primary_keys)
-            return 200
+            self.graph.merge(node, node_type, primary_keys)
+            return True
         except Exception as ex:
-            return 304
+            print("Exception occurred: %s" % str(ex))
+            return False
 
     def create_relationship(self, source_node_type, source_node_properties, target_node_type,
                             target_node_properties, relationship,
@@ -159,7 +161,7 @@ class Neo4JApi(object):
             for source_node in source_nodes:
                 for target_node in target_nodes:
                     self.graph.create(Relationship(source_node, relationship, target_node, **relationship_properties))
-        return 200
+        return True
 
     def create_relationship_with_merge(self, source_node_type, source_node_properties, target_node_type,
                             target_node_properties, relationship,
@@ -189,7 +191,7 @@ class Neo4JApi(object):
             for source_node in source_nodes:
                 for target_node in target_nodes:
                     self.graph.merge(Relationship(source_node, relationship, target_node, **relationship_properties))
-        return 200
+        return True
 
     def update_node_properties(self, node_type, node_query_properties, node_updated_properties):
         """
@@ -203,7 +205,7 @@ class Neo4JApi(object):
         for node in nodes:
             node.update(**node_updated_properties)
             self.graph.push(node)
-        return 200
+        return True
 
     def delete_node(self, node_type, properties_dict):
         """
@@ -215,7 +217,7 @@ class Neo4JApi(object):
         nodes = self.find_nodes(node_type, properties_dict)
         for node in nodes:
             self.graph.delete(node)
-        return 200
+        return True
 
     def delete_relationship(self, source_node_type, source_node_properties_dict, target_node_type,
                             target_node_properties_dict, relationship_type, relationship_properties):
@@ -234,7 +236,7 @@ class Neo4JApi(object):
         relationships = self.find_relationships(source_nodes, target_nodes, relationship_type, relationship_properties)
         for relationship in relationships:
             self.graph.separate(relationship)
-        return 200
+        return True
 
     ####################################################################################################################
     def find_relationships(self, source_node, target_node, relationship_type, relationship_properties):
@@ -249,7 +251,7 @@ class Neo4JApi(object):
         relationship_matcher = RelationshipMatcher(self.graph)
         relationships = relationship_matcher.match(source_node, target_node, r_type=relationship_type,
                                                    properties=relationship_properties)
-        return relationships, 200
+        return relationships
 
     def find_nodes(self, node_type, properties_dict):
         """
@@ -260,7 +262,7 @@ class Neo4JApi(object):
         """
         matcher = NodeMatcher(self.graph)
         nodes = matcher.match(node_type, **properties_dict)
-        return nodes, 200
+        return nodes
 
     def find_node_with_regex(self, node_type, properties_dict):
         """
@@ -274,7 +276,7 @@ class Neo4JApi(object):
         for key, value in properties_dict:
             where_clauses.append("_." + key + "=~'" + value + "'")
         nodes = matcher.match(node_type).where(*where_clauses)
-        return nodes, 200
+        return nodes
 
     def does_node_exist(self, node_type, properties_dict):
         pass
@@ -288,9 +290,9 @@ class Neo4JApi(object):
         """
         try:
             self.graph.delete_all()
-            return 200
+            return True
         except Exception as e:
-            return 304
+            return False
 
     ####################################################################################################################
 

@@ -7,22 +7,22 @@ def call_service(url, method, **args):
 def call_service_get_method(url, parameters = None, **args):
     response = requests.get(url, parameters, **args)
     handle_response(response)
-    return response
+    return response.json()
 
 def call_service_post_method(url, json, **args):
     response = requests.post(url, json=json, **args)
     handle_response(response)
-    return response
+    return response.json()
 
 def call_service_put_method(url, json, **args):
     response = requests.put(url, json=json, **args)
     handle_response(response)
-    return response
+    return response.json()
 
 def call_service_delete_method(url, json, **args):
     response = requests.post(url, json=json, **args)
     handle_response(response)
-    return response
+    return response.json()
 
 def handle_response(response):
     print(response.status_code, response.reason)

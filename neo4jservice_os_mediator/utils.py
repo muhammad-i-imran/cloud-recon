@@ -146,7 +146,7 @@ def fetch_and_prepare_container_nodes(node_type):
     :return:
     """
     query = {}
-    query["node_type"] = node_type
+    query["node_type"] = 'SERVERS'
 
     containers_list = []
 
@@ -159,24 +159,27 @@ def fetch_and_prepare_container_nodes(node_type):
         for server in servers:
             user_name = server[
                 'key_name']  # not sure, whether iterate throuhg all keys or current user keys or the vm creator keys???
-            ips = [value for key, value in servers.iteritems() if
-                   re.match("^addresses.*?addr$", key)]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
+            ips = [value for key, value in server.items() if re.match("^addresses.*?addr$", key)]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
             server_id = server["id"]
-            server_name = server["name"]
+            server_name = server["_info___name"]
             private_key_path = os.path.join(envvars.PRIVATE_KEYS_FOLDER, user_name)
 
             if not os.path.exists(private_key_path):
-                return
+                continue
             # also check if ip is of valid format... ()using regex
 
             for ip in ips:
+
                 try:
-                    containers_list.append(server_command_initiator(server_ip=ip, private_key_path=private_key_path,
-                                                                    vm_username=vm_username))
+                    containers = server_command_initiator(server_ip=ip, private_key_path=private_key_path,
+                                                                    vm_username=envvars.OS_USERNAME)
+                    if containers:
+                        containers_list.append(containers)
+                        break
                 except Exception as ex:
                     pass
                 else:
-                    break
+                    continue
 
             for container in containers_list:
                 container["server_name"] = server_name
