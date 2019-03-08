@@ -251,7 +251,7 @@ class Neo4JApi(object):
         relationship_matcher = RelationshipMatcher(self.graph)
         relationships = relationship_matcher.match(source_node, target_node, r_type=relationship_type,
                                                    properties=relationship_properties)
-        return relationships
+        return list(relationships)
 
     def find_nodes(self, node_type, properties_dict):
         """
@@ -261,8 +261,18 @@ class Neo4JApi(object):
         :return:
         """
         matcher = NodeMatcher(self.graph)
-        nodes = matcher.match(node_type, **properties_dict)
-        return nodes
+        # nodes = matcher.match(node_type, **properties_dict)
+
+        where_clauses = []
+        for key, value in properties_dict.items():
+            value_param = None
+            if isinstance(value, str):
+                value_param = "'{1}'"
+            else:
+                value_param = "{1}"
+            where_clauses.append(('_.`{0}`=' + value_param).format(key, value))
+        nodes = matcher.match(node_type).where(*where_clauses)
+        return list(nodes)
 
     def find_node_with_regex(self, node_type, properties_dict):
         """
@@ -273,10 +283,10 @@ class Neo4JApi(object):
         """
         matcher = NodeMatcher(self.graph)
         where_clauses = []
-        for key, value in properties_dict:
+        for key, value in properties_dict.items():
             where_clauses.append("_." + key + "=~'" + value + "'")
         nodes = matcher.match(node_type).where(*where_clauses)
-        return nodes
+        return list(nodes)
 
     def does_node_exist(self, node_type, properties_dict):
         pass

@@ -24,10 +24,9 @@ def begin_node_create(cloud_config_info, prefix_string=""):
                                  id_key=cloud_config_info[node_type][
                                      'id_key'])
             except Exception as ex:
-                print("Exception occurred: %s" %  str(ex))
+                print("Exception occurred: %s" % str(ex))
         except Exception as ex:
-            print("Exception occurred: %s"% str(ex))
-
+            print("Exception occurred: %s" % str(ex))
 
 def begin_relationship_create(cloud_config_info):
     for source_node_type in cloud_config_info:
@@ -38,21 +37,20 @@ def begin_relationship_create(cloud_config_info):
             is_source_attr_name_regex = relationship_data["is_source_attr_name_regex"]
 
             del relationship_data["is_source_attr_name_regex"]
+            del relationship_data["source_property_name"]
+            del relationship_data["target_property_name"]
+
             relationship_data["source_node_type"] = source_node_type
             try:
                 query_parameters = {}
                 query_parameters["node_type"] = source_node_type
-                node_data = NodeManager.get_nodes(query_parameters)# fetch data directly for this key from graph
+                node_data = NodeManager.get_nodes(query_parameters)  # fetch data directly for this key from graph
             except Exception as ex:
                 print("Could not fetch data for %s. Exception occured: %s" % source_node_type, str(ex))
             else:
                 for datum in node_data:
                     try:
-
-
                         if is_source_attr_name_regex:
-
-
                             source_property_names = list(filter(re.compile(source_property_name).match,
                                                                 datum.keys()))
                             source_node_properties = {}

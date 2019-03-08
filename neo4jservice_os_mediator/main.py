@@ -1,3 +1,5 @@
+from multiprocessing.pool import Pool
+
 from event_handlers import *
 from notifier import *
 from openstack_preprocessor import *
@@ -20,20 +22,23 @@ def main():
     eventtype_publisherid_tuple_list = [(NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID)]
     exchange_topic_tuple_list = [(OPENSTACK_NOTIFICATION_EXCHANGE_NAME, OPENSTACK_NOTIFICATION_TOPIC_NAME),
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
-
-    ##temporary. later use pool
     # notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)
     begin_all()
 
-    ## the following code is commenting only for dev env
-    # pool = Pool(processes=2)#todo: get from env
-    # pool.apply_async(notifier.start,
-    #                  [eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback],
-    #                  None)  # callback is none
-    # while True:
-    #     # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
-    #     time.sleep(int(TIME_TO_WAIT))
-    #     begin_all()
+    pool = Pool(processes=5)#todo: get from env
+    try:
+        pool.apply_async(notifier.start,
+                     [eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback],
+                     None)  # callback is none
+        while True:
+            # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
+            time.sleep(int(TIME_TO_WAIT))
+            begin_all()
+    except Exception as ex:
+        print("Exception occured: %s" % str(ex))
+    finally:
+        print("Closing pool")
+        pool.close()
 
 if __name__ == '__main__':
     NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
