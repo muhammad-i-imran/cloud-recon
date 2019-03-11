@@ -92,15 +92,18 @@ def add_properties_to_relationship():
         return jsonify({'status': 400})
 
     data = request.get_json()
-    first_node_type = data['first_node_type']
-    second_node_type = data['second_node_type']
-    first_node_name = data['first_node_name']
-    second_node_name = data['second_node_name']
+    source_node_type = data['source_node_type']
+    target_node_type = data['target_node_type']
+    source_node_properties = data['source_node_properties']
+    target_node_properties = data['target_node_properties']
     relationship = data['relationship']
     relationship_properties = data['relationship_properties']
-    status = api.add_relationship_properties(first_node_type=first_node_type, second_node_type=second_node_type,
-                                       first_node_name=first_node_name, second_node_name=second_node_name,
-                                       relationship=relationship, relationship_properties=relationship_properties)
+    status = api.create_relationship_with_merge(source_node_type=source_node_type,
+                                                source_node_properties=source_node_properties,
+                                                target_node_type=target_node_type,
+                                                target_node_properties=target_node_properties,
+                                                relationship=relationship,
+                                                relationship_properties=relationship_properties) # merge will update the relationship properties if it already exists, otherwise it will create new relationship
     return jsonify({'status': status})
 
 @app.route('/neo4j/delete_node', methods=['DELETE', 'POST', 'PUT'])

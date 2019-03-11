@@ -37,8 +37,9 @@ class NotifierStarter(object):
             publisher_id = eventtype_publisherid_tuple[1]
             endpoints.append(NotificationEndpoint(event_type=event_type, publisher_id=publisher_id, callback=callback))
 
+        # pool = "events-listener"
         server = oslo_messaging.get_notification_listener(transport, targets,
-                                                          endpoints, executor='threading')
+                                                          endpoints, executor='eventlet', allow_requeue=True)
         print('Starting server...')
         server.start()
         print('Started server...')
