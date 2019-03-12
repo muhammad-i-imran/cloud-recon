@@ -44,10 +44,8 @@ def main():
 
 
 if __name__ == '__main__':
-    global cloud_config_info
     NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
     configuratons = json.loads(open(CONFIG_FILE_PATH).read())
-
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type
     cloud_config_info = configuratons["cloud_config_info"]
     # cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)

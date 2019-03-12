@@ -21,18 +21,21 @@ The convention is:
 
 queriers = OpenStackQueriersProvider()
 
+
 ########################################################################################################################
 
-def fetch_servers(search_opts={}):
+def fetch_servers(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
     return queriers.nova_querier.get_servers(search_opts)
 
 
-def fetch_containers(node_type):
+def fetch_containers(node_type, search_opts=None):
     """
 
     :param node_type:
@@ -41,124 +44,150 @@ def fetch_containers(node_type):
     :param private_keys_folder:
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
     return fetch_and_prepare_container_nodes(node_type)
 
 
-def fetch_host_aggregates(search_opts={}):
+def fetch_host_aggregates(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
     return queriers.nova_querier.get_host_aggregates(search_opts)
 
 
-def fetch_availability_zones(search_opts={}):
+def fetch_availability_zones(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.nova_querier.get_availability_zones(search_opts)
 
 
-def fetch_services(search_opts={}):
+def fetch_services(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.nova_querier.get_services(search_opts)
 
 
-def fetch_hypervisors(search_opts={}):
+def fetch_hypervisors(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.nova_querier.get_hypervisors(search_opts)
 
 
-def fetch_flavors(search_opts={}):
+def fetch_flavors(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.nova_querier.get_flavors(search_opts)
 
 
-def fetch_volumes(search_opts={}):
+def fetch_volumes(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.cinder_querier.get_volumes(search_opts)
 
 
-def fetch_key_pairs(search_opts={}):
+def fetch_key_pairs(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.nova_querier.get_key_pairs(search_opts)
 
 
-def fetch_images(search_opts={}):
+def fetch_images(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.glance_querier.get_images(search_opts)
 
 
-def fetch_networks(search_opts={}):
+def fetch_networks(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.neutron_querier.get_networks(search_opts)
 
 
-def fetch_subnets(search_opts={}):
+def fetch_subnets(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.neutron_querier.get_subnets(search_opts)
 
 
-def fetch_routers(search_opts={}):
+def fetch_routers(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.neutron_querier.get_routers(search_opts)
 
 
-def fetch_users(search_opts={}):
+def fetch_users(search_opts=None):
     """
 
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    if search_opts is None:
+        search_opts = {}
 
     return queriers.keystone_querier.get_users(search_opts)
 
@@ -171,7 +200,7 @@ def get_prepared_node(data, node_type, label_key, id_key):
 
 ########################################################################################################################
 
-def create_servers(node_type, label_key, id_key):
+def create_servers(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -179,7 +208,9 @@ def create_servers(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    search_opts = {'all_tenants': 1} #todo: may be take this option as configuration from user.
+    if search_opts is None:
+        search_opts = {}
+    search_opts['all_tenants'] = 1  # todo: may be take this option as configuration from user.
     data = fetch_servers(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
@@ -189,7 +220,7 @@ def create_servers(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_containers(node_type, label_key="name", id_key="id"):
+def create_containers(node_type, label_key="name", id_key="id", search_opts=None):
     """
 
     :param node_type:
@@ -198,13 +229,15 @@ def create_containers(node_type, label_key="name", id_key="id"):
     :param private_keys_folder:
     :return:
     """
-    data = fetch_containers(node_type)
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_containers(node_type, search_opts=search_opts)
     node_data = get_prepared_node(data=data, node_type=node_type, label_key=label_key, id_key=id_key)
     for d in node_data:
         NodeManager.create_node(d)
 
 
-def create_host_aggregates(node_type, label_key, id_key):
+def create_host_aggregates(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -212,7 +245,9 @@ def create_host_aggregates(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_host_aggregates()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_host_aggregates(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -222,7 +257,7 @@ def create_host_aggregates(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_availability_zones(node_type, label_key, id_key):
+def create_availability_zones(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -230,7 +265,9 @@ def create_availability_zones(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_availability_zones()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_availability_zones(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -239,7 +276,7 @@ def create_availability_zones(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_services(node_type, label_key, id_key):
+def create_services(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -247,7 +284,9 @@ def create_services(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_services()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_services(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -256,7 +295,7 @@ def create_services(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_hypervisors(node_type, label_key, id_key):
+def create_hypervisors(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -264,7 +303,9 @@ def create_hypervisors(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_hypervisors()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_hypervisors(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -273,7 +314,7 @@ def create_hypervisors(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_flavors(node_type, label_key, id_key):
+def create_flavors(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -281,7 +322,9 @@ def create_flavors(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_flavors()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_flavors(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -290,7 +333,7 @@ def create_flavors(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_volumes(node_type, label_key, id_key):
+def create_volumes(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -298,7 +341,9 @@ def create_volumes(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_volumes()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_volumes(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -307,7 +352,7 @@ def create_volumes(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_key_pairs(node_type, label_key, id_key):
+def create_key_pairs(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -315,7 +360,9 @@ def create_key_pairs(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_key_pairs()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_key_pairs(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -324,7 +371,7 @@ def create_key_pairs(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_images(node_type, label_key, id_key):
+def create_images(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -332,7 +379,9 @@ def create_images(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_images()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_images(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -341,7 +390,7 @@ def create_images(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_networks(node_type, label_key, id_key):
+def create_networks(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -349,7 +398,9 @@ def create_networks(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_networks()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_networks(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -358,7 +409,7 @@ def create_networks(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_subnets(node_type, label_key, id_key):
+def create_subnets(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -366,7 +417,9 @@ def create_subnets(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_subnets()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_subnets(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -375,7 +428,7 @@ def create_subnets(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_routers(node_type, label_key, id_key):
+def create_routers(node_type, label_key, id_key, search_opts=None):
     """
 
     :param node_type:
@@ -383,7 +436,9 @@ def create_routers(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_routers()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_routers(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
@@ -392,7 +447,7 @@ def create_routers(node_type, label_key, id_key):
         NodeManager.create_node(d)
 
 
-def create_users(node_type, label_key, id_key):
+def create_users(node_type, label_key, id_key, search_opts=None):
     """
     
     :param node_type:
@@ -400,7 +455,9 @@ def create_users(node_type, label_key, id_key):
     :param id_key:
     :return:
     """
-    data = fetch_users()
+    if search_opts is None:
+        search_opts = {}
+    data = fetch_users(search_opts)
     node_data = get_prepared_node(data=data,
                                   node_type=node_type,
                                   label_key=label_key,
