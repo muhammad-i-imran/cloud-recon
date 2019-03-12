@@ -1,0 +1,770 @@
+{
+  "aggregate.create.end": {
+    "component": "HOST_AGGREGATES",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "aggregate.create.start": {
+    "component": "HOST_AGGREGATES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "aggregate.delete.end": {
+    "component": "HOST_AGGREGATES",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "aggregate.delete.start": {
+    "component": "HOST_AGGREGATES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "compute.exception": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "flavor.create": {
+    "component": "FLAVORS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "flavor.delete": {
+    "component": "FLAVORS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "flavor.update": {
+    "component": "FLAVORS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.delete.end": {
+    "component": "SERVERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "instance.delete.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.live_migration_rollback.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.live_migration_rollback.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.pause.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.pause.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.power_off.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.power_off.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.power_on.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.power_on.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.reboot.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.reboot.error": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.reboot.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.rebuild.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.rebuild.error": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.rebuild.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resize.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resize.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resize_finish.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resize_finish.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.restore.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.restore.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resume.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.resume.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shelve.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shelve.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shelve_offload.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shelve_offload.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shutdown.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.shutdown.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.snapshot.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.snapshot.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.soft_delete.end": {
+    "component": "SERVERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "instance.soft_delete.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.suspend.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.suspend.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.unpause.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.unpause.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.unshelve.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.unshelve.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_attach.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_attach.error": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_attach.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_detach.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_detach.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_swap.end": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_swap.error": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.volume_swap.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.create.end": {
+    "component": "SERVERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "instance.create.error": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.create.start": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "instance.update": {
+    "component": "SERVERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "keypair.create.end": {
+    "component": "SERVERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "keypair.create.start": {
+    "component": "KEY_PAIRS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "service.update": {
+    "component": "SERVICES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.create": {
+    "component": "IMAGES",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "image.prepare": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.upload": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.activate": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.send": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.update": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "image.delete": {
+    "component": "IMAGES",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "task.run": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "task.processing": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "task.success": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "task.failure": {
+    "component": "IMAGES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "": {
+    "component": "HYPERVISORS",
+    "operation": "read"
+  },
+  "": {
+    "component": "AVAILABILITY_ZONES",
+    "operation": "read"
+  },
+  "volume.exists": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.create.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.delete.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.update.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.resize.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.attach.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.detach.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "snapshot.exists": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "snapshot.create.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "snapshot.delete.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "snapshot.update.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.backup.create.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.backup.delete.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.backup.restore.start": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.create.end": {
+    "component": "VOLUMES",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "volume.delete.end": {
+    "component": "VOLUMES",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "volume.update.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.resize.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.attach.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.detach.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "snapshot.create.end": {
+    "component": "VOLUMES",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "snapshot.delete.end": {
+    "component": "VOLUMES",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "snapshot.update.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "volume.backup.create.end": {
+    "component": "VOLUMES",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "volume.backup.delete.end": {
+    "component": "VOLUMES",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "volume.backup.restore.end": {
+    "component": "VOLUMES",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.group.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.project.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.role.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.domain.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.user.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.trust.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.region.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.endpoint.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.service.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.policy.create": {
+    "component": "USERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "identity.group.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.project.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.role.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.domain.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.user.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.region.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.endpoint.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.service.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.policy.updated": {
+    "component": "USERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "identity.group.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.project.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.role.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.domain.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.user.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.trust.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.region.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.endpoint.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.service.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "identity.policy.deleted": {
+    "component": "USERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "floatingip.create.end": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "floatingip.update.start": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "floatingip.exists": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "network.update.start": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "port.create.end": {
+    "component": "NETWORKS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "port.update.start": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "router.create.end": {
+    "component": "ROUTERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "router.update.start": {
+    "component": "ROUTERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "subnet.update.start": {
+    "component": "SUBNETS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "network.create.end": {
+    "component": "NETWORKS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "network.update.end": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "network.exists": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "port.exists": {
+    "component": "NETWORKS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "router.update.end": {
+    "component": "ROUTERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "router.exists": {
+    "component": "ROUTERS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "subnet.create.end": {
+    "component": "SUBNETS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "subnet.update.end": {
+    "component": "SUBNETS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "subnet.exists": {
+    "component": "SUBNETS",
+    "operation": "U",
+    "graph_element": "N"
+  },
+  "subnet.delete.end": {
+    "component": "SUBNETS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "network.delete.end": {
+    "component": "NETWORKS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "router.delete.end": {
+    "component": "ROUTERS",
+    "operation": "D",
+    "graph_element": "N"
+  },
+  "docker.container.create.end": {
+    "component": "CONTAINERS",
+    "operation": "C",
+    "graph_element": "N"
+  },
+  "docker.container.delete.end": {
+    "component": "CONTAINERS",
+    "operation": "D",
+    "graph_element": "N"
+  }
+}
