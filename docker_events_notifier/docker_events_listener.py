@@ -4,22 +4,31 @@ from publisher import DockerNotificationPublisher
 import sys
 import os
 import json
+import socket
+
+import logging
+
+
+LOG = logging.getLogger(__name__)
 
 class DockerEventListener(object):
     def __init__(self, unix_socket_url, publisher_instance):
+
         self.client = Client(base_url=unix_socket_url)
         self.publisher = publisher_instance
-        # self.notification_format = {"priority": "INFO", "payload": None, "event_type": None, "publisher_id": "docker"}
+
 
     def listen(self, filters, forwarding_type):
         events = self.client.events(filters= filters, decode=True)
-        notification_format = {"priority": "INFO", "payload": None, "event_type": None, "publisher_id": "docker"}  # later use; https://docs.openstack.org/nova/pike/reference/notifications.html
+        notification_format = {"priority": "INFO", "payload": None, "event_type": None, "publisher_id": socket.gethostname()}  # later use; https://docs.openstack.org/nova/pike/reference/notifications.html
         for event in events:
             notification_format["payload"] = event
             notification_format["event_type"] = forwarding_type
+            LOG.debug("Calling publish_events() from docker_events_listener")
             self.publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
 
 def main():
+
     publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
     unix_socket_url = "unix://var/run/docker.sock"
     event_listeners = DockerEventListener(unix_socket_url=unix_socket_url, publisher_instance=publisher)
@@ -35,8 +44,10 @@ def main():
         filters["event"] = event_type
         thread = Thread(target=event_listeners.listen, args=(filters, event_types[event_type]))
         try:
+            LOG.info("Starting threads.")
             thread.start() #run forever until interrupted
         except (SystemExit, KeyboardInterrupt):
+            LOG.exception("Exception occured.")
             sys.exit()
 
 if __name__ == '__main__':
