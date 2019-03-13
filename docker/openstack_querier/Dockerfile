@@ -1,27 +1,24 @@
 FROM python:3
 
+ARG NEO4J_SERVICE_HOST=127.0.0.1
+ARG NEO4J_SERVICE_PORT=15135
+
+ENV NEO4J_SERVICE_HOST=$NEO4J_SERVICE_HOST
+ENV NEO4J_SERVICE_PORT=$NEO4J_SERVICE_PORT
+
 
 RUN mkdir -p  /cloud-reconnoiterer
 WORKDIR /cloud-reconnoiterer
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common python-pip python-dev build-essential nano netcat
-
-
-COPY openstack_neo4j_service  /
-COPY requirements.txt /
-COPY openstack_info.json /
+COPY neo4jservice_os_mediator  ./
+COPY openstack_querier ./
+COPY notifications_subscriber ./
+COPY requirements.txt ./
+COPY openstack_info.json ./
+COPY event_component_mapping.json ./
+COPY wait-for-neo4j-service.sh /
 
 RUN python3 -m pip install -r /requirements.txt
 
-# RUN cd /openstack_neo4j_service/graph_service_interface_schema / && python setup.py sdist
-# RUN pip install graphserviceschema==0.1 --no-index --find-links file:///openstack_neo4j_service/graph_service_interface_schema/dist/
-
-# RUN cd /openstack_neo4j_service/openstack_querier / && python setup.py sdist
-# RUN python3 -m pip install openstackqueryapi==0.1 --no-index --find-links file:///openstack_neo4j_service/openstack_querier/dist/
-
-COPY wait-for-neo4j-service.sh /
-#RUN chmod +x /wait-for-neo4j-service.sh #should already have +x mode
-
-WORKDIR /cloud-reconnoiterer/openstack_neo4j_service/neo4jservice_os_mediator
-
-ENTRYPOINT ["/bin/bash", "-c", "/wait-for-neo4j-service.sh"]
+RUN chmod +x /wait-for-neo4j-service.sh
+ENTRYPOINT ["./wait-for-neo4j-service.sh", "${NEO4J_SERVICE_HOST}", "${NEO4J_SERVICE_PORT}", "python", "./neo4jservice_os_mediator/main.py"]
