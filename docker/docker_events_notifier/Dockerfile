@@ -16,5 +16,5 @@ RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_6
 
 RUN echo "if [ -e /var/run/docker.sock ]; then chown root:root /var/run/docker.sock; fi" >> /home/.bashrc
 VOLUME /var/run/docker.sock
-CMD ["python","./docker_events_notifier/docker_events_listener.py"]
 
+ENTRYPOINT ["python","./docker_events_notifier/docker_events_listener.py"]
