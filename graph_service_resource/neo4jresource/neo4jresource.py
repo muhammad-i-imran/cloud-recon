@@ -49,9 +49,10 @@ def create_node():
         return jsonify({'status': 400})
     data = request.get_json()
     node_type = data['node_type']
+    node_secondary_labels = data['node_secondary_labels']
     id_key = data['id_key']
     node_properties = data['node_properties']
-    status = api.create_node_with_merge(node_type=node_type, primary_keys=id_key, node_properties=node_properties)
+    status = api.create_node_with_merge(node_type=node_type, node_secondary_labels=node_secondary_labels, primary_keys=id_key, node_properties=node_properties)
     return jsonify({'status': status})
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])

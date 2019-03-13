@@ -92,7 +92,7 @@ class Neo4JApi(object):
         return  list(nodes)
 
 
-    def create_node(self, node_type, primary_keys, node_properties):
+    def create_node(self, node_type, node_secondary_labels, primary_keys, node_properties):
         """
 
         :param node_type:
@@ -110,6 +110,8 @@ class Neo4JApi(object):
         if dict_depth > 1:
             raise ValueError("Invalid JSON format. properties JSON should have depth 1.")
         node = Node(node_type, **node_properties)
+        for secondar_label in node_secondary_labels:
+            node.labels.add(secondar_label)
         try:
             self.graph.create(node)
             return True
@@ -117,7 +119,7 @@ class Neo4JApi(object):
             print("Exception occurred: %s" % str(ex))
             return False
 
-    def create_node_with_merge(self, node_type, primary_keys, node_properties):
+    def create_node_with_merge(self, node_type, node_secondary_labels, primary_keys, node_properties):
         """
         Creates node if it doesn't exist, otherwise merge it. Good for updation
 
@@ -127,6 +129,8 @@ class Neo4JApi(object):
         :return:
         """
         node = Node(node_type, **node_properties)
+        for secondar_label in node_secondary_labels:
+            node.add_label(secondar_label)
         try:
             self.graph.merge(node, node_type, primary_keys)
             return True
@@ -206,6 +210,7 @@ class Neo4JApi(object):
             node.update(**node_updated_properties)
             self.graph.push(node)
         return True
+
 
     def delete_node(self, node_type, properties_dict):
         """

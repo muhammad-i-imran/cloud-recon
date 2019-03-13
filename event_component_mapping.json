@@ -2,769 +2,913 @@
   "aggregate.create.end": {
     "component": "HOST_AGGREGATES",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "aggregate.create.start": {
     "component": "HOST_AGGREGATES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "aggregate.delete.end": {
     "component": "HOST_AGGREGATES",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "aggregate.delete.start": {
     "component": "HOST_AGGREGATES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "compute.exception": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "flavor.create": {
     "component": "FLAVORS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "flavor.delete": {
     "component": "FLAVORS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "flavor.update": {
     "component": "FLAVORS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.delete.end": {
     "component": "SERVERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.delete.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.live_migration_rollback.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.live_migration_rollback.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.pause.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.pause.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.power_off.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.power_off.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.power_on.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.power_on.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.reboot.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.reboot.error": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.reboot.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.rebuild.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.rebuild.error": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.rebuild.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resize.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resize.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resize_finish.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resize_finish.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.restore.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.restore.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resume.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.resume.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shelve.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shelve.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shelve_offload.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shelve_offload.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shutdown.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.shutdown.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.snapshot.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.snapshot.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.soft_delete.end": {
     "component": "SERVERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.soft_delete.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.suspend.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.suspend.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.unpause.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.unpause.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.unshelve.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.unshelve.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_attach.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_attach.error": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_attach.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_detach.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_detach.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_swap.end": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_swap.error": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.volume_swap.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.create.end": {
     "component": "SERVERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.create.error": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.create.start": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "instance.update": {
     "component": "SERVERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "keypair.create.end": {
     "component": "SERVERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "keypair.create.start": {
     "component": "KEY_PAIRS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "service.update": {
     "component": "SERVICES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.create": {
     "component": "IMAGES",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.prepare": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.upload": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.activate": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.send": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.update": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "image.delete": {
     "component": "IMAGES",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "task.run": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "task.processing": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "task.success": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "task.failure": {
     "component": "IMAGES",
     "operation": "U",
-    "graph_element": "N"
-  },
-  "": {
-    "component": "HYPERVISORS",
-    "operation": "read"
-  },
-  "": {
-    "component": "AVAILABILITY_ZONES",
-    "operation": "read"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.exists": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.create.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.delete.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.update.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.resize.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.attach.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.detach.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.exists": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.create.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.delete.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.update.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.create.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.delete.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.restore.start": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.create.end": {
     "component": "VOLUMES",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.delete.end": {
     "component": "VOLUMES",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.update.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.resize.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.attach.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.detach.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.create.end": {
     "component": "VOLUMES",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.delete.end": {
     "component": "VOLUMES",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "snapshot.update.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.create.end": {
     "component": "VOLUMES",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.delete.end": {
     "component": "VOLUMES",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "volume.backup.restore.end": {
     "component": "VOLUMES",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.group.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.project.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.role.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.domain.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.user.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.trust.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.region.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.endpoint.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.service.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.policy.create": {
     "component": "USERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.group.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.project.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.role.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.domain.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.user.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.region.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.endpoint.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.service.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.policy.updated": {
     "component": "USERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.group.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.project.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.role.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.domain.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.user.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.trust.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.region.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.endpoint.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.service.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "identity.policy.deleted": {
     "component": "USERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "floatingip.create.end": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "floatingip.update.start": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "floatingip.exists": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "network.update.start": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "port.create.end": {
     "component": "NETWORKS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "port.update.start": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "router.create.end": {
     "component": "ROUTERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "router.update.start": {
     "component": "ROUTERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "subnet.update.start": {
     "component": "SUBNETS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "network.create.end": {
     "component": "NETWORKS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "network.update.end": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "network.exists": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "port.exists": {
     "component": "NETWORKS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "router.update.end": {
     "component": "ROUTERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "router.exists": {
     "component": "ROUTERS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "subnet.create.end": {
     "component": "SUBNETS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "subnet.update.end": {
     "component": "SUBNETS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "subnet.exists": {
     "component": "SUBNETS",
     "operation": "U",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "subnet.delete.end": {
     "component": "SUBNETS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "network.delete.end": {
     "component": "NETWORKS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "router.delete.end": {
     "component": "ROUTERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "docker.container.create.end": {
     "component": "CONTAINERS",
     "operation": "C",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   },
   "docker.container.delete.end": {
     "component": "CONTAINERS",
     "operation": "D",
-    "graph_element": "N"
+    "graph_element": "N",
+    "component_id_property_in_payload": "_id"
   }
 }

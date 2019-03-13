@@ -58,7 +58,7 @@ def add_prefix_to_dict_keys(dictionary, prefix_string=""):
     return new_dictionary
 
 
-def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
+def prepare_node_data(data_list, node_type, node_secondary_labels, label_key='name', id_key="id"):
     """
 
     :param data_list:
@@ -72,7 +72,8 @@ def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
         info = i if type(i) is dict else i.__dict__
         # label = info.pop(label_key, None)
         if label_key != 'name':
-            info['name'] = info[label_key] # property with name 'name' is important for displaying (as a label on node) purpose
+            info['name'] = info[
+                label_key]  # property with name 'name' is important for displaying (as a label on node) purpose
             del info[label_key]
 
         # remove non-serializable elements
@@ -87,6 +88,7 @@ def prepare_node_data(data_list, node_type, label_key='name', id_key="id"):
         node_data = {}
         node_data["id_key"] = id_key
         node_data["node_type"] = node_type
+        node_data["node_secondary_labels"] = node_secondary_labels
         node_data["node_properties"] = flattened_info_dict
         nodes_data.append(node_data)
 
@@ -159,7 +161,8 @@ def fetch_and_prepare_container_nodes(node_type):
         for server in servers:
             user_name = server[
                 'key_name']  # not sure, whether iterate throuhg all keys or current user keys or the vm creator keys???
-            ips = [value for key, value in server.items() if re.match("^addresses.*?addr$", key)]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
+            ips = [value for key, value in server.items() if
+                   re.match("^addresses.*?addr$", key)]  # "addresses___test-net___1___addr":"10.0.42.17", parse this
             server_id = server["id"]
             server_name = server["name"]
             private_key_path = os.path.join(envvars.PRIVATE_KEYS_FOLDER, user_name)
@@ -172,9 +175,9 @@ def fetch_and_prepare_container_nodes(node_type):
 
                 try:
                     containers = server_command_initiator(server_ip=ip, private_key_path=private_key_path,
-                                                                    vm_username=envvars.VM_USERNAME)
+                                                          vm_username=envvars.VM_USERNAME)
                     if len(containers) > 0:
-                        containers_list=containers
+                        containers_list = containers
                         break
                 except Exception as ex:
                     pass

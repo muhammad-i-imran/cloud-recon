@@ -1,10 +1,12 @@
 {
   "cloud_provider": "openstack",
-  "cloud_config_info":
-  {
+  "cloud_config_info": {
     "SERVERS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "OS-EXT-AZ:availability_zone",
@@ -72,6 +74,9 @@
     "ROUTERS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "external_gateway_info___network_id",
@@ -108,6 +113,9 @@
     "HOST_AGGREGATES": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "availability_zone",
@@ -134,11 +142,17 @@
     "AVAILABILITY_ZONES": {
       "name_attr": "zoneName",
       "id_key": "name",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "SERVICES": {
       "name_attr": "binary",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "zone",
@@ -165,16 +179,25 @@
     "HYPERVISORS": {
       "name_attr": "hypervisor_hostname",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "FLAVORS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "VOLUMES": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "availability_zone",
@@ -191,16 +214,25 @@
     "KEY_PAIRS": {
       "name_attr": "name",
       "id_key": "name",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "IMAGES": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "NETWORKS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "subnets___(\\d+)",
@@ -227,16 +259,25 @@
     "SUBNETS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "USERS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": []
     },
     "CONTAINERS": {
       "name_attr": "name",
       "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
       "RELATIONSHIPS": [
         {
           "source_property_name": "server_name",
