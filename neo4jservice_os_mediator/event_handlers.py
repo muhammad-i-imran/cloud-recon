@@ -6,11 +6,13 @@ configuratons = json.loads(open(envvars.CONFIG_FILE_PATH).read())
 cloud_provider = configuratons["cloud_provider"]
 cloud_config_info = configuratons["cloud_config_info"]
 
+
 def notifier_callback(event_type, payload):
     print("######################################################################")
     print(event_type)
     print(payload)
     print("######################################################################")
+    #todo: update relationship after a node's creation, updation, deletion...
     try:
         event_info = event_component_mappings[event_type]
     except KeyError as err:

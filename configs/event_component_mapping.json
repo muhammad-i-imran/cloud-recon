@@ -4,56 +4,56 @@
     "component": "HOST_AGGREGATES",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "aggregate.create.start": {
     "publisher_id": ".*",
     "component": "HOST_AGGREGATES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "aggregate.delete.end": {
     "publisher_id": ".*",
     "component": "HOST_AGGREGATES",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "aggregate.delete.start": {
     "publisher_id": ".*",
     "component": "HOST_AGGREGATES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "compute.exception": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "flavor.create": {
     "publisher_id": ".*",
     "component": "FLAVORS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "flavor.delete": {
     "publisher_id": ".*",
     "component": "FLAVORS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "flavor.update": {
     "publisher_id": ".*",
     "component": "FLAVORS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "compute.instance.delete.end": {
     "publisher_id": ".*",
@@ -67,329 +67,329 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.live_migration_rollback.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "compute.instance.live_migration_rollback.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "compute.instance.pause.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.pause.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_off.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_off.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_on.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_on.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.error": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.error": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize_finish.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize_finish.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.restore.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.restore.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resume.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resume.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve_offload.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve_offload.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shutdown.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shutdown.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.snapshot.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.snapshot.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.soft_delete.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.soft_delete.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.suspend.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.suspend.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unpause.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unpause.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unshelve.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unshelve.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.error": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_detach.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_detach.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.error": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.create.end": {
     "publisher_id": ".*",
@@ -403,671 +403,671 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.create.start": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.update": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "instance_id"
   },
   "keypair.create.end": {
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "key_name"
   },
   "keypair.create.start": {
     "publisher_id": ".*",
     "component": "KEY_PAIRS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "key_name"
   },
   "service.update": {
     "publisher_id": ".*",
     "component": "SERVICES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "image.create": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.prepare": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.upload": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.activate": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.send": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.update": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "image.delete": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "image_id"
   },
   "task.run": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "task.processing": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "task.success": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "task.failure": {
     "publisher_id": ".*",
     "component": "IMAGES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "volume.exists": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.create.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.delete.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.update.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.resize.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.attach.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.detach.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "snapshot.exists": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "snapshot.create.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "snapshot.delete.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "snapshot.update.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "volume.backup.create.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.delete.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.restore.start": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.create.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.delete.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.update.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.resize.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.attach.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.detach.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "snapshot.create.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "snapshot.delete.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "snapshot.update.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "volume.backup.create.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.delete.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.restore.end": {
     "publisher_id": ".*",
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "volume_id"
   },
   "identity.group.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.project.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.role.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.domain.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.user.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.trust.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.region.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.endpoint.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.service.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.policy.create": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.group.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.project.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.role.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.domain.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.user.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.region.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.endpoint.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.service.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.policy.updated": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.group.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.project.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.role.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.domain.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.user.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.trust.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.region.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.endpoint.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.service.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "identity.policy.deleted": {
     "publisher_id": ".*",
     "component": "USERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "floatingip.create.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "floating_network_id"
   },
   "floatingip.update.start": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "floating_network_id"
   },
   "floatingip.exists": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "floating_network_id"
   },
   "network.update.start": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "port.create.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "port.update.start": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "port.update.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "router.create.end": {
     "publisher_id": ".*",
     "component": "ROUTERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "router.update.start": {
     "publisher_id": ".*",
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "subnet.update.start": {
     "publisher_id": ".*",
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "network.create.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "network.update.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "network.exists": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "port.exists": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "router.update.end": {
     "publisher_id": ".*",
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "router.exists": {
     "publisher_id": ".*",
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "subnet.create.end": {
     "publisher_id": ".*",
     "component": "SUBNETS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "subnet.update.end": {
     "publisher_id": ".*",
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "subnet.exists": {
     "publisher_id": ".*",
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "subnet.delete.end": {
     "publisher_id": ".*",
     "component": "SUBNETS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "network.delete.end": {
     "publisher_id": ".*",
     "component": "NETWORKS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "network_id"
   },
   "router.delete.end": {
     "publisher_id": ".*",
     "component": "ROUTERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "docker.container.create.end": {
     "publisher_id": ".*",
     "component": "CONTAINERS",
     "operation": "C",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   },
   "docker.container.delete.end": {
     "publisher_id": ".*",
     "component": "CONTAINERS",
     "operation": "D",
     "graph_element": "N",
-    "component_id_property_in_payload": "_id"
+    "component_id_property_in_payload": "id"
   }
 }
