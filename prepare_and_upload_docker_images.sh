@@ -39,6 +39,9 @@ cp -r neo4jservice_os_mediator docker/openstack_querier/neo4jservice_os_mediator
 cp -r notifications_subscriber docker/openstack_querier/notifications_subscriber
 cp -r openstack_querier docker/openstack_querier/openstack_querier
 
+cp configs/openstack_info.json docker/openstack_querier/
+cp configs/event_component_mapping.json docker/openstack_querier/
+
 echo "Building, tagging, and uploading Docker images..."
 for i in "${images[@]}"; do 
 	docker build -t "$i" docker/"$i"/ --no-cache

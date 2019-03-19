@@ -96,8 +96,9 @@ class Neo4JApi(object):
         """
 
         :param node_type:
+        :param node_secondary_labels:
         :param primary_keys:
-        :param node_properties: should also contain attribute 'name'
+        :param node_properties:
         :return:
         """
         if primary_keys is not None:
@@ -124,7 +125,8 @@ class Neo4JApi(object):
         Creates node if it doesn't exist, otherwise merge it. Good for updation
 
         :param node_type:
-        :param id_key:
+        :param node_secondary_labels:
+        :param primary_keys:
         :param node_properties:
         :return:
         """
@@ -324,10 +326,3 @@ class Neo4JApi(object):
     #         # self.graph.close()
     #     finally:
     #         del self.graph
-
-
-# import json
-# g=Neo4JApi.init_with_settings(host='10.0.42.181', port=7474, user='neo4j', password=None, scheme='http', secure=False)
-# nodes,status=g.get_nodes("VOLUMES", {})
-# for node in nodes:
-#     print(json.dumps(node))

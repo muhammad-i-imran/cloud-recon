@@ -16,15 +16,19 @@ def begin_all():
     except Exception as ex:  # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
         print("Exception occured: %s" % str(ex))
 
-
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
     # todo: read it using configuration file instead of env variable
-    eventtype_publisherid_tuple_list = [(NOTIFICATION_EVENT_TYPE, NOTIFICATION_PUBLISHER_ID)]
+
+    eventtype_publisherid_tuples = []
+    for event_type in event_component_mappings:
+        eventtype_publisherid_tuples.append(tuple((event_type, event_component_mappings[event_type]['publisher_id'])))
+
+    print(eventtype_publisherid_tuples)
     exchange_topic_tuple_list = [(OPENSTACK_NOTIFICATION_EXCHANGE_NAME, OPENSTACK_NOTIFICATION_TOPIC_NAME),
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
-    notifier.start(eventtype_publisherid_tuple_list, exchange_topic_tuple_list, notifier_callback)
-    # print("Beggining graph creation")
+    notifier.start(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback)
+    # print("Begining graph creation")
     begin_all()
 
     # pool = Pool(processes=1)#todo: get from env
@@ -48,5 +52,6 @@ if __name__ == '__main__':
     configuratons = json.loads(open(CONFIG_FILE_PATH).read())
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type
     cloud_config_info = configuratons["cloud_config_info"]
+    event_component_mappings = json.loads(open(envvars.COMPONENT_EVENT_MAPPING_FILE).read())
     # cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)
     main()
