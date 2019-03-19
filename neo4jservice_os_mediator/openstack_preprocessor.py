@@ -14,10 +14,11 @@ def begin_node_create(cloud_config_info, prefix_string=""):
 
     for node_type in nodes:
         try:
+            print("Creating node %s" % node_type)
             function_name = "".join(["create_", node_type])
             function_to_call = getattr(node_data_assembler, function_name.lower())
             try:
-                print("+++++++++++++++++++++++++++++ CALLING %s" % node_type)
+                print("Creating node: %s" % node_type)
                 node_type_with_prefix = prefix_string + node_type
                 # todo: pass parameters as either dict or args and kwargs, because create_container  function accepts different parameters
                 function_to_call(node_type=node_type_with_prefix,
@@ -30,9 +31,9 @@ def begin_node_create(cloud_config_info, prefix_string=""):
         except Exception as ex:
             print("Exception occurred: %s" % str(ex))
 
-
 def begin_relationship_create(cloud_config_info):
     for source_node_type in cloud_config_info:
+        print("Creating relationships for node: %s" % source_node_type)
         relationship_data = cloud_config_info[source_node_type]["RELATIONSHIPS"]
         for relationship_data in relationship_data:
             source_property_name = relationship_data["source_property_name"]

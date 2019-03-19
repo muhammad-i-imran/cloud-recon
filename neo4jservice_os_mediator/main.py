@@ -9,13 +9,15 @@ from openstack_preprocessor import *
 
 def begin_all():
     try:
+        print("=========================CREATING NODES=========================")
         begin_node_create(cloud_config_info)
     except Exception as ex:
-        print("Exception occured: %s" % str(ex))
+        print("Exception occured while creating nodes: %s" % str(ex))
     try:
+        print("=====================CREATING RELATIONSHIPS=====================")
         begin_relationship_create(cloud_config_info)
     except Exception as ex:  # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
-        print("Exception occured: %s" % str(ex))
+        print("Exception occured while creating relationships: %s" % str(ex))
 
 def main():
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
@@ -25,12 +27,14 @@ def main():
 
     exchange_topic_tuple_list = [(OPENSTACK_NOTIFICATION_EXCHANGE_NAME, OPENSTACK_NOTIFICATION_TOPIC_NAME),
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
+
     # notifier.start(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback)
     # # print("Begining graph creation")
     # begin_all()
 
     pool = Pool(processes=5)#todo: get from env
     try:
+        print("Starting pool for notifications handling")
         pool.apply_async(notifier.start,
                      [eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback],
                      None)  # callback is none
@@ -45,6 +49,7 @@ def main():
         pool.close()
 
 if __name__ == '__main__':
+    print("Reading configuration files")
     NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
     configuratons = json.loads(open(CONFIG_FILE_PATH).read())
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type

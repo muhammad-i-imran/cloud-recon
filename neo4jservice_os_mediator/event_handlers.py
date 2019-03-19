@@ -8,17 +8,18 @@ cloud_config_info = configuratons["cloud_config_info"]
 
 
 def notifier_callback(event_type, payload):
-    print("######################################################################")
-    print(event_type)
+    print("==================================================")
+    print("Handling event: %s" % event_type)
     print(payload)
-    print("######################################################################")
+
     #todo: update relationship after a node's creation, updation, deletion...
+
     try:
         event_info = event_component_mappings[event_type]
     except KeyError as err:
-        print("KeyError occured: %s" % str(err))
+        print("KeyError occured while reading event type from event_component_mappings: %s" % str(err))
     except Exception as ex:
-        print("Exception occured: %s" % str(ex))
+        print("Exception occured while reading event type from event_component_mappings: %s" % str(ex))
     else:
         event_component_type = event_info['component']  # e.g. SERVERS, IMAGES, etc.
         event_operation = event_info['operation']  # e.g. U: update, D:delete, C: create
@@ -30,9 +31,9 @@ def notifier_callback(event_type, payload):
                 data['node_properties'] = payload[component_id_property_in_payload]
                 NodeManager.delete_nodes(data)
             except KeyError as err:
-                print("KeyError occured: %s" % str(err))
+                print("KeyError occured while reading key (%s) from payload" % str(err))
             except Exception as ex:
-                print("Exception occurred: %s" % str(ex))
+                print("Exception occurred while performing delete node operation against an event. Exception message: %s" % str(ex))
         elif event_operation == 'C' or event_operation == 'U':
             node_type = event_component_type  # get corresponding label
             try:
@@ -46,9 +47,9 @@ def notifier_callback(event_type, payload):
                 function_to_call(node_type=node_type_with_prefix, label_key=cloud_config_info[node_type]['name_attr'],
                                  id_key=cloud_config_info[node_type]['id_key'], search_opts=search_opts)
             except KeyError as err:
-                print("KeyError occured: %s" % str(err))
+                print("KeyError occured while reading key. Error message: %s" % str(err))
             except Exception as ex:
-                print("Exception occurred: %s" % str(ex))
+                print("Exception occurred while performing Create or Update node operation against an event. Exception message: %s" % str(ex))
         else:
             raise Exception(
                 "Operation not known. Please select C for Create, D for Delete, or U for Update operations.")
