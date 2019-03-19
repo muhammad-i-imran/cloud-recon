@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 echo -n "Do you want to remove the existing images (y/n)? "
