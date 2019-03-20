@@ -1,19 +1,21 @@
 FROM python:3
 
 ARG RABBITMQ_URL_DOCKER
+ARG DOCKER_VERSION=18.09.0
+ARG DOCKER_CHANNEL=stable
 
 ENV RABBITMQ_URL_DOCKER=$RABBITMQ_URL_DOCKER
-ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 18.03.1-ce
+ENV DOCKER_CHANNEL=$DOCKER_CHANNEL
+ENV DOCKER_VERSION=$DOCKER_VERSION
 
 
-RUN mkdir -p  /cloud-reconnoiterer
-WORKDIR /cloud-reconnoiterer
+RUN mkdir -p  /cloud_reconnoiterer
+WORKDIR /cloud_reconnoiterer
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt . 
+RUN pip install --no-cache-dir -r ./requirements.txt
 
-ADD docker_events_notifier ./docker_events_notifier
+COPY docker_events_notifier ./
 
 # Install docker client    
 RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" | tar -xzvC /usr/local/bin --strip=1 docker/docker
@@ -21,4 +23,6 @@ RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_6
 RUN echo "if [ -e /var/run/docker.sock ]; then chown root:root /var/run/docker.sock; fi" >> /home/.bashrc
 VOLUME /var/run/docker.sock
 
-ENTRYPOINT ["python","./docker_events_notifier/docker_events_listener.py"]
+
+
+ENTRYPOINT ["python3","./docker_events_notifier/docker_events_listener.py"]

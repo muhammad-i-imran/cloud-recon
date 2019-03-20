@@ -30,7 +30,7 @@ class NotifierStarter(object):
         targets = []
         for exchange_topic_tuple in exchange_topic_tuple_list:
             # targets.append(oslo_messaging.Target(exchange=exchange_topic_tuple[0], topic=exchange_topic_tuple[1]))
-            targets.append(oslo_messaging.Target(topic=exchange_topic_tuple[1]))
+            targets.append(oslo_messaging.Target(exchange=exchange_topic_tuple[0], topic=exchange_topic_tuple[1]))
 
         endpoints = []
         for eventtype_publisherid_tuple in eventtype_publisherid_tuple_list:
@@ -41,15 +41,12 @@ class NotifierStarter(object):
         # pool = "events-listener"
         server = oslo_messaging.get_notification_listener(transport, targets,
                                                           endpoints, executor='threading', allow_requeue=True)
-        print('Starting server...')
-        server.start()
 
 
         try:
+            print("Starting server...")
             server.start()
+            print("waiting...")
+            server.wait()
         except Exception as ex:
             print("Exception Occured: %s" % str(ex))
-            server.stop()
-        finally:
-            print("Starting to wait...")
-            server.wait()

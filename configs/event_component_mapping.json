@@ -1063,7 +1063,7 @@
     "graph_element": "N",
     "component_id_property_in_payload": "id"
   },
-  "docker.container.delete.end": {
+  "docker.container.stop.end": {
     "publisher_id": ".*",
     "component": "CONTAINERS",
     "operation": "D",

@@ -44,7 +44,7 @@ def notifier_callback(event_type, payload):
                 function_name = "".join(["create_",
                                          node_type])  # create is used, becuse even if the node already exist, the method implemented in REST service will merge with the existing one.
                 function_to_call = getattr(node_data_assembler, function_name.lower())
-                function_to_call(node_type=node_type_with_prefix, label_key=cloud_config_info[node_type]['name_attr'],
+                function_to_call(node_type=node_type_with_prefix, node_secondary_labels=cloud_config_info[node_type]['node_secondary_labels'],  label_key=cloud_config_info[node_type]['name_attr'],
                                  id_key=cloud_config_info[node_type]['id_key'], search_opts=search_opts)
             except KeyError as err:
                 print("KeyError occured while reading key. Error message: %s" % str(err))

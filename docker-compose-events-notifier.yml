@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   rabbitmq:
-    image: rabbitmq:3
+    image: rabbitmq:3-management #rabbitmq with management plugin
     environment:
       - RABBITMQ_NODENAME=none   
       - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=70%
@@ -13,16 +13,20 @@ services:
       #for more configurations, see https://hub.docker.com/_/rabbitmq/
     ports:
       - "4369:4369"
+      - "5671:5671"
       - "5672:5672"
+      - "15671:15671"
       - "15672:15672"
       - "25672:25672"
     network_mode: "host"
   events_notifier:
-    image: muhammadimran/docker-events-notifier # not published yet
+    image: muhammadimran/docker_events_notifier:4.5
     depends_on:
       - "rabbitmq"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - RABBITMQ_URL_DOCKER=${GRAPHDB_URI}
+      - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER}
     deploy:
       mode: global #should run on each machine
     #network_mode: "host" # host mode may not be needed

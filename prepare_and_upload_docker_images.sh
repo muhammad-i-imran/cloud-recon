@@ -12,6 +12,9 @@ echo -e "\n"
 read -p 'Enter image version: ' tag
 tag=${tag:-latest}
 
+export DOCKER_VERSION=18.09.0
+export DOCKER_CHANNEL=stable
+
 echo "--------------------------"
 echo $tag
 
@@ -28,6 +31,7 @@ if [ "$remove_existing_images" != "${remove_existing_images#[Yy]}" ] ;then
         docker rm $(docker stop $(docker ps -a --filter ancestor="$i" --format="{{.ID}}" -q)) 
 	docker rmi --force "$i";
 	docker rmi --force $username/$i;
+	docker images | grep $i | tr -s ' ' | cut -d ' ' -f 2 | xargs -I {} docker rmi $username/$i:{}  
         echo "Stopped and removed $i"
     done
 fi
@@ -47,15 +51,18 @@ rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git op
 cp configs/openstack_info.json docker/openstack_querier/
 cp configs/event_component_mapping.json docker/openstack_querier/
 
-echo "Building, tagging, and uploading Docker images..."
-for i in "${images[@]}"; do
-	echo "============================================="
-	echo "Building, tagging and uploading $i"
-	docker build -t "$i" docker/"$i"/ --no-cache
-        docker tag "$i" $username/$i:$tag
-        docker push $username/$i:$tag
-        echo "Built, tagged, and uploaded $i"
-    done
+
+docker build --build-arg DOCKER_VERSION=$DOCKER_VERSION --build-arg DOCKER_CHANNEL=$DOCKER_CHANNEL  -t docker_events_notifier docker/docker_events_notifier --no-cache
+docker tag docker_events_notifier $username/docker_events_notifier:$tag
+docker push $username/docker_events_notifier:$tag
+
+docker build -t neo4j_service docker/neo4j_service --no-cache
+docker tag neo4j_service $username/neo4j_service:$tag
+docker push $username/neo4j_service:$tag
+
+docker build -t openstack_querier docker/openstack_querier --no-cache
+docker tag openstack_querier $username/openstack_querier:$tag
+docker push $username/openstack_querier:$tag
 
 echo "Logging out from docker hub..."
 docker logout
