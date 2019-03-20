@@ -12,26 +12,28 @@ import logging
 LOG = logging.getLogger(__name__)
 
 class DockerEventListener(object):
-    def __init__(self, unix_socket_url, publisher_instance):
-
-        self.client = Client(base_url=unix_socket_url)
-        self.publisher = publisher_instance
-
+    def __init__(self, unix_socket_url):
+        self.client = Client(base_url=unix_socket_url, timeout=300)
 
     def listen(self, filters, forwarding_type):
+        publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
+
         events = self.client.events(filters= filters, decode=True)
         notification_format = {"priority": "INFO", "payload": None, "event_type": None, "publisher_id": socket.gethostname()}  # later use; https://docs.openstack.org/nova/pike/reference/notifications.html
         for event in events:
             notification_format["payload"] = event
             notification_format["event_type"] = forwarding_type
             LOG.debug("Calling publish_events() from docker_events_listener")
-            self.publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
+            try:
+                publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
+            except Exception as ex:
+                print("Exception occured while publishing events: %s" % str(ex))
+                publisher.close()
 
 def main():
-
-    publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
     unix_socket_url = "unix://var/run/docker.sock"
-    event_listeners = DockerEventListener(unix_socket_url=unix_socket_url, publisher_instance=publisher)
+    event_listeners = DockerEventListener(unix_socket_url=unix_socket_url)
+
     event_types = {
         "start": "docker.container.create.end",
         "stop": "docker.container.stop.end"
