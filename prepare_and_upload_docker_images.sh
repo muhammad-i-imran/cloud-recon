@@ -38,18 +38,18 @@ fi
 
 echo "Copying files in folders..."
 
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git docker_events_notifier docker/docker_events_notifier/docker_events_notifier
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git docker_events_notifier docker/docker_events_notifier/cloud_reconnoiterer/docker_events_notifier
 
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git graph_service_resource docker/neo4j_service/graph_service_resource
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git graph_service_api docker/neo4j_service/graph_service_api
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git graph_service_resource docker/neo4j_service/cloud_reconnoiterer/graph_service_resource
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git graph_service_api docker/neo4j_servic/cloud_reconnoiterer/graph_service_api
 
 
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git neo4jservice_os_mediator docker/openstack_querier/neo4jservice_os_mediator
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git notifications_subscriber docker/openstack_querier/notifications_subscriber
-rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git openstack_querier docker/openstack_querier/openstack_querier
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git neo4jservice_os_mediator docker/openstack_querier/cloud_reconnoiterer/neo4jservice_os_mediator
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git notifications_subscriber docker/openstack_querier/cloud_reconnoiterer/notifications_subscriber
+rsync -rv --exclude=venv --exclude=__pycache__ --exclude=.idea --exclude=.git openstack_querier docker/openstack_querier/cloud_reconnoiterer/openstack_querier
 
-cp configs/openstack_info.json docker/openstack_querier/
-cp configs/event_component_mapping.json docker/openstack_querier/
+cp configs/openstack_info.json docker/openstack_querier/cloud_reconnoiterer/
+cp configs/event_component_mapping.json docker/openstack_querier/cloud_reconnoiterer/
 
 
 docker build --build-arg DOCKER_VERSION=$DOCKER_VERSION --build-arg DOCKER_CHANNEL=$DOCKER_CHANNEL  -t docker_events_notifier docker/docker_events_notifier --no-cache
