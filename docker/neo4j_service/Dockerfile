@@ -6,6 +6,8 @@ FROM python:3
 ENV NEO4J_DATABASE_HOST "127.0.0.1"
 ENV NEO4J_DATABASE_PORT "7474"
 
+RUN apt update -y && apt install -y netcat
+
 COPY cloud_reconnoiterer/ /cloud_reconnoiterer
 WORKDIR /cloud_reconnoiterer
 

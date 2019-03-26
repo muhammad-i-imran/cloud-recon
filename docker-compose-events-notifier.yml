@@ -20,13 +20,13 @@ services:
       - "25672:25672"
     network_mode: "host"
   events_notifier:
-    image: muhammadimran/docker_events_notifier:4.5
+    image: muhammadimran/docker_events_notifier:1.0
     depends_on:
       - "rabbitmq"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER}
+      - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER} # format:amqp://user:password@ip:5672
     deploy:
       mode: global #should run on each machine
     #network_mode: "host" # host mode may not be needed
