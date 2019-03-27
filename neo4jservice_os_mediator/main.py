@@ -29,10 +29,10 @@ def main():
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
 
     # notifier.start(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback)
-    # # print("Begining graph creation")
+    # print("Begining graph creation")
     # begin_all()
 
-    pool = Pool(processes=5)#todo: get from env
+    pool = Pool(processes=5)
     try:
         print("Starting pool for notifications handling")
         pool.apply_async(notifier.start,
@@ -41,6 +41,8 @@ def main():
         while True:
             # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
             begin_all()
+            print("==================================================")
+            print("Waiting for " + TIME_TO_WAIT + " before next pass is started")
             time.sleep(int(TIME_TO_WAIT))
     except Exception as ex:
         print("Exception occured: %s" % str(ex))

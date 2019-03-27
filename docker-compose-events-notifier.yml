@@ -26,7 +26,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER} # format:amqp://user:password@ip:5672
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER}
     deploy:
       mode: global #should run on each machine
     #network_mode: "host" # host mode may not be needed
