@@ -29,10 +29,10 @@ RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_6
 
 RUN echo "if [ -e /var/run/docker.sock ]; then chown root:root /var/run/docker.sock; fi" >> /home/.bashrc
 
-VOLUME /var/run/docker.sock
+# VOLUME /var/run/docker.sock /var/run/docker.sock
 
 #ENTRYPOINT ["python3", "./docker_events_notifier/docker_events_listener.py"]
 
-#RUN chmod +x ./wait-for-rabbitmq.sh
+RUN chmod +x ./wait-for-rabbitmq.sh
 
-#ENTRYPOINT ["./wait-for-rabbitmq.sh", "$RABBITMQ_HOST", "$RABBITMQ_PORT", "python3", "./docker_events_notifier/docker_events_listener.py"] #docker.sock as a file is not created when using this line
+ENTRYPOINT ["./wait-for-rabbitmq.sh", "$RABBITMQ_HOST", "$RABBITMQ_PORT", "python3", "./docker_events_notifier/docker_events_listener.py"] #docker.sock as a file is not created when using this line
