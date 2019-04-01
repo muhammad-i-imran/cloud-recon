@@ -1,6 +1,8 @@
 import os
 
-NEO4J_SERVICE_URL = os.getenv('NEO4J_SERVICE_URL1', 'http://x.x.x.x:15135/neo4j')
+NEO4J_SERVICE_URL = os.getenv('NEO4J_SERVICE_URL', 'http://x.x.x.x:15135/neo4j')
+NEO4J_SERVICE_HOST=os.getenv('NEO4J_SERVICE_HOST', '127.0.0.1')
+NEO4J_SERVICE_PORT=os.getenv('NEO4J_SERVICE_PORT', '15135')
 OS_AUTH_URL = os.getenv('OS_AUTH_URL', "http://x.x.x.x:5000/v3")
 OS_USERNAME = os.getenv('OS_USERNAME', "xxxxxx")
 OS_PASSWORD = os.getenv('OS_PASSWORD', "xxxxxxxx")

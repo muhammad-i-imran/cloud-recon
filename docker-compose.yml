@@ -26,6 +26,8 @@ services:
       - GRAPHDB_URI=${GRAPHDB_URI}
       - GRAPHDB_USER=${GRAPHDB_USER}
       - GRAPHDB_PASS=${GRAPHDB_PASS}
+      - NEO4J_DATABASE_HOST=${NEO4J_DATABASE_HOST}
+      - NEO4J_DATABASE_PORT=${NEO4J_DATABASE_PORT}
     network_mode: "host"
     #it may take longer for neo4j to run, so wait for it before starting this service
     #command: ["/wait-for-neo4j.sh", "x.x.x.x", "7687", "python3", "/openstack_neo4j_service/graph_service_resource/main.py"]
