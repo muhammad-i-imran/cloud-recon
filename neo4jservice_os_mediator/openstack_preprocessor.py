@@ -5,9 +5,9 @@ from graphelementsdispatcher.node_manager import NodeManager
 from graphelementsdispatcher.relationship_manager import *
 
 
-def begin_node_create(cloud_config_info, prefix_string=""):
+def begin_node_create(cloud_config_info):
     nodes = list(cloud_config_info.keys())
-    container_key_name = "".join([prefix_string, "CONTAINERS"])
+    container_key_name = "CONTAINERS"
     nodes.remove(container_key_name)
     # list is ordered in python. so remove key for 'containers' if it is somewhere else and append it at the end, so we can be sured that the container creation code is executed after servers creation code (because containers depend on servers)
     nodes.append(container_key_name)
@@ -18,9 +18,8 @@ def begin_node_create(cloud_config_info, prefix_string=""):
             function_name = "".join(["create_", node_type])
             function_to_call = getattr(node_data_assembler, function_name.lower())
             try:
-                node_type_with_prefix = prefix_string + node_type
                 # todo: pass parameters as either dict or args and kwargs, because create_container  function accepts different parameters
-                function_to_call(node_type=node_type_with_prefix,
+                function_to_call(node_type=node_type,
                                  node_secondary_labels=cloud_config_info[node_type]['node_secondary_labels'],
                                  label_key=cloud_config_info[node_type]['name_attr'],
                                  id_key=cloud_config_info[node_type][

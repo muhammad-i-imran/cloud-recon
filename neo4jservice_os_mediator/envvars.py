@@ -19,6 +19,5 @@ DOCKER_NOTIFICATION_TOPIC_NAME = os.getenv('DOCKER_NOTIFICATION_TOPIC_NAME', "do
 PRIVATE_KEYS_FOLDER = os.getenv('PRIVATE_KEYS_FOLDER', "/keys")
 VM_USERNAME = os.getenv('VM_USERNAME', "xxxx")
 TIME_TO_WAIT = os.getenv("TIME_TO_WAIT", '1000')
-GRAPH_ELEMENT_TYPE_PREFIX = os.getenv("GRAPH_ELEMENT_TYPE_PREFIX","xxxx")
 CLOUD_TYPE = os.getenv("CLOUD_TYPE","openstack")
-COMPONENT_EVENT_MAPPING_FILE=os.getenv('CONFIG_FILE_PATH', '/cloud_reconnoiterer/event_component_mapping.json')
+COMPONENT_EVENT_MAPPING_FILE=os.getenv('COMPONENT_EVENT_MAPPING_FILE', '/cloud_reconnoiterer/event_component_mapping.json')

@@ -5,8 +5,6 @@ def usage():
     print("Usage: python main.py -a|--host <host> -p|--port <port>")
 
 def main(argv):
-    app.debug = True
-
     host = '0.0.0.0'
     port =  15135
     try:
