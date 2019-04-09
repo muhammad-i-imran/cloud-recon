@@ -52,11 +52,11 @@ def begin_relationship_create(cloud_config_info):
             try:
                 query_parameters = {}
                 query_parameters["node_type"] = source_node_type
-                logger.debug("Fetching information from graph for node %s" % source_node_type)
+                logger.debug("Fetching information from graph for node {0}".format(source_node_type))
                 node_data = NodeManager.get_nodes(query_parameters)  # fetch data directly for this key from graph
-                logger.debug("Fetched information from graph for node %s" % str(source_node_type))
+                logger.debug("Fetched information from graph for node {0}".format(source_node_type))
             except Exception as ex:
-                logger.error("Could not fetch data for %s. Exception occured: %s" % source_node_type, str(ex))
+                logger.error("Could not fetch data for {0} . Exception occured: {1}.".format(source_node_type, str(ex)))
             else:
                 for datum in node_data:
                     try:
@@ -71,8 +71,8 @@ def begin_relationship_create(cloud_config_info):
                                 target_node_properties = {target_property_name: datum[property_name]}
                                 relationship_data["target_node_properties"] = target_node_properties
 
-                                logger.info("Creating relationship for nodes %s and %s" % source_node_type,
-                                            target_property_name)
+                                logger.info("Creating relationship for nodes {0} and {1}".format(source_node_type,
+                                            target_property_name))
                                 RelationshipManager.create_relationship(relationship_data)
                         else:
                             target_node_properties = {target_property_name: datum[source_property_name]}
@@ -81,8 +81,8 @@ def begin_relationship_create(cloud_config_info):
                             source_node_properties = {source_property_name: datum[source_property_name]}
                             relationship_data["source_node_properties"] = source_node_properties
 
-                            logger.info("Creating relationship for nodes %s and %s" % source_node_type,
-                                        target_property_name)
+                            logger.info("Creating relationship for nodes {0} and {1}".format(source_node_type,
+                                        target_property_name))
                             RelationshipManager.create_relationship(relationship_data)
                     except Exception as ex:
                         logger.error("Exception occurred: %s" % str(ex))

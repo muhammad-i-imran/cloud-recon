@@ -11,12 +11,14 @@ logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVE
 
 def begin_all():
     try:
-        logger.info("Beggining to creat nodes.")
+        print("Creating nodes...")
+        logger.info("Beggining to create nodes.")
         begin_node_create(cloud_config_info)
     except Exception as ex:
         print("Exception occured while creating nodes: %s" % str(ex))
     try:
-        logger.info("Beggining to creat relationships for nodes.")
+        print("Creating relationships...")
+        logger.info("Beggining to create relationships for nodes.")
         begin_relationship_create(cloud_config_info)
     except Exception as ex:  # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
         logger.error("Exception occured while creating relationships: %s" % str(ex))
