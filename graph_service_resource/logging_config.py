@@ -28,5 +28,5 @@ class Logger(object):
         elif log_level == 'WARN':
             log_level = logging.WARN
         logging.basicConfig(filename=log_file_path, level=log_level,
-                            format='%(asctime)s %(levelname)s %(name)s %(message)s')
+                            format='%(asctime)s %(levelname)s %(name)s %(lineno)s %(message)s')
         self.logger = logging.getLogger(logger_name)

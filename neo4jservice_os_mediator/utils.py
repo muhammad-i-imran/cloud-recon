@@ -116,10 +116,10 @@ def server_command_initiator(server_ip, private_key_path, vm_username):
     command = "sudo docker ps --format \"{{json .}}\""
     ssh_cmd_executor = ShellCommandExecutor()
     try:
-        logger.info("Trying to connect VM using IP %s and user name %s" % server_ip, vm_username)
+        logger.info("Trying to connect VM using IP {0} and user name {1}".format(server_ip, vm_username))
         ssh_cmd_executor.connect(ip=server_ip, username=vm_username, private_key_file_path=private_key_path)
-    except Exception as ex:
-        logger.error("Exception occured: %s" % str(ex))
+    except Exception as e:
+        logger.error("Exception occured: {0}".format(str(e)))
         return
 
     try:
@@ -180,7 +180,7 @@ def fetch_and_prepare_container_nodes(node_type):
             private_key_path = os.path.join(envvars.PRIVATE_KEYS_FOLDER, user_name)
 
             if not os.path.exists(private_key_path):
-                logger.warn("Private key file for user %s not available at path %s." % user_name, private_key_path)
+                logger.warn("Private key file for user {0} not available at path {1}." .format(user_name, private_key_path))
                 continue
             # also check if ip is of valid format... ()using regex
 
@@ -190,9 +190,10 @@ def fetch_and_prepare_container_nodes(node_type):
                     containers = server_command_initiator(server_ip=ip, private_key_path=private_key_path,
                                                           vm_username=envvars.VM_USERNAME)
                     logger.debug("Received zero or more containers from 'server_command_initiator'.")
-                    if len(containers) > 0:
-                        containers_list = containers
-                        break
+                    if containers:
+                        if len(containers) > 0:
+                            containers_list = containers
+                            break
                 except Exception as ex:
                     logger.error("Exception occured: %s" % str(ex))
                     pass

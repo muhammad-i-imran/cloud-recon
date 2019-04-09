@@ -17,29 +17,29 @@ def begin_node_create(cloud_config_info):
 
     for node_type in nodes:
         try:
-            logger.info("Creating node %s" % node_type)
+            logger.info("Creating node {0}".format(node_type))
             function_name = "".join(["create_", node_type])
             function_to_call = getattr(node_data_assembler, function_name.lower())
             try:
-                logger.debug("Calling function %s" % function_to_call)
+                logger.debug("Calling function {0}".format(function_to_call))
                 # todo: pass parameters as either dict or args and kwargs, because create_container  function accepts different parameters
                 function_to_call(node_type=node_type,
                                  node_secondary_labels=cloud_config_info[node_type]['node_secondary_labels'],
                                  label_key=cloud_config_info[node_type]['name_attr'],
                                  id_key=cloud_config_info[node_type][
                                      'id_key'])
-            except Exception as ex:
-                logger.error("Exception occurred: %s" % str(ex))
+            except Exception as e:
+                logger.error("Exception occurred: {0}".format(str(e)))
         except Exception as ex:
-            logger.error("Exception occurred: %s" % str(ex))
+            logger.error("Exception occurred: {0}".format(str(ex)))
 
 
 def begin_relationship_create(cloud_config_info):
     for source_node_type in cloud_config_info:
-        logger.debug("Starting to create relationships for node: %s" % source_node_type)
+        logger.debug("Starting to create relationships for node: {0}".format(source_node_type))
         relationship_data = cloud_config_info[source_node_type]["RELATIONSHIPS"]
         for relationship_data in relationship_data:
-            logger.debug("Getting relationship properties for source node: %s" % source_node_type)
+            logger.debug("Getting relationship properties for source node: {0}".format(source_node_type))
             source_property_name = relationship_data["source_property_name"]
             target_property_name = relationship_data["target_property_name"]
             is_source_attr_name_regex = relationship_data["is_source_attr_name_regex"]
@@ -56,7 +56,7 @@ def begin_relationship_create(cloud_config_info):
                 node_data = NodeManager.get_nodes(query_parameters)  # fetch data directly for this key from graph
                 logger.debug("Fetched information from graph for node {0}".format(source_node_type))
             except Exception as ex:
-                logger.error("Could not fetch data for {0} . Exception occured: {1}.".format(source_node_type, str(ex)))
+                logger.error("Could not fetch data for {0}. Exception occured: {1}.".format(source_node_type, str(ex)))
             else:
                 for datum in node_data:
                     try:
@@ -81,8 +81,7 @@ def begin_relationship_create(cloud_config_info):
                             source_node_properties = {source_property_name: datum[source_property_name]}
                             relationship_data["source_node_properties"] = source_node_properties
 
-                            logger.info("Creating relationship for nodes {0} and {1}".format(source_node_type,
-                                        target_property_name))
+                            logger.info("Creating relationship for node {0}.".format(source_node_type))
                             RelationshipManager.create_relationship(relationship_data)
                     except Exception as ex:
-                        logger.error("Exception occurred: %s" % str(ex))
+                        logger.error("Exception occurred: {0}".format(str(ex)))
