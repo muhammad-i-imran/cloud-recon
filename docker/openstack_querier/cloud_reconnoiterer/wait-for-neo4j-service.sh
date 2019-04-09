@@ -9,7 +9,7 @@ shift
 overridden_command="$@"
 
 until $(nc -z "$host_name" "$port"); do   
-  >&2 echo "Neo4J is not available yet. Waiting for three second."
+  >&2 echo "Neo4J Service is not available yet. Waiting for three second."
   sleep 3
 done
 

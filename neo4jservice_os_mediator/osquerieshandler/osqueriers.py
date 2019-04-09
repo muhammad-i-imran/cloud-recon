@@ -1,6 +1,10 @@
 from cloudconnectionshandler.cloud_connections_manager import CloudConnectionProviderFactory
 from envvars import *
 from openstackqueryapi.queryos import *
+import envvars
+from logging_config import Logger
+
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 """
 It is OpenStack-specific implementation... so far
@@ -28,10 +32,19 @@ class OpenStackQueriersProvider(object):
         self.keystone_querier = KeystoneQuerier(connection)
         self.glance_querier = GlanceQuerier(connection)
 
+        logger.debug("Getting connection for nova.")
         self.nova_querier.connect()
+
+        logger.debug("Getting connection for neutron.")
         self.neutron_querier.connect()
+
+        logger.debug("Getting connection for cinder.")
         self.cinder_querier.connect()
+
+        logger.debug("Getting connection for keystone.")
         self.keystone_querier.connect()
+
+        logger.debug("Getting connection for glance.")
         self.glance_querier.connect()
 
     # @classmethod

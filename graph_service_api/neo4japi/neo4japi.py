@@ -1,5 +1,13 @@
 from py2neo import *
 # from .IllegalArgumentError import IllegalArgumentError
+# from logging_config import Logger
+
+# import os
+#
+# LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/service_resource.log')
+# LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
+#
+# logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 class Neo4JApi(object):
 

@@ -1,4 +1,7 @@
 from httphandler.caller import *
+from logging_config import Logger
+
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 
 class RelationshipManager(object):
@@ -21,12 +24,15 @@ class RelationshipManager(object):
         relationship_properties:  (dict) the properties to include in the relationship
         :return:
         """
+        logger.info("Calling service to create relationship between nodes.")
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
             json=data)
 
     @classmethod
-    def update_relationship(cls):
+    def update_relationship(cls, data: dict):
+        logger.info("Calling service to update relationship between nodes.")
+
         pass
 
     @classmethod
@@ -45,6 +51,7 @@ class RelationshipManager(object):
         relationship_properties:  (dict) the properties to include in the relationship
         :return:
         """
+        logger.info("Calling service to delete relationship between nodes.")
         call_service_post_method(
             url=RelationshipManager.NEO4J_SERVICE_URL + RelationshipManager.NEO4J_SERVICE_RELATIONSHIP_RELATIVE_PATH,
             json=data)

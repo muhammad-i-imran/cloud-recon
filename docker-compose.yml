@@ -44,3 +44,22 @@ services:
     #command: ["/wait-for-neo4j-service.sh", "x.x.x.x", "15135", "python3", "/openstack_neo4j_service/neo4jservice_os_mediator/main.py"]
     env_file:
       - .env
+  rabbitmq:
+    image: rabbitmq:3-management #rabbitmq with management plugin
+    environment:
+      - RABBITMQ_NODENAME=none   
+      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=70%
+      - RABBITMQ_ERLANG_COOKIE=
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password  # later 'docker secrets' may be used for user and password instead of setting them as env variables
+      - RABBITMQ_DEFAULT_VHOST=
+      #env var for ulimit???
+      #for more configurations, see https://hub.docker.com/_/rabbitmq/
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "25672:25672"
+    network_mode: "host"

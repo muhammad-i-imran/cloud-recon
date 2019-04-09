@@ -1,10 +1,18 @@
 from keystoneauth1 import loading, session
 import paramiko
+import os
 
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+
+from logging_config import Logger
+
+LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud-reconnoiterer/logs/cloud-reconnoiterer.log')
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
+
+logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 class OpenstackConnector(object):
     def __init__(self, auth_url, username, password, project_name, os_user_domain_name="Default",

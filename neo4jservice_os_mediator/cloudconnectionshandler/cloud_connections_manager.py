@@ -1,4 +1,10 @@
 import abc
+import envvars
+import os
+
+from logging_config import Logger
+
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 try:
     from openstackqueryapi.queryos import *  ## depends on the cloud type...
@@ -36,6 +42,7 @@ class OpenStackCloudConnectionProvider(CloudConnectionProvider):
         self.api_version = api_version
 
     def get_connection(self):
+        logger.info("Getting OpenStack connection.")
         self.connection = OpenstackConnector(auth_url=self.auth_url, username=self.username, password=self.password,
                                              project_name=self.project_name,
                                              os_user_domain_name=self.os_user_domain_name,

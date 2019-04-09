@@ -1,6 +1,10 @@
 from httphandler.caller import *
 
 
+from logging_config import Logger
+
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
+
 class NodeManager(object):
     NEO4J_SERVICE_URL = ""
     NEO4J_SERVICE_GET_ALL_RELATIVE_PATH = "/nodes/get_all"
@@ -25,6 +29,7 @@ class NodeManager(object):
         node_properties_dict: (dict) the properties of a node need to be added in graph
         :return:
         """
+        logger.info("Calling service to create node.")
         call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_CREATE_NODE_RELATIVE_PATH,
             json=data)
@@ -42,6 +47,7 @@ class NodeManager(object):
         node_updated_properties: (dict) the updated node properties and values
         :return:
         """
+        logger.info("Calling service to update node.")
         call_service_put_method(url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
                                 json=data)
 
@@ -57,7 +63,7 @@ class NodeManager(object):
         node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
-
+        logger.info("Calling service to get node(s) using query.")
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
             json=data)
@@ -73,7 +79,7 @@ class NodeManager(object):
         node_type: (str) the type of the node
         :return:
         """
-
+        logger.info("Calling service to get nodes.")
         return call_service_post_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_NODE_RELATIVE_PATH,
             json=data)
@@ -85,7 +91,7 @@ class NodeManager(object):
 
         :return:
         """
-
+        logger.info("Calling service to get all node.")
         return call_service_get_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_GET_ALL_RELATIVE_PATH)
 
@@ -101,6 +107,7 @@ class NodeManager(object):
         node_properties: (str) the properties of a node needed to query a node to update
         :return:
         """
+        logger.info("Calling service to delete node(s).")
         call_service_delete_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_NODE_RELATIVE_PATH,
             json=data)
@@ -112,5 +119,6 @@ class NodeManager(object):
 
         :return:
         """
+        logger.info("Calling service to delete the whole graph.")
         call_service_delete_method(
             url=NodeManager.NEO4J_SERVICE_URL + NodeManager.NEO4J_SERVICE_DELETE_GRAPH_RELATIVE_PATH)

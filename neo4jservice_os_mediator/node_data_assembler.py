@@ -1,6 +1,8 @@
 from osquerieshandler.osqueriers import *
 from utils import *
 
+from logging_config import Logger
+
 """
 Convention of the function naming is very important here. 
 The convention is: 
@@ -19,8 +21,7 @@ The convention is:
 ########################################################################################################################
 
 queriers = OpenStackQueriersProvider()
-
-
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 ########################################################################################################################
 
 def fetch_servers(search_opts=None):
@@ -29,6 +30,7 @@ def fetch_servers(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching servers.")
     if search_opts is None:
         search_opts = {}
     return queriers.nova_querier.get_servers(search_opts)
@@ -43,6 +45,7 @@ def fetch_containers(node_type, search_opts=None):
     :param private_keys_folder:
     :return:
     """
+    logger.debug("Fetching containers.")
     if search_opts is None:
         search_opts = {}
     return fetch_and_prepare_container_nodes(node_type)
@@ -54,6 +57,7 @@ def fetch_host_aggregates(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching host aggregates.")
     if search_opts is None:
         search_opts = {}
     return queriers.nova_querier.get_host_aggregates(search_opts)
@@ -65,6 +69,7 @@ def fetch_availability_zones(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching availability zones.")
     if search_opts is None:
         search_opts = {}
 
@@ -77,6 +82,7 @@ def fetch_services(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching services.")
     if search_opts is None:
         search_opts = {}
 
@@ -89,6 +95,7 @@ def fetch_hypervisors(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching hypervisors.")
     if search_opts is None:
         search_opts = {}
 
@@ -101,6 +108,7 @@ def fetch_flavors(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching flavors.")
     if search_opts is None:
         search_opts = {}
 
@@ -113,6 +121,7 @@ def fetch_volumes(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching volumes.")
     if search_opts is None:
         search_opts = {}
 
@@ -125,6 +134,7 @@ def fetch_key_pairs(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching key pairs.")
     if search_opts is None:
         search_opts = {}
 
@@ -137,6 +147,7 @@ def fetch_images(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching images.")
     if search_opts is None:
         search_opts = {}
 
@@ -149,6 +160,7 @@ def fetch_networks(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching networks.")
     if search_opts is None:
         search_opts = {}
 
@@ -161,6 +173,7 @@ def fetch_subnets(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching subnets.")
     if search_opts is None:
         search_opts = {}
 
@@ -173,6 +186,7 @@ def fetch_routers(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching routers.")
     if search_opts is None:
         search_opts = {}
 
@@ -185,6 +199,7 @@ def fetch_users(search_opts=None):
     :param search_opts: (dict) filter options can be provided in search_opts
     :return:
     """
+    logger.debug("Fetching users.")
     if search_opts is None:
         search_opts = {}
 

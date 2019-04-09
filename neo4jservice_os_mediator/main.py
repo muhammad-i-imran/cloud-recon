@@ -5,21 +5,24 @@ from envvars import *
 from event_handlers import *
 from notifications_subscriber import *
 from openstack_preprocessor import *
+from logging_config import Logger
 
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 def begin_all():
     try:
-        print("=========================CREATING NODES=========================")
+        logger.info("Beggining to creat nodes.")
         begin_node_create(cloud_config_info)
     except Exception as ex:
         print("Exception occured while creating nodes: %s" % str(ex))
     try:
-        print("=====================CREATING RELATIONSHIPS=====================")
+        logger.info("Beggining to creat relationships for nodes.")
         begin_relationship_create(cloud_config_info)
     except Exception as ex:  # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
-        print("Exception occured while creating relationships: %s" % str(ex))
+        logger.error("Exception occured while creating relationships: %s" % str(ex))
 
 def main():
+    logger.debug("Executing notification code.")
     notifier = NotifierStarter(transport_url=NOTIFICATION_TRANSPORT_URL)
     eventtype_publisherid_tuples = []
     for event_type in event_component_mappings:
@@ -32,30 +35,32 @@ def main():
     # print("Begining graph creation")
     # begin_all()
 
+    logger.debug("Creating processes for notification handling.")
     pool = Pool(processes=5)
     try:
-        print("Starting pool for notifications handling")
+        logger.debug("Starting pool for notifications handling.")
         pool.apply_async(notifier.start,
                      [eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback],
                      None)  # callback is none
         while True:
             # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
             begin_all()
-            print("==================================================")
-            print("Waiting for " + TIME_TO_WAIT + " before next pass is started")
+            logger.info("Waiting for " + TIME_TO_WAIT + " before the next pass is started.")
             time.sleep(int(TIME_TO_WAIT))
     except Exception as ex:
-        print("Exception occured: %s" % str(ex))
+        logger.error("Exception occured: %s" % str(ex))
     finally:
-        print("Closing pool")
+        logger.info("Closing pool")
         pool.close()
 
 if __name__ == '__main__':
-    print("Reading configuration files")
+    logger.info("Reading configuration files.")
     NodeManager.NEO4J_SERVICE_URL = RelationshipManager.NEO4J_SERVICE_URL = NEO4J_SERVICE_URL
     configuratons = json.loads(open(CONFIG_FILE_PATH).read())
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type
     cloud_config_info = configuratons["cloud_config_info"]
     event_component_mappings = json.loads(open(envvars.COMPONENT_EVENT_MAPPING_FILE).read())
     # cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)
+
+    logger.debug("Executing 'main' function.")
     main()
