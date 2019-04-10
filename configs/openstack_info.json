@@ -29,17 +29,6 @@
           }
         },
         {
-          "source_property_name": "key_name",
-          "is_source_attr_name_regex": false,
-          "is_sou yource_attr_name_regex": false,
-          "target_node_type": "KEY_PAIRS",
-          "target_property_name": "_info___keypair___name",
-          "relationship": "USES",
-          "relationship_properties": {
-            "STATUS": "ACTIVE"
-          }
-        },
-        {
           "source_property_name": "flavor___id",
           "is_source_attr_name_regex": false,
           "target_node_type": "FLAVORS",
@@ -210,14 +199,6 @@
           }
         }
       ]
-    },
-    "KEY_PAIRS": {
-      "name_attr": "name",
-      "id_key": "name",
-      "node_secondary_labels": [
-        "COMPONENT"
-      ],
-      "RELATIONSHIPS": []
     },
     "IMAGES": {
       "name_attr": "name",
