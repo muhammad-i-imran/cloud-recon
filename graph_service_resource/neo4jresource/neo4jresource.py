@@ -8,10 +8,6 @@ from logging_config import Logger
 LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud-reconnoiterer/logs/cloud-reconnoiterer.log')
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
-print(LOGS_FILE_PATH)
-print(LOG_LEVEL)
-print(os.path.basename(__file__))
-
 logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 app = Flask(__name__)

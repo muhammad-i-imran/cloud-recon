@@ -252,25 +252,6 @@
         "COMPONENT"
       ],
       "RELATIONSHIPS": []
-    },
-    "CONTAINERS": {
-      "name_attr": "name",
-      "id_key": "id",
-      "node_secondary_labels": [
-        "COMPONENT"
-      ],
-      "RELATIONSHIPS": [
-        {
-          "source_property_name": "server_name",
-          "is_source_attr_name_regex": false,
-          "target_node_type": "SERVERS",
-          "target_property_name": "name",
-          "relationship": "DEPLOYED_ON",
-          "relationship_properties": {
-            "STATUS": "ACTIVE"
-          }
-        }
-      ]
     }
   }
 }
