@@ -12,16 +12,16 @@ logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVE
 def begin_all():
     try:
         print("Creating nodes...")
-        logger.info("Beggining to create nodes.")
+        logger.info("Begining to create nodes.")
         begin_node_create(cloud_config_info)
     except Exception as ex:
-        print("Exception occured while creating nodes: %s" % str(ex))
+        logger.error("Exception occured while creating nodes: {0}".format(str(ex)))
     try:
         print("Creating relationships...")
-        logger.info("Beggining to create relationships for nodes.")
+        logger.info("Begining to create relationships for nodes.")
         begin_relationship_create(cloud_config_info)
     except Exception as ex:  # not needed. but in cases any unexpected problem occurs, then it will not stop the next iterataion
-        logger.error("Exception occured while creating relationships: %s" % str(ex))
+        logger.error("Exception occured while creating relationships: {0}".format(str(ex)))
 
 def main():
     logger.debug("Executing notification code.")
@@ -50,7 +50,7 @@ def main():
             logger.info("Waiting for " + TIME_TO_WAIT + " before the next pass is started.")
             time.sleep(int(TIME_TO_WAIT))
     except Exception as ex:
-        logger.error("Exception occured: %s" % str(ex))
+        logger.error("Exception occured: {0}".format(str(ex)))
     finally:
         logger.info("Closing pool")
         pool.close()

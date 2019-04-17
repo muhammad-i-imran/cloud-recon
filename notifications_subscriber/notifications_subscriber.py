@@ -4,7 +4,7 @@ import os
 
 from logging_config import Logger
 
-LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud-reconnoiterer/logs/cloud-reconnoiterer.log')
+LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud_reconnoiterer/logs/cloud_reconnoiterer.log')
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 if not LOGS_FILE_PATH:
@@ -27,7 +27,7 @@ class NotificationEndpoint(object):
 
 class NotifierStarter(object):
     def __init__(self, transport_url):
-        logger.debug("Setting transport URL as %s" % transport_url)
+        logger.debug("Setting transport URL as {0}.".format(transport_url))
         self.transport_url = transport_url
 
     def start(self, eventtype_publisherid_tuple_list, exchange_topic_tuple_list, callback):
@@ -40,18 +40,18 @@ class NotifierStarter(object):
         """
 
         logger.info("Preparing and starting notifications subscriptions.")
-        logger.debug("Getting notification transport for transport URL %s." % self.transport_url)
+        logger.debug("Getting notification transport for transport URL {0}.".format(self.transport_url))
         transport = oslo_messaging.get_notification_transport(cfg.CONF, url=self.transport_url)
         targets = []
         for exchange_topic_tuple in exchange_topic_tuple_list:
-            logger.debug("Creating Target for exchange %s and topic %s"% exchange_topic_tuple[0], exchange_topic_tuple[1])
+            logger.debug("Creating Target for exchange {0} and topic {1}.".format(exchange_topic_tuple[0], exchange_topic_tuple[1]))
             targets.append(oslo_messaging.Target(exchange=exchange_topic_tuple[0], topic=exchange_topic_tuple[1]))
 
         endpoints = []
         for eventtype_publisherid_tuple in eventtype_publisherid_tuple_list:
             event_type = eventtype_publisherid_tuple[0]
             publisher_id = eventtype_publisherid_tuple[1]
-            logger.debug("Creating NotificationEndpoint for event type %s and publisher id %s"% event_type, publisher_id)
+            logger.debug("Creating NotificationEndpoint for event type {0} and publisher id {1}.".format(event_type, publisher_id))
             endpoints.append(NotificationEndpoint(event_type=event_type, publisher_id=publisher_id, callback=callback))
         # pool = "events-listener"
         server = oslo_messaging.get_notification_listener(transport, targets,
@@ -62,4 +62,4 @@ class NotifierStarter(object):
             logger.info("Waiting for events.")
             server.wait()
         except Exception as ex:
-            logger.error("Exception Occured: %s" % str(ex))
+            logger.error("Exception occured: {0}.".format(str(ex)))

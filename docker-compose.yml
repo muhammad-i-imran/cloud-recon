@@ -28,7 +28,7 @@ services:
       - GRAPHDB_PASS=${GRAPHDB_PASS}
       - NEO4J_DATABASE_HOST=${NEO4J_DATABASE_HOST}
       - NEO4J_DATABASE_PORT=${NEO4J_DATABASE_PORT}
-      - LOGS_FILE_PATH=/cloud-reconnoiterer/logs/cloud-reconnoiterer.log
+      - LOGS_FILE_PATH=/cloud_reconnoiterer/logs/cloud_reconnoiterer.log
       - LOG_LEVEL=DEBUG
     network_mode: "host"
     #it may take longer for neo4j to run, so wait for it before starting this service

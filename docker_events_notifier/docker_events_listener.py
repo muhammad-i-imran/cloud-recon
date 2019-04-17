@@ -8,7 +8,7 @@ import socket
 import requests
 from logging_config import Logger
 
-LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud-reconnoiterer/logs/cloud-reconnoiterer.log')
+LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud_reconnoiterer/logs/cloud_reconnoiterer.log')
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
@@ -18,11 +18,18 @@ class DockerEventListener(object):
         self.client = Client(base_url=unix_socket_url, timeout=300)
 
         try:
-            running_containrers = self.client.containers()
+            running_containers = self.client.containers()
             response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json')
-            for container in running_containrers:
-                container["server_id"] = response.json()["uuid"]
-            self._publish_events(running_containrers, "docker.container.list")
+            for container in running_containers:
+                response_json = response.json()
+                container["id"] = container["Id"]
+                container["name"] = container["Names"][0]
+                del container["Id"]
+                del container["Names"]
+
+                container["server_id"] = response_json["uuid"]
+                container["server_name"] = response_json["name"]
+                self._publish_events(running_containers, "docker.container.list")
         except Exception as ex:
             logger.error("Exception occured: {0}".format(str(ex)))
 

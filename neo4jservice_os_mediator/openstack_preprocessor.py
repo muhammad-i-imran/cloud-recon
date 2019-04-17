@@ -11,9 +11,7 @@ logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVE
 def begin_node_create(cloud_config_info):
     nodes = list(cloud_config_info.keys())
     container_key_name = "CONTAINERS"
-    nodes.remove(container_key_name)
-    # list is ordered in python. so remove key for 'containers' if it is somewhere else and append it at the end, so we can be sured that the container creation code is executed after servers creation code (because containers depend on servers)
-    nodes.append(container_key_name)
+    nodes.remove(container_key_name) # containres are created in event_handlers
 
     for node_type in nodes:
         try:

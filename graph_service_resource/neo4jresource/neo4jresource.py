@@ -5,7 +5,7 @@ from neo4japi import Neo4JApi
 
 from logging_config import Logger
 
-LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud-reconnoiterer/logs/cloud-reconnoiterer.log')
+LOGS_FILE_PATH = os.getenv('LOGS_FILE_PATH', '/cloud_reconnoiterer/logs/cloud_reconnoiterer.log')
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=os.path.basename(__file__)).logger

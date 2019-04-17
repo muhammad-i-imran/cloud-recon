@@ -236,7 +236,7 @@ def create_servers(node_type, node_secondary_labels, label_key, id_key, search_o
         NodeManager.create_node(d)
 
 
-def create_containers(node_type, node_secondary_labels, label_key="name", id_key="id", search_opts=None):
+def create_containers(node_type, node_secondary_labels, label_key="name", id_key="id", data=None):
     """
 
     :param node_type:
@@ -245,14 +245,15 @@ def create_containers(node_type, node_secondary_labels, label_key="name", id_key
     :param private_keys_folder:
     :return:
     """
-    if search_opts is None:
-        search_opts = {}
-    data = fetch_containers(node_type, search_opts=search_opts)
-    node_data = get_prepared_node(data=data, node_type=node_type, node_secondary_labels=node_secondary_labels,
+    if data is None:
+        data = {}
+    data_list = []
+    if type(data) is dict:
+        data_list.append(data)
+    node_data = get_prepared_node(data=data_list, node_type=node_type, node_secondary_labels=node_secondary_labels,
                                   label_key=label_key, id_key=id_key)
     for d in node_data:
         NodeManager.create_node(d)
-
 
 def create_host_aggregates(node_type, node_secondary_labels, label_key, id_key, search_opts=None):
     """
