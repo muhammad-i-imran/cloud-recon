@@ -4,6 +4,7 @@
     "component": "HOST_AGGREGATES",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "aggregate.create.start": {
@@ -11,6 +12,7 @@
     "component": "HOST_AGGREGATES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "aggregate.delete.end": {
@@ -18,6 +20,7 @@
     "component": "HOST_AGGREGATES",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "aggregate.delete.start": {
@@ -25,6 +28,7 @@
     "component": "HOST_AGGREGATES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "compute.exception": {
@@ -32,6 +36,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "flavor.create": {
@@ -39,6 +44,7 @@
     "component": "FLAVORS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "flavor.delete": {
@@ -46,6 +52,7 @@
     "component": "FLAVORS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "flavor.update": {
@@ -53,6 +60,7 @@
     "component": "FLAVORS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "compute.instance.delete.end": {
@@ -60,6 +68,7 @@
     "component": "SERVERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.delete.start": {
@@ -67,6 +76,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.live_migration_rollback.end": {
@@ -74,6 +84,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "compute.instance.live_migration_rollback.start": {
@@ -81,6 +92,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "compute.instance.pause.end": {
@@ -88,6 +100,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.pause.start": {
@@ -95,6 +108,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_off.end": {
@@ -102,6 +116,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_off.start": {
@@ -109,6 +124,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_on.end": {
@@ -116,6 +132,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.power_on.start": {
@@ -123,6 +140,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.end": {
@@ -130,6 +148,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.error": {
@@ -137,6 +156,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.reboot.start": {
@@ -144,6 +164,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.end": {
@@ -151,6 +172,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.error": {
@@ -158,6 +180,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.rebuild.start": {
@@ -165,6 +188,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize.end": {
@@ -172,6 +196,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize.start": {
@@ -179,6 +204,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize_finish.end": {
@@ -186,6 +212,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resize_finish.start": {
@@ -193,6 +220,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.restore.end": {
@@ -200,6 +228,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.restore.start": {
@@ -207,6 +236,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resume.end": {
@@ -214,6 +244,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.resume.start": {
@@ -221,6 +252,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve.end": {
@@ -228,6 +260,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve.start": {
@@ -235,6 +268,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve_offload.end": {
@@ -242,6 +276,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shelve_offload.start": {
@@ -249,6 +284,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shutdown.end": {
@@ -256,6 +292,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.shutdown.start": {
@@ -263,6 +300,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.snapshot.end": {
@@ -270,6 +308,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.snapshot.start": {
@@ -277,6 +316,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.soft_delete.end": {
@@ -284,6 +324,7 @@
     "component": "SERVERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.soft_delete.start": {
@@ -291,6 +332,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.suspend.end": {
@@ -298,6 +340,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.suspend.start": {
@@ -305,6 +348,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unpause.end": {
@@ -312,6 +356,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unpause.start": {
@@ -319,6 +364,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unshelve.end": {
@@ -326,6 +372,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.unshelve.start": {
@@ -333,6 +380,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.end": {
@@ -340,6 +388,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.error": {
@@ -347,6 +396,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_attach.start": {
@@ -354,6 +404,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_detach.end": {
@@ -361,6 +412,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_detach.start": {
@@ -368,6 +420,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.end": {
@@ -375,6 +428,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.error": {
@@ -382,6 +436,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.volume_swap.start": {
@@ -389,6 +444,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.create.end": {
@@ -396,6 +452,7 @@
     "component": "SERVERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.create.error": {
@@ -403,6 +460,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.create.start": {
@@ -410,6 +468,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "compute.instance.update": {
@@ -417,6 +476,7 @@
     "component": "SERVERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "instance_id"
   },
   "keypair.create.end": {
@@ -424,6 +484,7 @@
     "component": "SERVERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "key_name"
   },
   "keypair.create.start": {
@@ -431,6 +492,7 @@
     "component": "KEY_PAIRS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "key_name"
   },
   "service.update": {
@@ -438,6 +500,7 @@
     "component": "SERVICES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "image.create": {
@@ -445,6 +508,7 @@
     "component": "IMAGES",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.prepare": {
@@ -452,6 +516,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.upload": {
@@ -459,6 +524,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.activate": {
@@ -466,6 +532,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.send": {
@@ -473,6 +540,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.update": {
@@ -480,6 +548,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "image.delete": {
@@ -487,6 +556,7 @@
     "component": "IMAGES",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "image_id"
   },
   "task.run": {
@@ -494,6 +564,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "task.processing": {
@@ -501,6 +572,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "task.success": {
@@ -508,6 +580,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "task.failure": {
@@ -515,6 +588,7 @@
     "component": "IMAGES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "volume.exists": {
@@ -522,6 +596,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.create.start": {
@@ -529,6 +604,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.delete.start": {
@@ -536,6 +612,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.update.start": {
@@ -543,6 +620,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.resize.start": {
@@ -550,6 +628,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.attach.start": {
@@ -557,6 +636,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.detach.start": {
@@ -564,6 +644,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "snapshot.exists": {
@@ -571,6 +652,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "snapshot.create.start": {
@@ -578,6 +660,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "snapshot.delete.start": {
@@ -585,6 +668,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "snapshot.update.start": {
@@ -592,6 +676,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "volume.backup.create.start": {
@@ -599,6 +684,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.delete.start": {
@@ -606,6 +692,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.restore.start": {
@@ -613,6 +700,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.create.end": {
@@ -620,6 +708,7 @@
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.delete.end": {
@@ -627,6 +716,7 @@
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.update.end": {
@@ -634,6 +724,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.resize.end": {
@@ -641,6 +732,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.attach.end": {
@@ -648,6 +740,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.detach.end": {
@@ -655,6 +748,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "snapshot.create.end": {
@@ -662,6 +756,7 @@
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "snapshot.delete.end": {
@@ -669,6 +764,7 @@
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "snapshot.update.end": {
@@ -676,6 +772,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "volume.backup.create.end": {
@@ -683,6 +780,7 @@
     "component": "VOLUMES",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.delete.end": {
@@ -690,6 +788,7 @@
     "component": "VOLUMES",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "volume.backup.restore.end": {
@@ -697,6 +796,7 @@
     "component": "VOLUMES",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "volume_id"
   },
   "identity.group.create": {
@@ -704,6 +804,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.project.create": {
@@ -711,6 +812,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.role.create": {
@@ -718,6 +820,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.domain.create": {
@@ -725,6 +828,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.user.create": {
@@ -732,6 +836,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.trust.create": {
@@ -739,6 +844,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.region.create": {
@@ -746,6 +852,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.endpoint.create": {
@@ -753,6 +860,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.service.create": {
@@ -760,6 +868,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.policy.create": {
@@ -767,6 +876,7 @@
     "component": "USERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.group.updated": {
@@ -774,6 +884,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.project.updated": {
@@ -781,6 +892,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.role.updated": {
@@ -788,6 +900,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.domain.updated": {
@@ -795,6 +908,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.user.updated": {
@@ -802,6 +916,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.region.updated": {
@@ -809,6 +924,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.endpoint.updated": {
@@ -816,6 +932,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.service.updated": {
@@ -823,6 +940,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.policy.updated": {
@@ -830,6 +948,7 @@
     "component": "USERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.group.deleted": {
@@ -837,6 +956,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.project.deleted": {
@@ -844,6 +964,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.role.deleted": {
@@ -851,6 +972,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.domain.deleted": {
@@ -858,6 +980,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.user.deleted": {
@@ -865,6 +988,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.trust.deleted": {
@@ -872,6 +996,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.region.deleted": {
@@ -879,6 +1004,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.endpoint.deleted": {
@@ -886,6 +1012,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.service.deleted": {
@@ -893,6 +1020,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "identity.policy.deleted": {
@@ -900,6 +1028,7 @@
     "component": "USERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "floatingip.create.end": {
@@ -907,6 +1036,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "floating_network_id"
   },
   "floatingip.update.start": {
@@ -914,6 +1044,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "floating_network_id"
   },
   "floatingip.exists": {
@@ -921,6 +1052,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "floating_network_id"
   },
   "network.update.start": {
@@ -928,6 +1060,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "port.create.end": {
@@ -935,6 +1068,7 @@
     "component": "NETWORKS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "port.update.start": {
@@ -942,6 +1076,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "port.update.end": {
@@ -949,6 +1084,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "router.create.end": {
@@ -956,6 +1092,7 @@
     "component": "ROUTERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "router.update.start": {
@@ -963,6 +1100,7 @@
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "subnet.update.start": {
@@ -970,6 +1108,7 @@
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "network.create.end": {
@@ -977,6 +1116,7 @@
     "component": "NETWORKS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "network.update.end": {
@@ -984,6 +1124,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "network.exists": {
@@ -991,6 +1132,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "port.exists": {
@@ -998,6 +1140,7 @@
     "component": "NETWORKS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "router.update.end": {
@@ -1005,6 +1148,7 @@
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "router.exists": {
@@ -1012,6 +1156,7 @@
     "component": "ROUTERS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "subnet.create.end": {
@@ -1019,6 +1164,7 @@
     "component": "SUBNETS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "subnet.update.end": {
@@ -1026,6 +1172,7 @@
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "subnet.exists": {
@@ -1033,6 +1180,7 @@
     "component": "SUBNETS",
     "operation": "U",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "subnet.delete.end": {
@@ -1040,6 +1188,7 @@
     "component": "SUBNETS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "network.delete.end": {
@@ -1047,6 +1196,7 @@
     "component": "NETWORKS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "network_id"
   },
   "router.delete.end": {
@@ -1054,6 +1204,7 @@
     "component": "ROUTERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "docker.container.create.end": {
@@ -1061,6 +1212,7 @@
     "component": "CONTAINERS",
     "operation": "C",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "docker.container.stop.end": {
@@ -1068,6 +1220,7 @@
     "component": "CONTAINERS",
     "operation": "D",
     "graph_element": ["N"],
+    "relationships": [],
     "component_id_property_in_payload": "id"
   },
   "docker.container.list": {
@@ -1077,7 +1230,7 @@
     "graph_element": ["N","R"],
     "relationships": [
         {
-          "source_property_name_in_db": "id",
+          "source_property_name_in_db": "Id",
           "is_source_attr_name_regex": false,
           "target_node_type": "SERVERS",
           "target_node_type_id_in_payload": "server_id",

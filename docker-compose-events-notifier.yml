@@ -10,6 +10,8 @@ services:
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
       - RABBITMQ_URL_DOCKER=${RABBITMQ_URL_DOCKER}
+      - LOGS_FILE_PATH=/cloud-reconnoiterer/logs/cloud-reconnoiterer.log
+      - LOG_LEVEL=DEBUG
     deploy:
       mode: global #should run on each machine
     #network_mode: "host" # host mode may not be needed
