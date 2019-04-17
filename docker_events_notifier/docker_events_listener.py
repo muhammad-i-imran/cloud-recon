@@ -16,20 +16,15 @@ logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=o
 class DockerEventListener(object):
     def __init__(self, unix_socket_url):
         self.client = Client(base_url=unix_socket_url, timeout=300)
+        self.publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
+        response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json')
+        response_json = response.json()
+        self.server_id = response_json["uuid"]
+        self.server_name = response_json["name"]
 
         try:
             running_containers = self.client.containers()
-            response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json')
-            for container in running_containers:
-                response_json = response.json()
-                container["id"] = container["Id"]
-                container["name"] = container["Names"][0]
-                del container["Id"]
-                del container["Names"]
-
-                container["server_id"] = response_json["uuid"]
-                container["server_name"] = response_json["name"]
-                self._publish_events(running_containers, "docker.container.list")
+            self._publish_events(running_containers, "docker.container.list")
         except Exception as ex:
             logger.error("Exception occured: {0}".format(str(ex)))
 
@@ -37,19 +32,27 @@ class DockerEventListener(object):
         events = self.client.events(filters= filters, decode=True)
         self._publish_events(events, forwarding_type)
 
+
     def _publish_events(self, events_data, forwarding_type):
-        publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
+
         notification_format = {"priority": "INFO", "payload": None, "event_type": None,
                                "publisher_id": socket.gethostname()}  # later use; https://docs.openstack.org/nova/pike/reference/notifications.html
+
         for event in events_data:
+            event["id"] = event["Id"]
+            event["name"] = event["Names"][0]
+            del event["Id"]
+            del event["Names"]
+            event["server_id"] = self.server_id
+            event["server_name"] = self.server_name
             notification_format["payload"] = event
             notification_format["event_type"] = forwarding_type
             logger.debug("Calling publish_events() from docker_events_listener")
             try:
-                publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
+                self.publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
             except Exception as ex:
                 logger.error("Exception occured while publishing events: {0}".format(str(ex)))
-                publisher.close()
+                self.publisher.close()
 
 def main():
     unix_socket_url = "unix://var/run/docker.sock"
