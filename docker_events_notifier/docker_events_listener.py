@@ -23,7 +23,9 @@ class DockerEventListener(object):
         self.server_name = response_json["name"]
 
         try:
-            running_containers = self.client.containers()
+            running_containers = []
+            for cont in self.client.containers():
+                running_containers.append({k.lower(): v for k, v in cont.items()})
             self._publish_events(running_containers, "docker.container.list")
         except Exception as ex:
             logger.error("Exception occured: {0}".format(str(ex)))
@@ -34,15 +36,10 @@ class DockerEventListener(object):
 
 
     def _publish_events(self, events_data, forwarding_type):
-
         notification_format = {"priority": "INFO", "payload": None, "event_type": None,
                                "publisher_id": socket.gethostname()}  # later use; https://docs.openstack.org/nova/pike/reference/notifications.html
 
         for event in events_data:
-            event["id"] = event["Id"]
-            event["name"] = event["Names"][0]
-            del event["Id"]
-            del event["Names"]
             event["server_id"] = self.server_id
             event["server_name"] = self.server_name
             notification_format["payload"] = event

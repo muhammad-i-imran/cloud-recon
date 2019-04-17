@@ -40,7 +40,7 @@ class DockerNotificationPublisher(object):
     def create_exchange(self):
         logger.info("Declared RabbitMQ exchange.".format(self.exchange_name))
         self.channel.exchange_declare(exchange=self.exchange_name,
-                                      exchange_type='topic')
+                                      exchange_type='topic', passive=False, durable=True, auto_delete=False)
 
     def publish_events(self, event_type, payload):
 

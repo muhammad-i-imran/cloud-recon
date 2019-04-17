@@ -36,8 +36,8 @@ def begin_relationship_create(cloud_config_info):
     nodes = list(cloud_config_info.keys())
     container_key_name = "CONTAINERS"
     nodes.remove(container_key_name)  # containres are created in event_handlers
-    
-    for source_node_type in cloud_config_info:
+
+    for source_node_type in nodes:
         logger.debug("Starting to create relationships for node: {0}".format(source_node_type))
         relationship_data = cloud_config_info[source_node_type]["RELATIONSHIPS"]
         for relationship_data in relationship_data:

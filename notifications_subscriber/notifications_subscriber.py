@@ -59,7 +59,9 @@ class NotifierStarter(object):
         try:
             logger.info("Starting server for notification listening...")
             server.start()
-            logger.info("Waiting for events.")
-            server.wait()
         except Exception as ex:
             logger.error("Exception occured: {0}.".format(str(ex)))
+            logger.info("Stopping server.")
+            server.stop()
+            logger.info("Waiting...")
+            server.wait()
