@@ -109,7 +109,7 @@ def notifier_callback(event_type, payload):
                 logger.error("KeyError occured while reading key. Error message: {0}".format(str(err)))
             except Exception as ex:
                 logger.error(
-                    "Exception occurred while performing Create or Update node operation against an event. Exception message: {0}".formsat(
+                    "Exception occurred while performing Create or Update node operation against an event. Exception message: {0}".format(
                         str(ex)))
         else:
             logger.error("Operation not known. Please select C for Create, D for Delete, or U for Update operations.")
