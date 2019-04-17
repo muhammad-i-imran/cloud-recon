@@ -1211,7 +1211,7 @@
     "publisher_id": ".*",
     "component": "CONTAINERS",
     "operation": "C",
-    "graph_element": ["N"],
+    "graph_element": ["N", "R"],
     "relationships": [
         {
           "source_property_name_in_db": "id",
