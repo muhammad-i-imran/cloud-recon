@@ -34,7 +34,8 @@ def notifier_callback(event_type, payload):
             try:
                 if "N" in graph_element:
                     data['node_type'] = event_component_type
-                    data['node_properties'] = payload[component_id_property_in_payload]
+                    data['node_properties'] = {}
+                    data['node_properties'][cloud_config_info[event_component_type]['id_key']] = payload[component_id_property_in_payload]
                     logger.info(
                         "Trying to delete node (node type: {0}, node id: {1}) in graph.".format(data['node_type'], data[
                             'node_properties']))

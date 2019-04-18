@@ -1219,7 +1219,7 @@
           "target_node_type": "SERVERS",
           "target_node_type_id_in_payload": "server_id",
           "target_property_name_in_db": "id",
-          "relationship": "DEPENDS_ON",
+          "relationship": "RUNS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
@@ -1247,7 +1247,7 @@
           "target_node_type": "SERVERS",
           "target_node_type_id_in_payload": "server_id",
           "target_property_name_in_db": "id",
-          "relationship": "DEPENDS_ON",
+          "relationship": "RUNS_ON",
           "relationship_properties": {
             "STATUS": "ACTIVE"
           }
