@@ -139,7 +139,7 @@ def add_properties_to_relationship():
 
     return jsonify({'status': status})
 
-@app.route('/neo4j/delete_node', methods=['DELETE', 'POST', 'PUT'])
+@app.route('/neo4j/nodes/delete_node', methods=['DELETE', 'POST', 'PUT'])
 def delete_node():
     logger.info("Deleting node in the graph.")
     if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:

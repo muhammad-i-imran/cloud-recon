@@ -34,7 +34,9 @@ class DockerNotificationPublisher(object):
 
     @classmethod
     def init_with_url_parameter(cls, url):
+
         url_parameter = pika.URLParameters(url)
+        url_parameter.heartbeat = 0 # disable heartbeats
         return cls(url_parameter)
 
     def create_exchange(self):

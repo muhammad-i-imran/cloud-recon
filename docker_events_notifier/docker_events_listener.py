@@ -16,7 +16,7 @@ logger = Logger(log_file_path=LOGS_FILE_PATH, log_level=LOG_LEVEL, logger_name=o
 class DockerEventListener(object):
     def __init__(self, unix_socket_url):
         self.client = Client(base_url=unix_socket_url, timeout=300)
-        self.publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
+        self._create_publisher()
         response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json')
         response_json = response.json()
         self.server_id = response_json["uuid"]
@@ -29,6 +29,10 @@ class DockerEventListener(object):
             self._publish_events(running_containers, "docker.container.list")
         except Exception as ex:
             logger.error("Exception occured: {0}".format(str(ex)))
+
+    def _create_publisher(self):
+        logger.info("Creating publisher.")
+        self.publisher = DockerNotificationPublisher.init_with_url_parameter(url=rabbit_mq_url)
 
     def listen(self, filters, forwarding_type):
         events = self.client.events(filters= filters, decode=True)
@@ -49,7 +53,14 @@ class DockerEventListener(object):
                 self.publisher.publish_events(event_type=forwarding_type, payload=json.dumps(notification_format))
             except Exception as ex:
                 logger.error("Exception occured while publishing events: {0}".format(str(ex)))
-                self.publisher.close()
+                try:
+                    self.publisher.close_connection()
+                except Exception as ex:
+                    logger.error("Exception occured while closing connection: {0}".format(str(ex)))
+                finally:
+                    self._create_publisher()
+                    self._publish_events(events_data, forwarding_type)
+
 
 def main():
     unix_socket_url = "unix://var/run/docker.sock"
