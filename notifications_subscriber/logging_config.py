@@ -1,18 +1,18 @@
 import logging
 
 
-def singleton(cls, ):
-    instances = {}
-
-    def get_instance(log_file_path:str, log_level:str, logger_name:str):
-        if cls not in instances:
-            instances[cls] = cls(log_file_path, log_level, logger_name)
-        return instances[cls]
-
-    return get_instance
-
-
-@singleton
+# def singleton(cls, ):
+#     instances = {}
+#
+#     def get_instance(log_file_path:str, log_level:str, logger_name:str):
+#         if cls not in instances:
+#             instances[cls] = cls(log_file_path, log_level, logger_name)
+#         return instances[cls]
+#
+#     return get_instance
+#
+#
+# @singleton
 class Logger(object):
     def __init__(self, log_file_path, log_level, logger_name):
         if log_level == 'DEBUG':

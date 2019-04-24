@@ -264,8 +264,9 @@ class Neo4JApi(object):
         :return:
         """
         relationship_matcher = RelationshipMatcher(self.graph)
-        relationships = relationship_matcher.match(source_node, target_node, r_type=relationship_type,
-                                                   properties=relationship_properties)
+        nodes = [source_node, target_node] #
+        relationships = relationship_matcher.match(nodes=nodes, r_type=relationship_type,
+                                                   properties=relationship_properties) #
         return list(relationships)
 
     def find_nodes(self, node_type, properties_dict):

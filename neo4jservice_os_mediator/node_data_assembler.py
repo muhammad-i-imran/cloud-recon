@@ -35,22 +35,6 @@ def fetch_servers(search_opts=None):
         search_opts = {}
     return queriers.nova_querier.get_servers(search_opts)
 
-
-def fetch_containers(node_type, search_opts=None):
-    """
-
-    :param node_type:
-    :param server_name_attr:
-    :param vm_username:
-    :param private_keys_folder:
-    :return:
-    """
-    logger.debug("Fetching containers.")
-    if search_opts is None:
-        search_opts = {}
-    return fetch_and_prepare_container_nodes(node_type)
-
-
 def fetch_host_aggregates(search_opts=None):
     """
 

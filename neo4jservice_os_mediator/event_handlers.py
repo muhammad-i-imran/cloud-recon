@@ -16,8 +16,6 @@ def notifier_callback(event_type, payload):
     logger.info("Handling event: %s" % event_type)
     logger.debug(str(payload))
 
-    # todo: update relationship after a node's creation, updation, deletion...
-
     try:
         event_info = event_component_mappings[event_type]
     except KeyError as err:
