@@ -84,6 +84,13 @@ def get_relationship_types():
     types = api.get_relationship_types()
     return jsonify(list(types))
 
+@app.route('/neo4j/relationships/get_all', methods=['GET'])
+def get_all_relationships():
+    logger.info("Getting all relationships from the graph.")
+    relationships = api.get_all_relationships()
+    relationships_json = {'data': relationships}
+    return jsonify(relationships_json), 200
+
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
 def create_relationship():
     logger.info("Creating relationship between nodes in the graph.")

@@ -254,6 +254,16 @@ class Neo4JApi(object):
         return True
 
     ####################################################################################################################
+
+    def get_all_relationships(self):
+        """
+        Return all relationships
+        :return: A list of dictionaries. Every item has a 'relationship' key and a 'type' key. The relationship contains all relationship properties and the type the relationship type.
+        """
+        query = "MATCH ()-[relationship]-() RETURN relationship, type(relationship) AS type"
+        results = self.graph.run(cypher=query).data()
+        return results
+
     def find_relationships(self, source_node, target_node, relationship_type, relationship_properties):
         """
 
