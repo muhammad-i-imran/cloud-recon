@@ -34,6 +34,12 @@ def site_map():
             links.append((url, rule.endpoint))
     return jsonify(links)
 
+@app.route('/neo4j/nodes/get_types', methods=['GET'])
+def get_node_types():
+    logger.info("Getting all node types.")
+    types = api.get_node_types()
+    return jsonify(list(types))
+
 @app.route('/neo4j/nodes/get_all', methods=['GET'])
 def get_all_nodes():
     logger.info("Getting all nodes from the graph.")
@@ -71,6 +77,12 @@ def create_node():
     logger.debug("Executed 'create_node_with_merge' function of the API.")
 
     return jsonify({'status': status})
+
+@app.route('/neo4j/relationships/get_types', methods=['GET'])
+def get_relationship_types():
+    logger.info("Getting all relationship types.")
+    types = api.get_relationship_types()
+    return jsonify(list(types))
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
 def create_relationship():
