@@ -73,9 +73,9 @@ class Neo4JApi(object):
     def get_all_nodes(self):  # TODO: check returned data format
         """
         Return all nodes
-        :return:
+        :return: A list of dictionaries. Every item has a 'n' key and a 'type' key. The n contains all node properties and the type a list of the node types (labels).
         """
-        query = "MATCH (n) RETURN n"
+        query = "MATCH (n) RETURN n, labels(n) AS type"
         results = self.graph.run(cypher=query).data()
         return results
 
