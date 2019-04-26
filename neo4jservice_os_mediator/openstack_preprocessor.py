@@ -1,6 +1,5 @@
 import re
-import os
-import node_data_assembler
+from node_data_assembler import NodeCreator
 from graphelementsdispatcher.node_manager import NodeManager
 from graphelementsdispatcher.relationship_manager import *
 import envvars
@@ -8,16 +7,38 @@ from logging_config import Logger
 
 logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
+
+def _not_supported_function():
+    logger.error("Not supported element type.")
+
+def _get_function_for_element(element_type, creator: NodeCreator):
+    switcher = {
+        "SERVERS": creator.create_servers,
+        "HOST_AGGREGATES": creator.create_host_aggregates,
+        "AVAILABILITY_ZONES": creator.create_availability_zones,
+        "SERVICES": creator.create_services,
+        "HYPERVISORS": creator.create_hypervisors,
+        "FLAVORS": creator.create_flavors,
+        "VOLUMES": creator.create_volumes,
+        "KEY_PAIRS": creator.create_key_pairs,
+        "IMAGES": creator.create_images,
+        "NETWORKS": creator.create_networks,
+        "SUBNETS": creator.create_subnets,
+        "ROUTERS": creator.create_routers,
+        "USERS": creator.create_users
+    }
+    func = switcher.get(element_type, lambda: _not_supported_function)
+    return func
+
 def begin_node_create(cloud_config_info):
     nodes = list(cloud_config_info.keys())
     container_key_name = "CONTAINERS"
-    nodes.remove(container_key_name) # containres are created in event_handlers
-
+    nodes.remove(container_key_name) # containers are created in event_handlers
+    creator = NodeCreator()
     for node_type in nodes:
         try:
             logger.info("Creating node {0}".format(node_type))
-            function_name = "".join(["create_", node_type])
-            function_to_call = getattr(node_data_assembler, function_name.lower())
+            function_to_call = _get_function_for_element(element_type=node_type, creator=creator) #getattr(node_data_assembler, function_name.lower())
             try:
                 logger.debug("Calling function {0}".format(function_to_call))
                 # todo: pass parameters as either dict or args and kwargs, because create_container  function accepts different parameters

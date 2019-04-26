@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   events_notifier:
-    image: muhammadimran/docker_events_notifier:1.0
+    image: muhammadimran/docker_events_notifier
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:

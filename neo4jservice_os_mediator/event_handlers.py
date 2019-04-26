@@ -1,4 +1,5 @@
 import node_data_assembler
+from graphelementsdispatcher.node_manager import NodeManager
 from graphelementsdispatcher.relationship_manager import RelationshipManager
 from utils import *
 from logging_config import Logger

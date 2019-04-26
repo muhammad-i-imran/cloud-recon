@@ -1,14 +1,10 @@
 import json
 import os
-import re
-
 from flatten_json import flatten
-
 import envvars
-from graphelementsdispatcher.node_manager import NodeManager
-from openstackqueryapi.queryos import ShellCommandExecutor
-
 from logging_config import Logger
+
+
 logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
 
 """
@@ -25,22 +21,6 @@ def get_flattened_dictionary(dict: dict, separator='___'):
     """
     logger.info("Flattening dictionary.")
     return flatten(dict, separator=separator)
-
-
-# def diff_dictionaries(neoj_data, openstack_data):
-#     """
-#
-#     :param neoj_data:
-#     :param openstack_data:
-#     :return:
-#     """
-#     for k in neoj_data:
-#         if k in openstack_data:
-#             if neoj_data[k] != openstack_data[k]:
-#                 return False
-#         else:
-#             return False
-#     return True
 
 
 def prepare_node_data(data_list, node_type, node_secondary_labels, label_key='name', id_key="id"):

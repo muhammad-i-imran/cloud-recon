@@ -187,20 +187,3 @@ class SwiftQuerier(object):
         import swiftclient
         sess = self.os_connector.get_session()
         self.swift = swiftclient.client.Connection(session=sess)
-
-class ShellCommandExecutor(object):
-    def __init__(self):
-        self.ssh = None
-
-    def connect(self, ip, username, private_key_file_path):
-        key = paramiko.RSAKey.from_private_key_file(private_key_file_path)
-        self.ssh = paramiko.SSHClient()
-        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        self.ssh.connect(hostname=ip, username=username, pkey=key, timeout=15)
-
-    def execute_command(self, command):
-        stdin, stdout, stderr = self.ssh.exec_command(command)
-        return stdin, stdout, stderr
-
-    def close_connection(self):
-        self.ssh.close()

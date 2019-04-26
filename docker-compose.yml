@@ -31,16 +31,12 @@ services:
       - LOGS_FILE_PATH=/cloud_reconnoiterer/logs/cloud_reconnoiterer.log
       - LOG_LEVEL=DEBUG
     network_mode: "host"
-    #it may take longer for neo4j to run, so wait for it before starting this service
-    #command: ["/wait-for-neo4j.sh", "x.x.x.x", "7687", "python3", "/openstack_neo4j_service/graph_service_resource/main.py"]
   openstack_querier:
     image: muhammadimran/openstack_querier
     depends_on:
       - "neo4j"
       - "neo4j_service"
     network_mode: "host"
-    #it may take longer for the dependent component to run, so wait for it before starting this mediator
-    #command: ["/wait-for-neo4j-service.sh", "x.x.x.x", "15135", "python3", "/openstack_neo4j_service/neo4jservice_os_mediator/main.py"]
     env_file:
       - .env
   rabbitmq:
@@ -50,7 +46,7 @@ services:
       - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=70%
       - RABBITMQ_ERLANG_COOKIE=
       - RABBITMQ_DEFAULT_USER=user
-      - RABBITMQ_DEFAULT_PASS=password  # later 'docker secrets' may be used for user and password instead of setting them as env variables
+      - RABBITMQ_DEFAULT_PASS=password
       - RABBITMQ_DEFAULT_VHOST=
       #env var for ulimit???
       #for more configurations, see https://hub.docker.com/_/rabbitmq/
