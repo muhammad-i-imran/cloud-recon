@@ -172,7 +172,7 @@ def delete_node():
 
     return jsonify({'status': status})
 
-@app.route('/neo4j/delete_relationship', methods=['DELETE', 'POST', 'PUT'])
+@app.route('/neo4j/relationships/delete_relationship', methods=['DELETE', 'POST', 'PUT'])
 def delete_relationship():
     logger.info("Deleting relationship in the graph.")
     if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:
@@ -192,6 +192,20 @@ def delete_relationship():
                                      relationship_type=relationship_type,
                                      relationship_properties=relationship_properties)
     logger.debug("Executed 'delete_relationship' function of the API.")
+
+    return jsonify({'status': status})
+
+@app.route('/neo4j/relationships/delete_node_all_relationships', methods=['DELETE', 'POST', 'PUT'])
+def delete_node_all_relationships():
+    logger.info("Deleting node in the graph.")
+    if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:
+        logger.error("Either data in parameter is not in JSON format or request method is not DELETE, POST or PUT. Returning message with status 400." )
+        return jsonify({'status': 400})
+    data = request.get_json()
+    node_type = data['node_type']
+    properties_dict = data['node_properties']
+    status = api.delete_node_all_relationships(node_type=node_type, properties_dict=properties_dict)
+    logger.debug("Executed 'delete_node_all_relationships' function of the API.")
 
     return jsonify({'status': status})
 

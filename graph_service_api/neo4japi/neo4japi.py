@@ -253,6 +253,19 @@ class Neo4JApi(object):
             self.graph.separate(relationship)
         return True
 
+    def delete_node_all_relationships(self, node_type, properties_dict):
+        """
+
+        Remove all relationship for a node
+        :param node_type:
+        :param properties_dict:
+        :return:
+        """
+        nodes = self.find_nodes(node_type=node_type, properties_dict=properties_dict)
+        for node in nodes:
+            self.graph.separate(node)
+        return True
+
     ####################################################################################################################
 
     def get_all_relationships(self):
