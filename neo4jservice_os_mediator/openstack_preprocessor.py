@@ -25,7 +25,8 @@ def _get_function_for_element(element_type, creator: NodeCreator):
         "NETWORKS": creator.create_networks,
         "SUBNETS": creator.create_subnets,
         "ROUTERS": creator.create_routers,
-        "USERS": creator.create_users
+        "USERS": creator.create_users,
+        "CONTAINERS": creator.create_containers
     }
     func = switcher.get(element_type, lambda: _not_supported_function)
     return func

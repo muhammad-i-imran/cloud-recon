@@ -17,10 +17,19 @@ class DockerEventListener(object):
     def __init__(self, unix_socket_url):
         self.client = Client(base_url=unix_socket_url, timeout=300)
         self._create_publisher()
-        response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json')
-        response_json = response.json()
-        self.server_id = response_json["uuid"]
-        self.server_name = response_json["name"]
+        while True:
+            try:
+                logger.info("Trying to get OpenStack VM's metadata.")
+                response = requests.get('http://169.254.169.254/openstack/2012-08-10/meta_data.json', timeout=120)
+                logger.debug("Resonse received from http://169.254.169.254/openstack/2012-08-10/meta_data.json is {0}".format(str(response)))
+                logger.debug("Getting JSON from the response.")
+                response_json = response.json()
+                self.server_id = response_json["uuid"]
+                self.server_name = response_json["name"]
+                break
+            except Exception as ex:
+                logger.error("Error occured while getting OpenStack VM's metadata. Error message:{0}.".format(str(ex)))
+                logger.info("Trying to get OpenStack VM's metadata again.")
 
         try:
             running_containers = []

@@ -53,9 +53,11 @@ def notifier_callback(event_type, payload):
                     search_opts[cloud_config_info[node_type]['id_key']] = payload[
                         component_id_property_in_payload]  # query only that single element
 
-                    creator = node_data_assembler.NodeCreator()
-                    function_to_call = openstack_preprocessor._get_function_for_element(node_type, creator)
+
                     logger.info("Trying to create or update node in graph.")
+                    creator = node_data_assembler.NodeCreator()
+                    function_to_call = openstack_preprocessor._get_function_for_element(element_type=node_type,
+                                                                                        creator=creator)
                     if node_type == "CONTAINERS":
                         function_to_call(node_type=node_type,
                                          node_secondary_labels=cloud_config_info[node_type]['node_secondary_labels'],
