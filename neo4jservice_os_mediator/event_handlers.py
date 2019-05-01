@@ -37,8 +37,9 @@ def notifier_callback(event_type, payload):
                     data['node_properties'][cloud_config_info[node_type]['id_key']] = payload[
                         component_id_property_in_payload]
                     logger.info(
-                        "Trying to delete node (node type: {0}, node id: {1}) in graph.".format(data['node_type'], data[
+                        "Trying to delete the node's relationships and the node itself (node type: {0}, node id: {1}) in graph.".format(data['node_type'], data[
                             'node_properties']))
+                    RelationshipManager.delete_node_all_relationships(data)
                     NodeManager.delete_nodes(data)
             except KeyError as err:
                 logger.error("KeyError occured while reading key ({0}) from payload".format(str(err)))
@@ -52,7 +53,6 @@ def notifier_callback(event_type, payload):
                     search_opts = {}
                     search_opts[cloud_config_info[node_type]['id_key']] = payload[
                         component_id_property_in_payload]  # query only that single element
-
 
                     logger.info("Trying to create or update node in graph.")
                     creator = node_data_assembler.NodeCreator()

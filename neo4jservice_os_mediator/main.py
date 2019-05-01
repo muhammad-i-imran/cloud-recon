@@ -33,10 +33,6 @@ def main():
     exchange_topic_tuple_list = [(OPENSTACK_NOTIFICATION_EXCHANGE_NAME, OPENSTACK_NOTIFICATION_TOPIC_NAME),
                                  (DOCKER_NOTIFICATION_EXCHANGE_NAME, DOCKER_NOTIFICATION_TOPIC_NAME)]
 
-    # notifier.start(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback)
-    # print("Begining graph creation")
-    # begin_all()
-
     logger.debug("Creating processes for notification handling.")
     pool = Pool(processes=5)
     try:
@@ -60,7 +56,5 @@ if __name__ == '__main__':
     cloud_provider = configuratons["cloud_provider"]  ##todo: use this to import modules relevant to the cloud type
     cloud_config_info = configuratons["cloud_config_info"]
     event_component_mappings = json.loads(open(envvars.COMPONENT_EVENT_MAPPING_FILE).read())
-    # cloud_config_info = add_prefix_to_dict_keys(cloud_config_info, GRAPH_ELEMENT_TYPE_PREFIX)
-
     logger.debug("Executing 'main' function.")
     main()
