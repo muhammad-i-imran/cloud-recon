@@ -5,6 +5,10 @@ from utils import *
 from logging_config import Logger
 import openstack_preprocessor
 
+from functools import reduce
+import operator
+
+
 logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL,
                 logger_name=os.path.basename(__file__)).logger
 
@@ -13,7 +17,14 @@ configuratons = json.loads(open(envvars.CONFIG_FILE_PATH).read())
 cloud_provider = configuratons["cloud_provider"]
 cloud_config_info = configuratons["cloud_config_info"]
 
-def notifier_callback(event_type, payload):
+##-------------------------------------------------------------------------
+def get_value_from_dict(payload_dict:dict, keys_list:list):
+    return reduce(operator.getitem, keys_list, payload_dict)
+
+##-------------------------------------------------------------------------
+
+
+def notifier_callback(event_type:str, payload:dict):
     logger.info("Handling event: {0}".format(event_type))
     logger.debug("Payload: {0}".format(str(payload)))
 
@@ -34,8 +45,7 @@ def notifier_callback(event_type, payload):
                 if "N" in graph_element:
                     data['node_type'] = node_type
                     data['node_properties'] = {}
-                    data['node_properties'][cloud_config_info[node_type]['id_key']] = payload[
-                        component_id_property_in_payload]
+                    data['node_properties'][cloud_config_info[node_type]['id_key']] = get_value_from_dict(payload, payload[component_id_property_in_payload]) # payload[component_id_property_in_payload] is a dict now. because id may be at a nested level in the payload
                     logger.info(
                         "Trying to delete the node's relationships and the node itself (node type: {0}, node id: {1}) in graph.".format(data['node_type'], data[
                             'node_properties']))
@@ -51,8 +61,7 @@ def notifier_callback(event_type, payload):
             try:
                 if "N" in graph_element:  # if the event affects node
                     search_opts = {}
-                    search_opts[cloud_config_info[node_type]['id_key']] = payload[
-                        component_id_property_in_payload]  # query only that single element
+                    search_opts[cloud_config_info[node_type]['id_key']] = get_value_from_dict(payload, payload[component_id_property_in_payload]) # payload[component_id_property_in_payload] is a dict now. because id may be at a nested level in the payload
 
                     logger.info("Trying to create or update node in graph.")
                     creator = node_data_assembler.NodeCreator()
@@ -74,20 +83,19 @@ def notifier_callback(event_type, payload):
                         data = {}
                         data['node_type'] = node_type
                         data['node_properties'] = {}
-                        data['node_properties'][cloud_config_info[node_type]['id_key']] = payload[
-                            component_id_property_in_payload]
+                        data['node_properties'][cloud_config_info[node_type]['id_key']] = get_value_from_dict(payload, payload[component_id_property_in_payload]) # payload[component_id_property_in_payload] is a dict now. because id may be at a nested level in the payload
                         RelationshipManager.delete_node_all_relationships(data)
 
                     for relationship in event_info["relationships"]:
                         logger.info("Trying to create/update relationship(s) among nodes.")
 
                         source_node_properties = {}  # source node is the node for which the event is currently received
-                        source_node_properties[relationship["source_property_name_in_db"]] = payload[
-                            component_id_property_in_payload]
+                        source_node_properties[relationship["source_property_name_in_db"]] = get_value_from_dict(payload, payload[component_id_property_in_payload]) # payload[component_id_property_in_payload] is a dict now. because id may be at a nested level in the payload
 
                         target_node_properties = {}  # target node is the node which is affect by the the event is currently received
-                        target_node_properties[relationship["target_property_name_in_db"]] = payload[
-                            relationship["target_node_type_id_in_payload"]]
+                        target_node_properties[relationship["target_property_name_in_db"]] = get_value_from_dict(payload, payload[
+                            relationship["target_node_type_id_in_payload"]]) # payload[relationship["target_node_type_id_in_payload"]] is a dict now. because id may be at a nested level in the payload
+
 
                         relationship_data = {}
                         relationship_data["source_node_type"] = node_type
