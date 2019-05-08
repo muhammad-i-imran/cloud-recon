@@ -98,6 +98,12 @@ class NeutronQuerier(object):
         routers = self.neutron.list_routers(_params=search_opts)["routers"]
         return routers
 
+    def get_ports(self, search_opts=None):
+        if search_opts == None:
+            search_opts = {}
+        ports = self.neutron.list_ports(_params=search_opts)["ports"]
+        return ports
+
 class GlanceQuerier(object):
     def __init__(self, os_connector):
         self.glance = None

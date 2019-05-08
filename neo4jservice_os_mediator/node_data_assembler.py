@@ -180,6 +180,18 @@ class OpenStackDataFecher(object):
 
         return self.queriers.keystone_querier.get_users(search_opts)
 
+    def fetch_ports(self, search_opts=None):
+        """
+
+        :param search_opts: (dict) filter options can be provided in search_opts
+        :return:
+        """
+        logger.debug("Fetching ports.")
+        if search_opts is None:
+            search_opts = {}
+
+        return self.queriers.neutron_querier.get_ports(search_opts)
+
 
 ########################################################################################################################
 
@@ -445,6 +457,18 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_users(search_opts)
+        node_data = get_prepared_node(data=data,
+                                      node_type=node_type,
+                                      node_secondary_labels=node_secondary_labels,
+                                      label_key=label_key,
+                                      id_key=id_key)
+        self._init_nodes_creation(node_data)
+
+
+    def create_ports(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
+        if search_opts is None:
+            search_opts = {}
+        data = self.fetcher.fetch_ports(search_opts)
         node_data = get_prepared_node(data=data,
                                       node_type=node_type,
                                       node_secondary_labels=node_secondary_labels,

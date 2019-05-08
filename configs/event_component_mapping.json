@@ -67,8 +67,9 @@
     "publisher_id": ".*",
     "component": "SERVERS",
     "operation": "D",
-    "graph_element": ["N"],
-    "relationships": [],
+    "graph_element": ["N", "R"],
+    "relationships": [
+    ],
     "component_id_property_in_payload": ["instance_id"]
   },
   "compute.instance.delete.start": {
@@ -1068,15 +1069,38 @@
   },
   "port.create.end": {
     "publisher_id": ".*",
-    "component": "NETWORKS",
+    "component": "PORTS",
     "operation": "C",
     "graph_element": ["N", "R"],
-    "relationships": [],
-    "component_id_property_in_payload": ["port","network_id"]
+    "relationships": [
+    	{
+          "source_property_name_in_db": "id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "NETWORKS",
+          "target_node_type_id_in_payload": ["network_id"],
+          "target_property_name": "id",
+          "relationship": "RUNS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name_in_db": "id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "SUBNETS",
+          "target_node_type_id_in_payload": ["fixed_ips", 0, "subnet_id"],
+          "target_property_name": "id",
+          "relationship": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        }
+    ],
+    "component_id_property_in_payload": ["id"]
   },
   "port.update.start": {
     "publisher_id": ".*",
-    "component": "NETWORKS",
+    "component": "PORTS",
     "operation": "U",
     "graph_element": ["N"],
     "relationships": [],
@@ -1084,11 +1108,34 @@
   },
   "port.update.end": {
     "publisher_id": ".*",
-    "component": "NETWORKS",
+    "component": "PORTS",
     "operation": "U",
     "graph_element": ["N", "R"],
-    "relationships": [],
-    "component_id_property_in_payload": ["port" ,"network_id"]
+    "relationships": [
+    	{
+          "source_property_name_in_db": "id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "NETWORKS",
+          "target_node_type_id_in_payload": ["network_id"],
+          "target_property_name": "id",
+          "relationship": "RUNS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name_in_db": "id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "SUBNETS",
+          "target_node_type_id_in_payload": ["fixed_ips", 0, "subnet_id"],
+          "target_property_name": "id",
+          "relationship": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        }
+    ],
+    "component_id_property_in_payload": ["id"]
   },
   "router.create.end": {
     "publisher_id": ".*",

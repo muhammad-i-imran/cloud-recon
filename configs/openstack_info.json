@@ -245,6 +245,35 @@
       ],
       "RELATIONSHIPS": []
     },
+    "PORTS": {
+      "name_attr": "name",
+      "id_key": "id",
+      "node_secondary_labels": [
+        "COMPONENT"
+      ],
+      "RELATIONSHIPS": [
+        {
+          "source_property_name": "network_id",
+          "is_source_attr_name_regex": false,
+          "target_node_type": "NETWORKS",
+          "target_property_name": "id",
+          "relationship": "RUNS_ON",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        },
+        {
+          "source_property_name": "fixed_ips___(\\d+)___subnet_id",
+          "is_source_attr_name_regex": true,
+          "target_node_type": "SUBNETS",
+          "target_property_name": "id",
+          "relationship": "USES",
+          "relationship_properties": {
+            "STATUS": "ACTIVE"
+          }
+        }
+      ]
+    },
     "USERS": {
       "name_attr": "name",
       "id_key": "id",
