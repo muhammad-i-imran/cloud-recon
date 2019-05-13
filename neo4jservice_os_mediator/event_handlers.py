@@ -9,7 +9,7 @@ from functools import reduce
 import operator
 
 
-logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL,
+logger = Logger(log_file_path=envvars.EVENT_LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL,
                 logger_name=os.path.basename(__file__)).logger
 
 event_component_mappings = json.loads(open(envvars.COMPONENT_EVENT_MAPPING_FILE).read())

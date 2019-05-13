@@ -211,6 +211,18 @@ class NodeCreator(object):
         for d in node_data:
             NodeManager.create_node(d)
 
+
+    def __remove_staled_records(self, node_type, openstack_data, comparison_properties):
+        query_params = {}
+        query_params['node_type'] = node_type
+        graph_data = NodeManager.get_nodes(query_params)
+
+        if graph_data:
+            non_matched_data = compare_data(graph_data, openstack_data, comparison_properties)
+            for non_matched_rec in non_matched_data:
+                query_params["node_properties"] = non_matched_rec
+                NodeManager.delete_nodes(non_matched_rec)
+
     def create_servers(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
         """
 
@@ -228,6 +240,9 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
+
         self._init_nodes_creation(node_data)
 
     def create_containers(self, node_type, node_secondary_labels, label_key="name", id_key="id", data=None):
@@ -246,6 +261,9 @@ class NodeCreator(object):
             data_list.append(data)
         node_data = get_prepared_node(data=data_list, node_type=node_type, node_secondary_labels=node_secondary_labels,
                                       label_key=label_key, id_key=id_key)
+
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
+
         self._init_nodes_creation(node_data)
 
     def create_host_aggregates(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -264,6 +282,9 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
+
         self._init_nodes_creation(node_data)
 
     def create_availability_zones(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -282,6 +303,8 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_services(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -300,6 +323,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_hypervisors(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -318,6 +342,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_flavors(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -336,6 +361,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_volumes(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -354,6 +380,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_key_pairs(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -372,6 +399,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_images(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -390,6 +418,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_networks(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -408,6 +437,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_subnets(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -426,6 +456,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_routers(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -444,6 +475,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
     def create_users(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
@@ -462,6 +494,7 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
 
@@ -474,4 +507,5 @@ class NodeCreator(object):
                                       node_secondary_labels=node_secondary_labels,
                                       label_key=label_key,
                                       id_key=id_key)
+        self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)

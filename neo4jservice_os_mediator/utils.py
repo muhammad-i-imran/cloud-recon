@@ -22,6 +22,34 @@ def get_flattened_dictionary(dict: dict, separator='___'):
     logger.info("Flattening dictionary.")
     return flatten(dict, separator=separator)
 
+def  compare_data(graph_data: list, openstack_data: list, comparison_properties: list):
+    """
+
+    :param graph_data_dict: dict that's fetched from the graph db
+    :param openstack_data_dict: dict that's fetched from openstack
+    :param comparison_keys:  key(s) on which we have to compare two records to know if they are matched
+    :return: array of dicts that don't match
+
+    """
+    non_matched_data = []
+    for graph_rec in graph_data:
+        has_rec_matched = False
+
+        for openstack_rec in openstack_data:
+            has_attrs_matched  = False
+            for key in comparison_properties:
+                if graph_rec[key] == openstack_rec[key]:
+                    has_attrs_matched = True
+                else:
+                    has_attrs_matched = False
+                    break
+
+            if has_attrs_matched:
+                has_rec_matched = True
+                break
+        if not has_rec_matched:
+            non_matched_data.append(graph_rec)
+    return non_matched_data
 
 def prepare_node_data(data_list, node_type, node_secondary_labels, label_key='name', id_key="id"):
     """
