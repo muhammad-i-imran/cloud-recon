@@ -203,6 +203,7 @@ class NodeCreator(object):
 
         logger.debug(
             "Got node(s) of type  {0} to find stale nodes. The graph data is: {1}".format(node_type, graph_data))
+        logger.debug("Data type of the graph_data is {0}.".format(type(graph_data)))
 
         if graph_data:
             logger.debug("Finding stale nodes in graph data of type {0}.".format(node_type))

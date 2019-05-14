@@ -35,19 +35,26 @@ def  compare_data(graph_data: list, openstack_data: list, comparison_properties:
     for graph_rec in graph_data:
         has_rec_matched = False
 
+        logger.debug("Finding if {0} is staled.".format(graph_rec))
+        logger.debug("Record type is: {0}.".format(type(graph_rec)))
+
         for openstack_rec in openstack_data:
             has_attrs_matched  = False
             for key in comparison_properties:
-                if graph_rec[key] == openstack_rec[key]:
-                    has_attrs_matched = True
-                else:
-                    has_attrs_matched = False
-                    break
+                try:
+                    if graph_rec[key] == openstack_rec[key]:
+                        has_attrs_matched = True
+                    else:
+                        has_attrs_matched = False
+                        break
+                except Exception as ex:
+                    logger.error("Exception occurred while comparing OpenStack and Graph DB records. Exception message: {0}.".format(str(ex)))
 
             if has_attrs_matched:
                 has_rec_matched = True
                 break
         if not has_rec_matched:
+            logger.debug("Finding stale record for record {0}.".format(graph_rec))
             non_matched_data.append(graph_rec)
     return non_matched_data
 
