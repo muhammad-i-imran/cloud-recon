@@ -1,13 +1,14 @@
 from graphelementsdispatcher.node_manager import NodeManager
+from logging_config import Logger
 from osquerieshandler.osqueriers import *
 from utils import *
 
-from logging_config import Logger
-
-
 ########################################################################################################################
 
-logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL, logger_name=os.path.basename(__file__)).logger
+logger = Logger(log_file_path=envvars.LOGS_FILE_PATH, log_level=envvars.LOG_LEVEL,
+                logger_name=os.path.basename(__file__)).logger
+
+
 ########################################################################################################################
 
 class OpenStackDataFecher(object):
@@ -37,7 +38,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
         return self.queriers.nova_querier.get_host_aggregates(search_opts)
 
-
     def fetch_availability_zones(self, search_opts=None):
         """
 
@@ -49,7 +49,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
 
         return self.queriers.nova_querier.get_availability_zones(search_opts)
-
 
     def fetch_services(self, search_opts=None):
         """
@@ -63,7 +62,6 @@ class OpenStackDataFecher(object):
 
         return self.queriers.nova_querier.get_services(search_opts)
 
-
     def fetch_hypervisors(self, search_opts=None):
         """
 
@@ -75,7 +73,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
 
         return self.queriers.nova_querier.get_hypervisors(search_opts)
-
 
     def fetch_flavors(self, search_opts=None):
         """
@@ -89,7 +86,6 @@ class OpenStackDataFecher(object):
 
         return self.queriers.nova_querier.get_flavors(search_opts)
 
-
     def fetch_volumes(self, search_opts=None):
         """
 
@@ -101,7 +97,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
 
         return self.queriers.cinder_querier.get_volumes(search_opts)
-
 
     def fetch_key_pairs(self, search_opts=None):
         """
@@ -115,7 +110,6 @@ class OpenStackDataFecher(object):
 
         return self.queriers.nova_querier.get_key_pairs(search_opts)
 
-
     def fetch_images(self, search_opts=None):
         """
 
@@ -127,7 +121,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
 
         return self.queriers.glance_querier.get_images(search_opts)
-
 
     def fetch_networks(self, search_opts=None):
         """
@@ -141,7 +134,6 @@ class OpenStackDataFecher(object):
 
         return self.queriers.neutron_querier.get_networks(search_opts)
 
-
     def fetch_subnets(self, search_opts=None):
         """
 
@@ -154,7 +146,6 @@ class OpenStackDataFecher(object):
 
         return self.queriers.neutron_querier.get_subnets(search_opts)
 
-
     def fetch_routers(self, search_opts=None):
         """
 
@@ -166,7 +157,6 @@ class OpenStackDataFecher(object):
             search_opts = {}
 
         return self.queriers.neutron_querier.get_routers(search_opts)
-
 
     def fetch_users(self, search_opts=None):
         """
@@ -195,13 +185,6 @@ class OpenStackDataFecher(object):
 
 ########################################################################################################################
 
-def get_prepared_node(data, node_type, node_secondary_labels, label_key, id_key):
-    return prepare_node_data(data_list=data, node_type=node_type, node_secondary_labels=node_secondary_labels,
-                             label_key=label_key, id_key=id_key)
-
-
-########################################################################################################################
-
 class NodeCreator(object):
     def __init__(self):
         queriers = OpenStackQueriersProvider()
@@ -211,17 +194,33 @@ class NodeCreator(object):
         for d in node_data:
             NodeManager.create_node(d)
 
-
     def __remove_staled_records(self, node_type, openstack_data, comparison_properties):
+        logger.info("Removing staled records (if exist) for node type {0}.".format(node_type))
         query_params = {}
         query_params['node_type'] = node_type
+        logger.debug("Getting node(s) of type  {0} to find stale nodes.".format(node_type))
         graph_data = NodeManager.get_nodes(query_params)
 
+        logger.debug(
+            "Got node(s) of type  {0} to find stale nodes. The graph data is: {1}".format(node_type, graph_data))
+
         if graph_data:
+            logger.debug("Finding stale nodes in graph data of type {0}.".format(node_type))
             non_matched_data = compare_data(graph_data, openstack_data, comparison_properties)
+            logger.debug("Found stale nodes in graph data of type {0}. The staled nodes are: {1}".format(node_type,
+                                                                                                         non_matched_data))
+
             for non_matched_rec in non_matched_data:
                 query_params["node_properties"] = non_matched_rec
+                logger.debug(
+                    "Trying to remove staled node of type {0} from the graph database. The staled node  is : {1}".format(
+                        node_type,
+                        non_matched_rec))
                 NodeManager.delete_nodes(non_matched_rec)
+
+    def __get_prepared_node(self, data, node_type, node_secondary_labels, label_key, id_key):
+        return prepare_node_data(data_list=data, node_type=node_type, node_secondary_labels=node_secondary_labels,
+                                 label_key=label_key, id_key=id_key)
 
     def create_servers(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
         """
@@ -235,11 +234,11 @@ class NodeCreator(object):
             search_opts = {}
         search_opts['all_tenants'] = 1  # todo: may be take this option as configuration from user.
         data = self.fetcher.fetch_servers(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
 
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
 
@@ -259,8 +258,9 @@ class NodeCreator(object):
         data_list = []
         if type(data) is dict:
             data_list.append(data)
-        node_data = get_prepared_node(data=data_list, node_type=node_type, node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key, id_key=id_key)
+        node_data = self.__get_prepared_node(data=data_list, node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key, id_key=id_key)
 
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
 
@@ -277,11 +277,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_host_aggregates(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
 
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
 
@@ -298,11 +298,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_availability_zones(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
 
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
@@ -318,11 +318,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_services(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -337,11 +337,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_hypervisors(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -356,11 +356,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_flavors(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -375,11 +375,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_volumes(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -394,11 +394,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_key_pairs(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -413,11 +413,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_images(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -432,11 +432,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_networks(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -451,11 +451,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_subnets(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -470,11 +470,11 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_routers(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
 
@@ -489,23 +489,22 @@ class NodeCreator(object):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_users(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
-
 
     def create_ports(self, node_type, node_secondary_labels, label_key, id_key, search_opts=None):
         if search_opts is None:
             search_opts = {}
         data = self.fetcher.fetch_ports(search_opts)
-        node_data = get_prepared_node(data=data,
-                                      node_type=node_type,
-                                      node_secondary_labels=node_secondary_labels,
-                                      label_key=label_key,
-                                      id_key=id_key)
+        node_data = self.__get_prepared_node(data=data,
+                                             node_type=node_type,
+                                             node_secondary_labels=node_secondary_labels,
+                                             label_key=label_key,
+                                             id_key=id_key)
         self.__remove_staled_records(node_type=node_type, openstack_data=node_data, comparison_properties=[id_key])
         self._init_nodes_creation(node_data)
