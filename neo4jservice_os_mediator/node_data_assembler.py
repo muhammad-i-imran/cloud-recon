@@ -212,7 +212,9 @@ class NodeCreator(object):
                                                                                                          non_matched_data))
 
             for non_matched_rec in non_matched_data:
-                query_params["node_properties"] = non_matched_rec
+                query_params["node_properties"] = {}
+                for property in comparison_properties:
+                    query_params["node_properties"][property] = non_matched_rec[property]
                 logger.debug(
                     "Trying to remove staled node of type {0} from the graph database. The staled node  is : {1}".format(
                         node_type,
