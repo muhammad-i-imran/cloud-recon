@@ -202,7 +202,7 @@ class NodeCreator(object):
         graph_data = NodeManager.get_nodes(query_params)
 
         logger.debug(
-            "Got node(s) of type  {0} to find stale nodes.")
+            "Got node(s) of type  {0} to find stale nodes.".format(node_type))
         logger.debug("Data type of the graph_data is {0}.".format(type(graph_data)))
 
         if graph_data:

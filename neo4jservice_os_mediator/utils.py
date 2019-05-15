@@ -36,13 +36,18 @@ def  compare_data(graph_data: list, openstack_data: list, comparison_properties:
         has_rec_matched = False
 
         logger.debug("Finding if the record is staled.")
-        logger.debug("Record type is: {0}.".format(type(graph_rec)))
+        logger.debug("Graph  Record type is: {0}.".format(type(graph_rec)))
+        logger.debug("Graph  Record is: {0}.".format(graph_rec))
+
 
         for openstack_rec in openstack_data:
+            logger.debug("OpenStack  Record type is: {0}.".format(type(openstack_rec)))
+            logger.debug("OpenStack  Record is: {0}.".format(openstack_rec))
+
             has_attrs_matched  = False
             for key in comparison_properties:
                 try:
-                    if graph_rec[key] == openstack_rec[key]:
+                    if graph_rec[key] == openstack_rec["node_properties"][key]:
                         has_attrs_matched = True
                     else:
                         has_attrs_matched = False

@@ -37,7 +37,10 @@ def main():
     pool = Pool(processes=5)
     try:
         logger.debug("Starting pool for notifications handling.")
-        pool.apply(notifier.start, args=(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback))  # callback is none
+        try:
+            pool.apply(notifier.start, args=(eventtype_publisherid_tuples, exchange_topic_tuple_list, notifier_callback))  # callback is none
+        except Exception as ex:
+            logger.error("Exception occured in notification subscription module. Error message: ".format(str(ex)))
         while True:
             # check every TIME_TO_WAIT minutes for the changes (in case notifications are not appearing. but as soon as notifcation appears it will immediatly update graph again.)
             begin_all()
