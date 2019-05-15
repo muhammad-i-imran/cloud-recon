@@ -202,24 +202,22 @@ class NodeCreator(object):
         graph_data = NodeManager.get_nodes(query_params)
 
         logger.debug(
-            "Got node(s) of type  {0} to find stale nodes. The graph data is: {1}".format(node_type, graph_data))
+            "Got node(s) of type  {0} to find stale nodes.")
         logger.debug("Data type of the graph_data is {0}.".format(type(graph_data)))
 
         if graph_data:
             logger.debug("Finding stale nodes in graph data of type {0}.".format(node_type))
             non_matched_data = compare_data(graph_data, openstack_data, comparison_properties)
-            logger.debug("Found stale nodes in graph data of type {0}. The staled nodes are: {1}".format(node_type,
-                                                                                                         non_matched_data))
+            logger.debug("Found stale nodes in graph data of type {0}.".format(node_type))
 
             for non_matched_rec in non_matched_data:
                 query_params["node_properties"] = {}
                 for property in comparison_properties:
                     query_params["node_properties"][property] = non_matched_rec[property]
                 logger.debug(
-                    "Trying to remove staled node of type {0} from the graph database. The staled node  is : {1}".format(
-                        node_type,
-                        non_matched_rec))
-                NodeManager.delete_nodes(non_matched_rec)
+                    "Trying to remove staled node of type {0} from the graph database.".format(
+                        node_type))
+                NodeManager.delete_nodes(query_params)
 
     def __get_prepared_node(self, data, node_type, node_secondary_labels, label_key, id_key):
         return prepare_node_data(data_list=data, node_type=node_type, node_secondary_labels=node_secondary_labels,

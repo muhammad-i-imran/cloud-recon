@@ -35,7 +35,7 @@ def  compare_data(graph_data: list, openstack_data: list, comparison_properties:
     for graph_rec in graph_data:
         has_rec_matched = False
 
-        logger.debug("Finding if {0} is staled.".format(graph_rec))
+        logger.debug("Finding if the record is staled.")
         logger.debug("Record type is: {0}.".format(type(graph_rec)))
 
         for openstack_rec in openstack_data:
@@ -54,7 +54,7 @@ def  compare_data(graph_data: list, openstack_data: list, comparison_properties:
                 has_rec_matched = True
                 break
         if not has_rec_matched:
-            logger.debug("Finding stale record for record {0}.".format(graph_rec))
+            logger.debug("Found stale record. Now appending it to a list.")
             non_matched_data.append(graph_rec)
     return non_matched_data
 
