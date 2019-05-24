@@ -26,6 +26,10 @@ api = Neo4JApi(host=app.config['GRAPHDB_HOST'], port=app.config['GRAPHDB_PORT'],
 
 @app.route("/neo4j")
 def site_map():
+    """
+    Return all available API endpoints.
+    :return: A list of lists. Every sublist contains the API endpoint and the corresponding python method.
+    """
     logger.info("Default request at /neo4j. Fetching all available endpoints.")
     links = []
     for rule in app.url_map.iter_rules():
@@ -42,6 +46,11 @@ def get_node_types():
 
 @app.route('/neo4j/nodes/get_all', methods=['GET'])
 def get_all_nodes():
+    """
+    Get all nodes from the graph.
+    :return: A dictionary with one key: "data". The data key contains a list of all dictionaries.
+             Every dictionary contains a "n" key which contains a dictionary with all node properties.
+    """
     logger.info("Getting all nodes from the graph.")
     nodes = api.get_all_nodes()
     nodes_json = {'data': nodes}
@@ -49,6 +58,13 @@ def get_all_nodes():
 
 @app.route('/neo4j/nodes/get_node', methods=['POST'])
 def get_node():
+    """
+    Get nodes based on filters. It is possible to filter by node_type and node_properties.
+    Examples:
+    curl -s --header "Content-Type: application/json" -d '{"node_type": "SERVERS"}' localhost:15135/neo4j/nodes/get_node
+    TODO: Example of node_properties filter
+    :return: A list of dictionaries. Every dictionary contains the properties of one matching node.
+    """
     logger.info("Getting all nodes from the graph.")
     if request.method == 'POST' and not request.is_json:
         logger.error(
@@ -63,6 +79,10 @@ def get_node():
 
 @app.route('/neo4j/nodes/create_node', methods=['POST'])
 def create_node():
+    """
+    Create a new node or update an existing one.
+    TODO: Examples
+    """
     logger.info("Creating node in the graph.")
     if request.method == 'POST' and not request.is_json:
         logger.error(
@@ -93,6 +113,10 @@ def get_all_relationships():
 
 @app.route('/neo4j/relationships/create_relationship', methods=['POST'])
 def create_relationship():
+    """
+    Create a new relationshop between two nodes or update an existing one.
+    TODO: Examples
+    """
     logger.info("Creating relationship between nodes in the graph.")
     if request.method != 'POST' and not request.is_json:
         logger.error(
@@ -160,6 +184,7 @@ def add_properties_to_relationship():
 
 @app.route('/neo4j/nodes/delete_node', methods=['DELETE', 'POST', 'PUT'])
 def delete_node():
+    """Delete one or several nodes. It supports the same filters as /neo4j/nodes/get_node"""
     logger.info("Deleting node in the graph.")
     if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:
         logger.error("Either data in parameter is not in JSON format or request method is not DELETE, POST or PUT. Returning message with status 400." )
@@ -206,11 +231,24 @@ def delete_node_all_relationships():
     properties_dict = data['node_properties']
     status = api.delete_node_all_relationships(node_type=node_type, properties_dict=properties_dict)
     logger.debug("Executed 'delete_node_all_relationships' function of the API.")
+    return jsonify({'status': status})
 
+@app.route('/neo4j/delete_relationship_by_id', methods=['DELETE', 'POST', 'PUT'])
+def delete_relationship_by_id():
+    logger.info("Deleting relationship in the graph.")
+    if request.method not in ['DELETE', 'POST', 'PUT'] and not request.is_json:
+        logger.error("Either data in parameter is not in JSON format or request method is not DELETE, POST or PUT. Returning message with status 400.")
+        return jsonify({'status': 400})
+    data = request.get_json()
+    relationship_id = data['relationship_id']
+    status = api.delete_relationship_by_id(relationship_id=relationship_id)
+    logger.debug("Executed 'delete_relationship_by_id' function of the API.")
     return jsonify({'status': status})
 
 @app.route('/neo4j/delete_graph', methods=['GET'])
 def delete_all():
+    """Delete the graph."""
+    # Should this be a DELETE request?
     logger.info("Deleting the whole graph.")
     status = api.delete_all()
     logger.debug("Executed 'delete_all' function of the API.")
