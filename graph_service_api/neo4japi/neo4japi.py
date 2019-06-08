@@ -266,6 +266,11 @@ class Neo4JApi(object):
             self.graph.separate(node)
         return True
 
+    def delete_relationship_by_id(self, relationship_id):
+        relationship = self.graph.relationships.get(relationship_id)
+        self.graph.separate(relationship)
+        return True
+
     ####################################################################################################################
 
     def get_all_relationships(self):
