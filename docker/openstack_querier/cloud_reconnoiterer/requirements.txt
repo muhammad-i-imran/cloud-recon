@@ -7,7 +7,7 @@ python-heatclient==1.17.0
 python-ironicclient==2.7.0
 python-swiftclient==3.7.0
 python-cinderclient==4.1.0
-python-openstackclient==3.18.0
+python-openstackclient==6.3.0
 paramiko==2.4.2
 flatten-json==0.1.6
 oslo.messaging==9.5.0
